@@ -5,3 +5,51 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+TicketList.delete_all
+AssignTicket.delete_all
+
+
+User.delete_all
+
+
+
+Ticket.delete_all
+
+u=User.create mail:"aaaaa@gmail.com",name:"Juan",last_name:"Carrera",phone:"12345", password:"hiitsme", profile:0
+u1=User.create mail:"use@gmail.com",name:"Carmen",last_name:"Quiroz",phone:"87421", password:"notpassword", profile:0
+u2=User.create mail:"example@gmail.com",name:"Angela",last_name:"Garcia",phone:"43872", password:"mimascot", profile:0
+puts "User ready"
+exe=User.create mail:"exe@gmail.com",name:"Pedro",last_name:"Valdez",phone:"13245", password:"password", profile:1
+exe1=User.create mail:"exe1@gmail.com",name:"Daniel",last_name:"Opazo",phone:"51240", password:"clave", profile:1
+puts "Executive ready"
+sup=User.create mail:"sup@gmail.com",name:"Diego",last_name:"Castro",phone:"14325", password:"answer", profile:2
+adm=User.create mail:"add@gmail.com",name:"Miguel",last_name:"Perez",phone:"15432", password:"secret", profile:3
+puts "Administrator & supervisor ready"
+
+t=Ticket.create [
+    {title:"No me permite crear un usuario", incident_description:"Intente crear de nuevo mi cuenta utilizando un mail ya utilizado", creation_date:Time.now},
+    {title:"Nadie quiere solucionar mi problema", incident_description:"COmo es posible que nadie pueda solucionar un problema tan simple", creation_date:Time.now},
+    {title:"Nose como resumir", incident_description:"Tengo el problema de que no se como hacer que rails use bootstrap bien", creation_date:Time.now},
+    {title:" Vacio ", incident_description:" vacio otra vez", creation_date:Time.now},
+    {title:"UN ejemplo", incident_description:"esto no es nada mas que un ejemplo", creation_date:Time.now}
+]
+puts "Ticket ready"
+
+tl=TicketList.create [
+    {user:u,ticket:t.first},
+    {user:u1,ticket:t.second},
+    {user:u2,ticket:t.third},
+    {user:u,ticket:t.fourth},
+    {user:u2,ticket:t.last}
+]
+puts "TicketList ready"
+
+at=AssignTicket.create [
+    {user:exe1,ticket:t.first},
+    {user:exe,ticket:t.second},
+    {user:exe,ticket:t.third},
+    {user:exe1,ticket:t.fourth},
+    {user:exe,ticket:t.last}
+]
+puts "AssignTicket ready"

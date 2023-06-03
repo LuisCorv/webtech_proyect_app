@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Ticket lists</h1>
+
+<div id="ticket_lists">
+  <% @ticket_lists.each do |ticket_list| %>
+    <%= render ticket_list %>
+    <p>
+      <%= link_to "Show this ticket list", ticket_list %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New ticket list", new_ticket_list_path %>

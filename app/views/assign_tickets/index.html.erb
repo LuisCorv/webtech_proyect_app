@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Assign tickets</h1>
+
+<div id="assign_tickets">
+  <% @assign_tickets.each do |assign_ticket| %>
+    <%= render assign_ticket %>
+    <p>
+      <%= link_to "Show this assign ticket", assign_ticket %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New assign ticket", new_assign_ticket_path %>

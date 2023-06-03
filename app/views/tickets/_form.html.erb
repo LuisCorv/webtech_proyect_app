@@ -1,0 +1,87 @@
+<%= form_with(model: ticket) do |form| %>
+  <% if ticket.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(ticket.errors.count, "error") %> prohibited this ticket from being saved:</h2>
+
+      <ul>
+        <% ticket.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :incident_description, style: "display: block" %>
+    <%= form.text_area :incident_description %>
+  </div>
+
+  <div>
+    <%= form.label :creation_date, style: "display: block" %>
+    <%= form.datetime_field :creation_date %>
+  </div>
+
+  <div>
+    <%= form.label :resolution_date, style: "display: block" %>
+    <%= form.datetime_field :resolution_date %>
+  </div>
+
+  <div>
+    <%= form.label :response_to_user_date, style: "display: block" %>
+    <%= form.datetime_field :response_to_user_date %>
+  </div>
+
+  <div>
+    <%= form.label :priority, style: "display: block" %>
+    <%= form.number_field :priority %>
+  </div>
+
+  <div>
+    <%= form.label :state, style: "display: block" %>
+    <%= form.number_field :state %>
+  </div>
+
+  <div>
+    <%= form.label :resolution_key, style: "display: block" %>
+    <%= form.number_field :resolution_key %>
+  </div>
+
+  <div>
+    <%= form.label :response_key, style: "display: block" %>
+    <%= form.number_field :response_key %>
+  </div>
+
+  <div>
+    <%= form.label :response_to_user, style: "display: block" %>
+    <%= form.text_area :response_to_user %>
+  </div>
+
+  <div>
+    <%= form.label :accept_or_reject_solution, style: "display: block" %>
+    <%= form.number_field :accept_or_reject_solution %>
+  </div>
+
+  <div>
+    <%= form.label :star_number, style: "display: block" %>
+    <%= form.number_field :star_number %>
+  </div>
+
+  <div>
+    <%= form.label :limit_time_response, style: "display: block" %>
+    <%= form.datetime_field :limit_time_response %>
+  </div>
+
+  <div>
+    <%= form.label :limit_time_resolution, style: "display: block" %>
+    <%= form.datetime_field :limit_time_resolution %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
