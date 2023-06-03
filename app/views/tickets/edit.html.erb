@@ -1,3 +1,4 @@
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h1>Editing ticket</h1>
 
 <%= render "form", ticket: @ticket %>
@@ -5,6 +6,29 @@
 <br>
 
 <div>
-  <%= link_to "Show this ticket", @ticket %> |
-  <%= link_to "Back to tickets", tickets_path %>
+
+  <%current_user= User.find(params[:user_id])%>
+  <%if current_user.User? %>
+  <p>
+    <%= link_to "Back to tickets", user_ticket_list_tickets_path %>|
+    <%= link_to "Show this ticket", user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],@ticket) %>
+    </p>
+  <%elsif current_user.Executive?  %>
+  <p>
+  <% if params[:ticket_list_id].present?%>
+    <%= link_to "Back to tickets", user_ticket_list_tickets_path %>|
+    <%= link_to "Show this ticket", user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],@ticket) %>
+  <%else  %>
+    <%= link_to "Back to tickets", user_assign_ticket_tickets_path %>|
+    <%= link_to "Show this ticket", user_assign_ticket_ticket_path(current_user.id,params[:assign_ticket_id],@ticket) %>
+  <%end  %>
+    </p>
+  <%else  %>
+  <p>
+    <%= link_to "Back to tickets", user_tickets_path %>|
+    <%= link_to "Show this ticket", user_ticket_path(current_user.id,@ticket) %>
+    </p>
+  <%end%>
+</div>
+
 </div>

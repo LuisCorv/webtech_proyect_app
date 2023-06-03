@@ -1,10 +1,32 @@
 <p style="color: green"><%= notice %></p>
-
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <%= render @user %>
 
 <div>
+  
+  <%if @user.User? %>
+  <p>
+    <%= link_to "Users Ticket Lists ", user_ticket_lists_path(@user) %>
+    </p>
+  <%elsif @user.Executive?  %>
+  <p>
+    <%= link_to "Users Ticket Lists ", user_ticket_lists_path(@user) %>|
+    <%= link_to "Users Assign Ticket ", user_assign_tickets_path(@user) %>
+    </p>
+  <%else  %>
+  <p>
+    <%= link_to "See Ticket Report", user_ticket_report_path(@user)%> |
+    <%= link_to "See Overdue Report", user_overdue_report_path(@user)%> |
+    <%= link_to "See Performance Report", user_performance_reports_path(@user) %>|
+    <%= link_to "See all Tickets", user_tickets_path(@user) %>
+    </p>
+    
+  <%end  %>
   <%= link_to "Edit this user", edit_user_path(@user) %> |
   <%= link_to "Back to users", users_path %>
 
+  <%# Fix o modify the destroy %>
   <%= button_to "Destroy this user", @user, method: :delete %>
+</div>
+
 </div>

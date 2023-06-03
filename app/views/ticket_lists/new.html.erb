@@ -1,3 +1,4 @@
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h1>New ticket list</h1>
 
 <%= render "form", ticket_list: @ticket_list %>
@@ -5,5 +6,7 @@
 <br>
 
 <div>
-  <%= link_to "Back to ticket lists", ticket_lists_path %>
+  <%= link_to "Back to ticket lists", user_ticket_lists_path %>
+</div>
+
 </div>

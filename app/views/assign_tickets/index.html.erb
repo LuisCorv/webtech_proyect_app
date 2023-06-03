@@ -1,14 +1,26 @@
 <p style="color: green"><%= notice %></p>
 
+<%current_user= User.find(params[:user_id])%>
+
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h1>Assign tickets</h1>
+</div>
+<br>
 
 <div id="assign_tickets">
   <% @assign_tickets.each do |assign_ticket| %>
+  <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
     <%= render assign_ticket %>
     <p>
-      <%= link_to "Show this assign ticket", assign_ticket %>
+      <%= link_to "Show this assign ticket", user_assign_ticket_path(current_user.id,assign_ticket) %>
     </p>
+    </div>
+    <br>
   <% end %>
 </div>
 
-<%= link_to "New assign ticket", new_assign_ticket_path %>
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+<%= link_to "New assign ticket",new_user_assign_ticket_path %>
+<%= link_to "Back to the user", user_path(current_user.id)%>
+<%= link_to "Back to Home Page", "/"%>
+</div>

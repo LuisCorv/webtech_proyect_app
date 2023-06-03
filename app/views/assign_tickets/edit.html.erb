@@ -1,3 +1,7 @@
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+
+<%current_user= User.find(params[:user_id])%>
+
 <h1>Editing assign ticket</h1>
 
 <%= render "form", assign_ticket: @assign_ticket %>
@@ -5,6 +9,8 @@
 <br>
 
 <div>
-  <%= link_to "Show this assign ticket", @assign_ticket %> |
-  <%= link_to "Back to assign tickets", assign_tickets_path %>
+  <%= link_to "Show this assign ticket", user_assign_ticket_path(current_user.id,@assign_ticket) %> |
+  <%= link_to "Back to assign tickets", user_assign_tickets_path %>
+</div>
+
 </div>

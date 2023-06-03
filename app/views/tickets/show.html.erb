@@ -1,10 +1,34 @@
 <p style="color: green"><%= notice %></p>
-
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <%= render @ticket %>
 
 <div>
-  <%= link_to "Edit this ticket", edit_ticket_path(@ticket) %> |
-  <%= link_to "Back to tickets", tickets_path %>
+  <%current_user= User.find(params[:user_id])%>
+  <%if current_user.User? %>
+  <p>
+    <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],@ticket) %> |
+    <%= link_to "Back to tickets", user_ticket_list_tickets_path %>
+    </p>
+  <%elsif current_user.Executive?  %>
+  <p>
+  <% if params[:ticket_list_id].present?%>
+    <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],@ticket) %> |
+    <%= link_to "Back to tickets", user_ticket_list_tickets_path %>
+  <%else  %>
+    <%= link_to "Edit this ticket", edit_user_assign_ticket_ticket_path(current_user.id,params[:assign_ticket_id],@ticket) %> |
+    <%= link_to "Back to tickets", user_assign_ticket_tickets_path %>
+  <%end  %>
+    </p>
+  <%else  %>
+  <p>
+   <%= link_to "Edit this ticket", edit_user_ticket_path(current_user.id,@ticket) %> |
+    <%= link_to "Back to tickets", user_tickets_path %>
+    </p>
+    
+  <%end  %>
 
+  <%# Fix the destroy %>
   <%= button_to "Destroy this ticket", @ticket, method: :delete %>
+</div>
+
 </div>

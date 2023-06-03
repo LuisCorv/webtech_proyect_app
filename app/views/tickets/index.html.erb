@@ -1,14 +1,83 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Tickets</h1>
+<%if params[:user_id].present?  %>
+  <%current_user= User.find(params[:user_id])%>
+<%end  %>
+
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+  <h1>Tickets</h1>
+</div>
+
+<br>
+
 
 <div id="tickets">
   <% @tickets.each do |ticket| %>
+  <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+
     <%= render ticket %>
     <p>
-      <%= link_to "Show this ticket", ticket %>
+      <%if not current_user.nil?%>
+        <%if current_user.User? %>
+          <p>
+            <%= link_to "Show this ticket", user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],ticket) %>
+          </p>
+        <%elsif current_user.Executive?  %>
+          <p>
+          <% if params[:ticket_list_id].present?%>
+            <%= link_to "Show this ticket", user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],ticket) %>
+          <%else %>
+          <%= link_to "Show this ticket", user_assign_ticket_ticket_path(current_user.id,params[:assign_ticket_id],ticket) %>
+            
+          <%end  %>
+          </p>
+        <%elsif  current_user.Supervisor?  or current_user.Administrator?%>
+          <p>
+            <%= link_to "Show this ticket", user_ticket_path(current_user.id,ticket) %>
+          </p>
+
+        <%end  %>
+      <%end  %>
     </p>
+
+    </div>
+
+    <br>
+
   <% end %>
 </div>
 
-<%= link_to "New ticket", new_ticket_path %>
+
+
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+<%if not current_user.nil?%>
+  <%if current_user.User? %>
+    <p>
+      <%= link_to "New ticket", new_user_ticket_list_ticket_path %>
+      <br>
+      <%= link_to "Back to Ticket List", user_ticket_list_path(current_user.id,params[:ticket_list_id])%>
+    </p>
+  <%elsif current_user.Executive?  %>
+    <p>
+      <% if params[:ticket_list_id].present?%>
+        <%= link_to "New ticket", new_user_ticket_list_ticket_path %>
+        <br>
+        <%= link_to "Back to Assign Ticket", user_ticket_list_path(current_user.id,params[:ticket_list_id])%>
+      <%else  %>
+        <%= link_to "New ticket", new_user_assign_ticket_ticket_path %>
+        <br>
+        <%= link_to "Back to Assign Ticket", user_assign_ticket_path(current_user.id,params[:assign_ticket_id])%>
+
+      <%end %>
+    </p>
+  <%elsif  current_user.Supervisor?  or current_user.Administrator?%>
+    <p>
+      <%= link_to "New ticket", new_user_ticket_path %>
+      <br>
+      <%= link_to "Back to the user", user_path(current_user.id)%>
+    </p>
+
+  <%end  %>
+<%end%>
+  <%= link_to "Back to Home Page", "/"%>
+</div>

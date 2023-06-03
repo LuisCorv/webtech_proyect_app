@@ -1,24 +1,10 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Arreglar los botones de destroy de todas las paginas
 
-Things you may want to cover:
+Arreglar los forms de todas las paginas
 
-* Ruby version
+Areglar las paginas ("views") de TagList, Tag, Chat, Comment y PerformanceReports
 
-* System dependencies
+Conectar tickets a TagLists, Tags, Chats y Comments
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...

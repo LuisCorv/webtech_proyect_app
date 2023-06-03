@@ -1,10 +1,16 @@
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <p style="color: green"><%= notice %></p>
+
+<%current_user= User.find(params[:user_id])%>
 
 <%= render @assign_ticket %>
 
 <div>
-  <%= link_to "Edit this assign ticket", edit_assign_ticket_path(@assign_ticket) %> |
-  <%= link_to "Back to assign tickets", assign_tickets_path %>
+  <%= link_to "Edit this assign ticket", edit_user_assign_ticket_path(current_user.id,@assign_ticket) %> |
+  <%= link_to "See Ticket info", user_assign_ticket_ticket_path(current_user.id,@assign_ticket.id, @assign_ticket.ticket_id) %>|
+  <%= link_to "Back to assign tickets", user_assign_tickets_path %>
 
   <%= button_to "Destroy this assign ticket", @assign_ticket, method: :delete %>
+</div>
+
 </div>
