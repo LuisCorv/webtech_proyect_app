@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_03_194547) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_03_200823) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,45 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_03_194547) do
     t.datetime "updated_at", null: false
     t.index ["ticket_id"], name: "index_assign_tickets_on_ticket_id"
     t.index ["user_id"], name: "index_assign_tickets_on_user_id"
+  end
+
+  create_table "chats", force: :cascade do |t|
+    t.bigint "ticket_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ticket_id"], name: "index_chats_on_ticket_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "text"
+    t.string "writer"
+    t.bigint "chat_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_id"], name: "index_comments_on_chat_id"
+  end
+
+  create_table "performance_reports", force: :cascade do |t|
+    t.datetime "report_date", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_performance_reports_on_user_id"
+  end
+
+  create_table "tag_lists", force: :cascade do |t|
+    t.bigint "ticket_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ticket_id"], name: "index_tag_lists_on_ticket_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.bigint "tag_list_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tag_list_id"], name: "index_tags_on_tag_list_id"
   end
 
   create_table "ticket_lists", force: :cascade do |t|
@@ -64,6 +103,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_03_194547) do
 
   add_foreign_key "assign_tickets", "tickets"
   add_foreign_key "assign_tickets", "users"
+  add_foreign_key "chats", "tickets"
+  add_foreign_key "comments", "chats"
+  add_foreign_key "performance_reports", "users"
+  add_foreign_key "tag_lists", "tickets"
+  add_foreign_key "tags", "tag_lists"
   add_foreign_key "ticket_lists", "tickets"
   add_foreign_key "ticket_lists", "users"
 end

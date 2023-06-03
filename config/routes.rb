@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :performance_reports
+  resources :tags
+  resources :comments
+  resources :tag_lists
+  resources :chats
   resources :assign_tickets
   resources :ticket_lists
   resources :users

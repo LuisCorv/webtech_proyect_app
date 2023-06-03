@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Performance reports</h1>
+
+<div id="performance_reports">
+  <% @performance_reports.each do |performance_report| %>
+    <%= render performance_report %>
+    <p>
+      <%= link_to "Show this performance report", performance_report %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New performance report", new_performance_report_path %>

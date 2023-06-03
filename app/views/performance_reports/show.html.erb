@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @performance_report %>
+
+<div>
+  <%= link_to "Edit this performance report", edit_performance_report_path(@performance_report) %> |
+  <%= link_to "Back to performance reports", performance_reports_path %>
+
+  <%= button_to "Destroy this performance report", @performance_report, method: :delete %>
+</div>

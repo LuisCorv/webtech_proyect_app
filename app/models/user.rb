@@ -2,6 +2,7 @@ class User < ApplicationRecord
 
     has_many :ticket_lists
     has_many :assign_tickets
+    has_many :performance_reports
 
 
     enum :profile, {
@@ -11,7 +12,7 @@ class User < ApplicationRecord
         Administrator: 3
       }
 
-      
+      validates :mail, email: true
       validates :name, presence: true
       validates :last_name, presence: true
       validates :phone, presence: true

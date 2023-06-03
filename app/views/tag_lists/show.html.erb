@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @tag_list %>
+
+<div>
+  <%= link_to "Edit this tag list", edit_tag_list_path(@tag_list) %> |
+  <%= link_to "Back to tag lists", tag_lists_path %>
+
+  <%= button_to "Destroy this tag list", @tag_list, method: :delete %>
+</div>

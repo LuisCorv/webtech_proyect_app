@@ -2,6 +2,10 @@ class Ticket < ApplicationRecord
 
     has_one :ticket_lists
     has_one :assign_ticket
+    has_one :tag_list
+    has_many :tags ,through: :tag_list
+    has_one :chat
+    has_many :comments ,through: :chat
 
     validates :title, presence:true
     validates :incident_description, presence: true
