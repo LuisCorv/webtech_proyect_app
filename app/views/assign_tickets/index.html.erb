@@ -9,6 +9,7 @@
 
 <div id="assign_tickets">
   <% @assign_tickets.each do |assign_ticket| %>
+  <%if User.find(assign_ticket.user_id) == current_user  %>
   <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
     <%= render assign_ticket %>
     <p>
@@ -16,6 +17,7 @@
     </p>
     </div>
     <br>
+  <%end  %>
   <% end %>
 </div>
 

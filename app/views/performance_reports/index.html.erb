@@ -1,14 +1,36 @@
 <p style="color: green"><%= notice %></p>
 
+<%current_user= User.find(params[:user_id])%>
+
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h1>Performance reports</h1>
+</div>
+<br>
 
 <div id="performance_reports">
   <% @performance_reports.each do |performance_report| %>
+  <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
     <%= render performance_report %>
-    <p>
-      <%= link_to "Show this performance report", performance_report %>
-    </p>
+        <%if  current_user.Supervisor?  or current_user.Administrator?%>
+          <p>
+            <%= link_to "Show this performance report", user_performance_report_path(current_user.id,performance_report) %>
+          </p>
+
+        <%end  %>
+  </div>
+  <br>
   <% end %>
 </div>
 
-<%= link_to "New performance report", new_performance_report_path %>
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+  <%if  current_user.Supervisor?  or current_user.Administrator?%>
+    <p>
+      <%= link_to "New performance report", new_user_performance_report_path %>
+      <br>
+      <%= link_to "Back to the user", user_path(current_user.id)%>
+    </p>
+
+  <%end  %>
+
+  <%= link_to "Back to Home Page", "/"%>
+</div>

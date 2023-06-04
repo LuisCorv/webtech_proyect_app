@@ -1,3 +1,4 @@
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h1>New performance report</h1>
 
 <%= render "form", performance_report: @performance_report %>
@@ -5,5 +6,11 @@
 <br>
 
 <div>
-  <%= link_to "Back to performance reports", performance_reports_path %>
+  <%current_user= User.find(params[:user_id])%>
+  <%if  current_user.Supervisor?  or current_user.Administrator?  %>
+  <p>
+    <%= link_to "Back to performance reports", user_performance_reports_path %>
+    </p>
+  <%end%>
+
 </div>

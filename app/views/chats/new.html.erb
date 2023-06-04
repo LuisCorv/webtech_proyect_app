@@ -1,9 +1,29 @@
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h1>New chat</h1>
 
 <%= render "form", chat: @chat %>
 
 <br>
 
-<div>
-  <%= link_to "Back to chats", chats_path %>
+<%current_user= User.find(params[:user_id])%>
+  <%current_ticket= Ticket.find(params[:ticket_id])%>
+
+  <%if current_user.Executive?  %>
+        <% if params[:ticket_list_id].present?%>
+          <p>
+            <%= link_to "Back to chats", user_ticket_list_ticket_chats_path(current_user,params[:ticket_list_id],current_ticket) %>          
+            </p>
+        <%else  %>
+           <p>
+            <%= link_to "Back to chats", user_assign_ticket_ticket_chats_path(current_user,params[:assign_ticket_id],current_ticket) %>            
+          </p>
+        <%end  %>
+      <%elsif current_user.Supervisor? or current_user.Administrator? %>
+        <p>
+           <%= link_to "Back to chats",  user_ticket_chats_path(current_user,current_ticket) %>            
+        </p>
+
+      <%end  %>
+
+
 </div>

@@ -4,4 +4,13 @@
     <%= tag_list.ticket_id %>
   </p>
 
+  <p>
+    <strong>Tags:</strong>
+    <% tag_list.tags.each do |t| %>
+    <ul>
+      <li><%= t.name %></li>
+    </ul>
+    <%end %>
+  </p>
+
 </div>

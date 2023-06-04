@@ -1,10 +1,32 @@
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h1>Editing tag</h1>
 
 <%= render "form", tag: @tag %>
 
 <br>
 
-<div>
-  <%= link_to "Show this tag", @tag %> |
-  <%= link_to "Back to tags", tags_path %>
+<%current_user= User.find(params[:user_id])%>
+<%current_ticket= Ticket.find(params[:ticket_id])%>
+<%current_taglist= TagList.find(params[:tag_list_id])%>
+
+<%if current_user.Executive?  %>
+        <% if params[:ticket_list_id].present?%>
+          <p>
+            <%= link_to "Back to tags", user_ticket_list_ticket_tag_list_tags_path(current_user,params[:ticket_list_id],current_ticket,current_taglist) %>|      
+            <%= link_to "Show this tag ", user_ticket_list_ticket_tag_list_tag_path(current_user,current_ticket.ticket_list,current_ticket,current_taglist,@tag) %>            
+            </p>
+        <%else  %>
+           <p>
+            <%= link_to "Back to tags", user_assign_ticket_ticket_tag_list_tags_path(current_user,params[:assign_ticket_id],current_ticket,current_taglist) %>|          
+            <%= link_to "Show this tag ", user_assign_ticket_ticket_tag_list_tag_path(current_user,current_ticket.assign_ticket,current_ticket,current_taglist,@tag) %>
+          </p>
+        <%end  %>
+      <%elsif current_user.Supervisor? or current_user.Administrator? %>
+        <p>
+          <%= link_to "Back to tags",  user_ticket_tag_list_tags_path(current_user,current_ticket,current_taglist) %> |         
+          <%= link_to "Show this tag ", user_ticket_tag_list_tag_path(current_user,current_ticket,current_taglist,@tag) %>
+        </p>
+
+      <%end  %>
+
 </div>

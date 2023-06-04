@@ -1,10 +1,32 @@
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h1>Editing comment</h1>
 
 <%= render "form", comment: @comment %>
 
 <br>
 
-<div>
-  <%= link_to "Show this comment", @comment %> |
-  <%= link_to "Back to comments", comments_path %>
+<%current_user= User.find(params[:user_id])%>
+<%current_ticket= Ticket.find(params[:ticket_id])%>
+<%current_chat= Chat.find(params[:chat_id])%>
+
+<%if current_user.Executive?  %>
+        <% if params[:ticket_list_id].present?%>
+          <p>
+            <%= link_to "Back to comments", user_ticket_list_ticket_chat_comments_path(current_user,params[:ticket_list_id],current_ticket,current_chat) %>|      
+            <%= link_to "Show this comment ", user_ticket_list_ticket_chat_comment_path(current_user,current_ticket.ticket_list,current_ticket,current_chat,@comment) %>            
+            </p>
+        <%else  %>
+           <p>
+            <%= link_to "Back to comments", user_assign_ticket_ticket_chat_comments_path(current_user,params[:assign_ticket_id],current_ticket,current_chat) %>|          
+            <%= link_to "Show this comment ", user_assign_ticket_ticket_chat_comment_path(current_user,current_ticket.assign_ticket,current_ticket,current_chat,@comment) %>
+          </p>
+        <%end  %>
+      <%elsif current_user.Supervisor? or current_user.Administrator? %>
+        <p>
+          <%= link_to "Back to comments",  user_ticket_chat_comments_path(current_user,current_ticket,current_chat) %> |         
+          <%= link_to "Show this comment ", user_ticket_chat_comment_path(current_user,current_ticket,current_chat,@comment) %>
+        </p>
+
+      <%end  %>
+
 </div>

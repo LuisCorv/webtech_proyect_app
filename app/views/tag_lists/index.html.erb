@@ -1,14 +1,65 @@
 <p style="color: green"><%= notice %></p>
 
+<%current_user= User.find(params[:user_id])%>
+<%current_ticket= Ticket.find(params[:ticket_id])%>
+
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h1>Tag lists</h1>
+</div>
+<br>
 
 <div id="tag_lists">
   <% @tag_lists.each do |tag_list| %>
+  <%if Ticket.find(tag_list.ticket_id) == current_ticket  %>
+  <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
     <%= render tag_list %>
-    <p>
-      <%= link_to "Show this tag list", tag_list %>
-    </p>
+    
+      <%if current_user.Executive?  %>
+        <% if params[:ticket_list_id].present?%>
+          <p>
+            <%= link_to "Show this tag list", user_ticket_list_ticket_tag_list_path(current_user,current_ticket.ticket_list,current_ticket,tag_list) %>
+          </p>
+        <%else  %>
+           <p>
+            <%= link_to "Show this tag list", user_assign_ticket_ticket_tag_list_path(current_user,current_ticket.assign_ticket,current_ticket,tag_list) %>
+          </p>
+        <%end  %>
+      <%elsif current_user.Supervisor? or current_user.Administrator? %>
+        <p>
+          <%= link_to "Show this tag list", user_ticket_tag_list_path(current_user,current_ticket,tag_list) %>
+        </p>
+
+      <%end  %>
+      
+    
+  </div>
+  <br>
+  <%end  %>
   <% end %>
 </div>
 
-<%= link_to "New tag list", new_tag_list_path %>
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+
+<%if current_user.Executive?  %>
+  <% if params[:ticket_list_id].present?%>
+  <p>
+    <%= link_to "New tag list", new_user_ticket_list_ticket_tag_list_path %>|
+    <%= link_to "Back to ticket", user_ticket_list_ticket_path(current_user,current_ticket.ticket_list,current_ticket)%>
+  </p>
+  <%else  %>
+  <p>
+    <%= link_to "New tag list", new_user_assign_ticket_ticket_tag_list_path %>|
+    <%= link_to "Back to ticket", user_assign_ticket_ticket_path(current_user,current_ticket.assign_ticket,current_ticket)%>
+  </p>
+  <%end  %>
+
+<%elsif current_user.Supervisor? or current_user.Administrator? %>
+  <p>
+    <%= link_to "New tag list", new_user_ticket_tag_list_path %>|
+    <%= link_to "Back to ticket", user_ticket_path(current_user,current_ticket)%>
+  </p>
+<%end  %>
+
+<%= link_to "Back to Home Page", "/"%>
+
+</div>

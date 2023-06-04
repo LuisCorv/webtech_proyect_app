@@ -4,4 +4,12 @@
     <%= chat.ticket_id %>
   </p>
 
+  <p>
+    <strong>Comments:</strong>
+    <% chat.comments.each do |t| %>
+    <ul>
+      <li><%= t.writer %>: <%= t.text %></li>
+    </ul>
+    <%end %>
+  </p>
 </div>

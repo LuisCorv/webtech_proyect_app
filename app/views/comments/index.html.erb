@@ -1,14 +1,67 @@
 <p style="color: green"><%= notice %></p>
 
+<%current_user= User.find(params[:user_id])%>
+<%current_ticket= Ticket.find(params[:ticket_id])%>
+<%current_chat= Chat.find(params[:chat_id])%>
+
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h1>Comments</h1>
+</div>
+<br>
 
 <div id="comments">
   <% @comments.each do |comment| %>
+  <%if Chat.find(comment.chat_id) == current_chat  %>
+      <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
     <%= render comment %>
-    <p>
-      <%= link_to "Show this comment", comment %>
-    </p>
+
+    <%if current_user.Executive?  %>
+        <% if params[:ticket_list_id].present?%>
+          <p>
+            <%= link_to "Show this comment", user_ticket_list_ticket_chat_comment_path(current_user,current_ticket.ticket_list,current_ticket,current_chat,comment) %>
+          </p>
+        <%else  %>
+           <p>
+            <%= link_to "Show this comment", user_assign_ticket_ticket_chat_comment_path(current_user,current_ticket.assign_ticket,current_ticket,current_chat,comment) %>
+          </p>
+        <%end  %>
+      <%elsif current_user.Supervisor? or current_user.Administrator? %>
+        <p>
+          <%= link_to "Show this comment", user_ticket_chat_comment_path(current_user,current_ticket,current_chat,comment) %>
+        </p>
+
+      <%end  %>
+
+
+      </div>
+      <br>
+    <%end  %>
   <% end %>
 </div>
 
-<%= link_to "New comment", new_comment_path %>
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+
+
+<%if current_user.Executive?  %>
+  <% if params[:ticket_list_id].present?%>
+  <p>
+    <%= link_to "New comment", new_user_ticket_list_ticket_chat_comment_path %>|
+    <%= link_to "Back to chat", user_ticket_list_ticket_chat_path(current_user,current_ticket.ticket_list,current_ticket,current_chat)%>
+  </p>
+  <%else  %>
+  <p>
+    <%= link_to "New comment", new_user_assign_ticket_ticket_chat_comment_path %>|
+    <%= link_to "Back to chat", user_assign_ticket_ticket_chat_path(current_user,current_ticket.assign_ticket,current_ticket,current_chat)%>
+  </p>
+  <%end  %>
+
+<%elsif current_user.Supervisor? or current_user.Administrator? %>
+  <p>
+    <%= link_to "New tag", new_user_ticket_chat_comment_path %>|
+    <%= link_to "Back to chat", user_ticket_chat_path(current_user,current_ticket,current_chat)%>
+  </p>
+<%end  %>
+
+<%= link_to "Back to Home Page", "/"%>
+
+</div>
