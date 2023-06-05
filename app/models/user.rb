@@ -1,4 +1,8 @@
 class User < ApplicationRecord
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
 
     has_many :ticket_lists
     has_many :assign_tickets
@@ -12,9 +16,7 @@ class User < ApplicationRecord
         Administrator: 3
       }
 
-      validates :mail, email: true
       validates :name, presence: true
       validates :last_name, presence: true
       validates :phone, presence: true
-      validates :password, presence: true
 end

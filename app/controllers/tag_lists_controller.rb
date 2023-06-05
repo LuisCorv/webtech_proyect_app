@@ -1,6 +1,6 @@
 class TagListsController < ApplicationController
   before_action :set_tag_list, only: %i[ show edit update destroy ]
-
+  before_action :authenticate_user!
   # GET /tag_lists or /tag_lists.json
   def index
     @tag_lists = TagList.all

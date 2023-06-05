@@ -1,6 +1,6 @@
 class AssignTicketsController < ApplicationController
   before_action :set_assign_ticket, only: %i[ show edit update destroy ]
-
+  before_action :authenticate_user!
   # GET /assign_tickets or /assign_tickets.json
   def index
     @assign_tickets = AssignTicket.all

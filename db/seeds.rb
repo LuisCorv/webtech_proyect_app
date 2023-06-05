@@ -21,17 +21,17 @@ User.delete_all
 
 Ticket.delete_all
 
-u=User.create mail:"aaaaa@gmail.com",name:"Juan",last_name:"Carrera",phone:"12345", password:"hiitsme", profile:0
-u1=User.create mail:"use@gmail.com",name:"Carmen",last_name:"Quiroz",phone:"87421", password:"notpassword", profile:0
-u2=User.create mail:"example@gmail.com",name:"Angela",last_name:"Garcia",phone:"43872", password:"mimascot", profile:0
+u=User.create email:"aaaaa@gmail.com",name:"Juan",last_name:"Carrera",phone:"12345", password:"hiitsme", profile:0
+u1=User.create email:"use@gmail.com",name:"Carmen",last_name:"Quiroz",phone:"87421", password:"notpassword", profile:0
+u2=User.create email:"example@gmail.com",name:"Angela",last_name:"Garcia",phone:"43872", password:"mimascot", profile:0
 puts "User ready"
 
-exe=User.create mail:"exe@gmail.com",name:"Pedro",last_name:"Valdez",phone:"13245", password:"password", profile:1
-exe1=User.create mail:"exe1@gmail.com",name:"Daniel",last_name:"Opazo",phone:"51240", password:"clave", profile:1
+exe=User.create email:"exe@gmail.com",name:"Pedro",last_name:"Valdez",phone:"13245", password:"password", profile:1
+exe1=User.create email:"exe1@gmail.com",name:"Daniel",last_name:"Opazo",phone:"51240", password:"clavesecreta", profile:1
 puts "Executive ready"
 
-sup=User.create mail:"sup@gmail.com",name:"Diego",last_name:"Castro",phone:"14325", password:"answer", profile:2
-adm=User.create mail:"add@gmail.com",name:"Miguel",last_name:"Perez",phone:"15432", password:"secret", profile:3
+sup=User.create email:"sup@gmail.com",name:"Diego",last_name:"Castro",phone:"14325", password:"answer", profile:2
+adm=User.create email:"add@gmail.com",name:"Miguel",last_name:"Perez",phone:"15432", password:"secret", profile:3
 puts "Administrator & supervisor ready"
 
 t=Ticket.create [
@@ -52,13 +52,14 @@ tl=TicketList.create [
 ]
 puts "TicketList ready"
 
-at=AssignTicket.create [
-    {user:exe1,ticket:t.first},
-    {user:exe,ticket:t.second},
-    {user:exe,ticket:t.third},
-    {user:exe1,ticket:t.fourth},
-    {user:exe,ticket:t.last}
-]
+
+ at=AssignTicket.create [
+    {user:exe1 ,ticket:t.first},
+    {user:exe ,ticket:t.second},
+    {user:exe ,ticket:t.third},
+    {user:exe1 ,ticket:t.fourth},
+    {user:exe ,ticket:t.last}
+ ]
 puts "AssignTicket ready"
 
 tgl=TagList.create [

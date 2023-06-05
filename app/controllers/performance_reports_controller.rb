@@ -1,6 +1,6 @@
 class PerformanceReportsController < ApplicationController
   before_action :set_performance_report, only: %i[ show edit update destroy ]
-
+  before_action :authenticate_user!
   # GET /performance_reports or /performance_reports.json
   def index
     @performance_reports = PerformanceReport.all

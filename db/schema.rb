@@ -31,8 +31,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_03_200823) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.text "text"
-    t.string "writer"
+    t.text "text", null: false
+    t.string "writer", null: false
     t.bigint "chat_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -55,7 +55,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_03_200823) do
   end
 
   create_table "tags", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.bigint "tag_list_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -74,9 +74,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_03_200823) do
   create_table "tickets", force: :cascade do |t|
     t.string "title", null: false
     t.text "incident_description", null: false
-    t.datetime "creation_date", default: "2023-06-03 19:32:20", null: false
-    t.datetime "resolution_date", default: "2023-06-03 19:32:20", null: false
-    t.datetime "response_to_user_date", default: "2023-06-03 19:32:20", null: false
+    t.datetime "creation_date", default: "2023-06-05 01:06:28", null: false
+    t.datetime "resolution_date", default: "2023-06-05 01:06:28", null: false
+    t.datetime "response_to_user_date", default: "2023-06-05 01:06:28", null: false
     t.integer "priority", default: 0, null: false
     t.integer "state", default: 0, null: false
     t.integer "resolution_key", default: 0, null: false
@@ -84,8 +84,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_03_200823) do
     t.text "response_to_user", default: " ", null: false
     t.integer "accept_or_reject_solution", default: 0, null: false
     t.integer "star_number", default: 0, null: false
-    t.datetime "limit_time_response", default: "2023-06-03 19:32:20", null: false
-    t.datetime "limit_time_resolution", default: "2023-06-03 19:32:20", null: false
+    t.datetime "limit_time_response", default: "2023-06-05 01:06:28", null: false
+    t.datetime "limit_time_resolution", default: "2023-06-05 01:06:28", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -95,10 +95,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_03_200823) do
     t.string "last_name", null: false
     t.string "phone", null: false
     t.integer "profile", default: 0, null: false
-    t.string "mail", null: false
-    t.text "password", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "assign_tickets", "tickets"
