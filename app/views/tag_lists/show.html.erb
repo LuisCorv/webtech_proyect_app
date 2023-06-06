@@ -8,28 +8,25 @@
   <%current_ticket= Ticket.find(params[:ticket_id])%>
 
   <%if current_user.Executive?  %>
-        <% if params[:ticket_list_id].present?%>
-          <p>
-             <%= link_to "Check Tag", user_ticket_list_ticket_tag_list_tags_path(current_user,current_ticket.ticket_list,current_ticket,@tag_list) %> |
-            <%= link_to "Back to tag lists", user_ticket_list_ticket_tag_lists_path(current_user,params[:ticket_list_id],current_ticket) %>          
-            </p>
-        <%else  %>
+        <% if params[:assign_ticket_id].present?%>
            <p>
             <%= link_to "Check Tag", user_assign_ticket_ticket_tag_list_tags_path(current_user,current_ticket.assign_ticket,current_ticket,@tag_list) %> |
             <%= link_to "Back to tag lists", user_assign_ticket_ticket_tag_lists_path(current_user,params[:assign_ticket_id],current_ticket) %>            
+            <%= button_to "Destroy this tag list", user_assign_ticket_ticket_tag_list_path(current_user,current_ticket.assign_ticket,current_ticket,@tag_list), method: :delete %>
           </p>
         <%end  %>
       <%elsif current_user.Supervisor? or current_user.Administrator? %>
         <p>
             <%= link_to "Check Tag", user_ticket_tag_list_tags_path(current_user,current_ticket,@tag_list) %> |
-            <%= link_to "Back to tag lists",  user_ticket_tag_lists_path(current_user,current_ticket) %>            
+            <%= link_to "Back to tag lists",  user_ticket_tag_lists_path(current_user,current_ticket) %>    
+              <%= button_to "Destroy this tag list", user_ticket_tag_list_path(current_user,current_ticket,@tag_list), method: :delete %>        
         </p>
 
       <%end  %>
 
   
 
-  <%= button_to "Destroy this tag list", @tag_list, method: :delete %>
+
 </div>
 
 

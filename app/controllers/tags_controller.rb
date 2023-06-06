@@ -13,48 +13,75 @@ class TagsController < ApplicationController
   # GET /tags/new
   def new
     @tag = Tag.new
+    @current_taglist_id = session[:current_taglist_id]
   end
 
   # GET /tags/1/edit
   def edit
+    @current_taglist_id = session[:current_taglist_id]
   end
 
   # POST /tags or /tags.json
   def create
     @tag = Tag.new(tag_params)
 
-    respond_to do |format|
+  
       if @tag.save
-        format.html { redirect_to tag_url(@tag), notice: "Tag was successfully created." }
-        format.json { render :show, status: :created, location: @tag }
+        tg=TagList.find(params[:tag][:tag_list_id])
+        assign_or_list=(params[:tag][:assign_list_nothing]).split(" ")
+        if current_user.Executive? 
+          if assign_or_list[0]=="list"
+            redirect_to user_ticket_list_ticket_tag_list_tag_path(current_user,tg.ticket.ticket_list,tg.ticket,tg,@tag), notice: "Tag was successfully created." 
+          elsif assign_or_list[0]=="assign"
+            redirect_to user_assign_ticket_ticket_tag_list_tag_path(current_user,tg.ticket.assign_ticket,tg.ticket,tg,@tag), notice: "Tag was successfully created." 
+          end  
+        elsif current_user.Supervisor? or current_user.Administrator?
+          redirect_to user_ticket_tag_list_tag_path(current_user,tg.ticket,tg,@tag), notice: "Tag was successfully created."
+
+        end
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @tag.errors, status: :unprocessable_entity }
+        render :new, status: :unprocessable_entity 
       end
-    end
+    
   end
 
   # PATCH/PUT /tags/1 or /tags/1.json
   def update
-    respond_to do |format|
+    
       if @tag.update(tag_params)
-        format.html { redirect_to tag_url(@tag), notice: "Tag was successfully updated." }
-        format.json { render :show, status: :ok, location: @tag }
+        tg=TagList.find(params[:tag][:tag_list_id])
+        assign_or_list=(params[:tag][:assign_list_nothing]).split(" ")
+        if current_user.Executive? 
+          if assign_or_list[0]=="list"
+            redirect_to user_ticket_list_ticket_tag_list_tag_path(current_user,tg.ticket.ticket_list,tg.ticket,tg,@tag), notice: "Tag was successfully updated." 
+          elsif assign_or_list[0]=="assign"
+            redirect_to user_assign_ticket_ticket_tag_list_tag_path(current_user,tg.ticket.assign_ticket,tg.ticket,tg,@tag), notice: "Tag was successfully updated." 
+          end  
+        elsif current_user.Supervisor? or current_user.Administrator?
+          redirect_to user_ticket_tag_list_tag_path(current_user,tg.ticket,tg,@tag), notice: "Tag was successfully updated."
+
+        end 
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @tag.errors, status: :unprocessable_entity }
+        render :edit, status: :unprocessable_entity 
       end
-    end
+   
   end
 
   # DELETE /tags/1 or /tags/1.json
   def destroy
     @tag.destroy
 
-    respond_to do |format|
-      format.html { redirect_to tags_url, notice: "Tag was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    tg=TagList.find(params[:tag_list_id])
+        if current_user.Executive? 
+          if params[:ticket_list_id].present?
+            redirect_to user_ticket_list_ticket_tag_list_tags_path(current_user,tg.ticket.ticket_list,tg.ticket,tg), notice: "Tag was successfully destroyed." 
+          elsif params[:assign_ticket_id].present?
+            redirect_to user_assign_ticket_ticket_tag_list_tags_path(current_user,tg.ticket.assign_ticket,tg.ticket,tg), notice: "Tag was successfully destroyed." 
+          end  
+        elsif current_user.Supervisor? or current_user.Administrator?
+          redirect_to user_ticket_tag_list_tags_path(current_user,tg.ticket,tg), notice: "Tag was successfully destroyed."
+
+        end 
   end
 
   private

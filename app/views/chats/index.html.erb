@@ -1,6 +1,6 @@
 <p style="color: green"><%= notice %></p>
 
-<%current_user= User.find(params[:user_id])%>
+
 <%current_ticket= Ticket.find(params[:ticket_id])%>
 
 
@@ -22,7 +22,7 @@
           </p>
         <%else  %>
            <p>
-            <%= link_to "Show this caht", user_assign_ticket_ticket_chat_path(current_user,current_ticket.assign_ticket,current_ticket,chat) %>
+            <%= link_to "Show this chat", user_assign_ticket_ticket_chat_path(current_user,current_ticket.assign_ticket,current_ticket,chat) %>
           </p>
         <%end  %>
       <%elsif current_user.Supervisor? or current_user.Administrator? %>
@@ -42,19 +42,16 @@
 <%if current_user.Executive?  %>
   <% if params[:ticket_list_id].present?%>
   <p>
-    <%= link_to "New chat", new_user_ticket_list_ticket_chat_path %>|
     <%= link_to "Back to ticket", user_ticket_list_ticket_path(current_user,current_ticket.ticket_list,current_ticket)%>
   </p>
   <%else  %>
   <p>
-    <%= link_to "New chat", new_user_assign_ticket_ticket_chat_path %>|
     <%= link_to "Back to ticket", user_assign_ticket_ticket_path(current_user,current_ticket.assign_ticket,current_ticket)%>
   </p>
   <%end  %>
 
 <%elsif current_user.Supervisor? or current_user.Administrator? %>
   <p>
-    <%= link_to "New chat", new_user_ticket_chat_path %>|
     <%= link_to "Back to ticket", user_ticket_path(current_user,current_ticket)%>
   </p>
 <%end  %>

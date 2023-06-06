@@ -11,9 +11,10 @@
   <% @assign_tickets.each do |assign_ticket| %>
   <%if User.find(assign_ticket.user_id) == current_user  %>
   <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+    <% @user_assign_ticket_example= assign_ticket  %>
     <%= render assign_ticket %>
     <p>
-      <%= link_to "Show this assign ticket", user_assign_ticket_path(current_user.id,assign_ticket) %>
+      <%= link_to "Show this assign ticket", user_assign_ticket_path(current_user,assign_ticket) %>
     </p>
     </div>
     <br>
@@ -22,7 +23,10 @@
 </div>
 
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+  <%if not @user_assign_ticket_example.nil?  %>
+  <%= link_to "See All Tickets", user_assign_ticket_tickets_path(current_user,@user_assign_ticket_example) %>
+  <%end  %>
 <%= link_to "New assign ticket",new_user_assign_ticket_path %>
-<%= link_to "Back to the user", user_path(current_user.id)%>
+<%= link_to "Back to the user", user_path(current_user)%>
 <%= link_to "Back to Home Page", "/"%>
 </div>

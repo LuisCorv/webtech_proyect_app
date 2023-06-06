@@ -2,7 +2,7 @@
 
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
-  # before_action :configure_account_update_params, only: [:update]
+  #before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
   # def new
@@ -20,9 +20,24 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # PUT /resource
-  # def update
-  #   super
-  # end
+   def update
+    # Find the user record
+    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+
+    # Permit the additional attributes for update
+    resource_params = update_resource_params
+
+    # Update the user record with the permitted attributes
+    if resource.update(resource_params)
+      set_flash_message :notice, :updated
+      redirect_to user_path(resource)
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      respond_with resource
+    end
+  end
+  
 
   # DELETE /resource
   # def destroy
@@ -45,9 +60,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :last_name, :phone])
   end
 
+  def update_resource_params
+    params.require(:user).permit(:name, :last_name, :phone, :profile, :email, :current_password).tap do |whitelisted|
+      if params[:user][:password].present?
+        whitelisted[:password] = params[:user][:password]
+        whitelisted[:password_confirmation] = params[:user][:password_confirmation]
+      end
+    end
+  end
+
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_account_update_params
-  #   devise_parameter_sanitizer.permit(:account_update, keys: [:attribute])
+  #   devise_parameter_sanitizer.permit(:account_update, keys: [:name, :last_name, :phone, :profile, :email, :password, :password_confirmation, :current_password])
   # end
 
   # The path used after sign up.

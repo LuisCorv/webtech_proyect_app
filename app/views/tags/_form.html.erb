@@ -16,9 +16,17 @@
     <%= form.text_field :name %>
   </div>
 
+   <div>
+    <%= form.label :tag_list_id, style: "display: none" %>
+    <%= form.text_field :tag_list_id, value: @current_taglist_id, readonly: true, style: "display: none"%>
+  </div>
+
   <div>
-    <%= form.label :tag_list_id, style: "display: block" %>
-    <%= form.text_field :tag_list_id %>
+    <%if params[:assign_ticket_id].present?  %>
+      <%= form.text_field :assign_list_nothing, value: "assign"+" "+params[:assign_ticket_id], readonly: true, style: "display: none"%>
+    <%elsif params[:ticket_list_id].present?  %>
+      <%= form.text_field :assign_list_nothing, value: "list"+" "+params[:ticket_list_id], readonly: true, style: "display: none"%>
+    <%end %>
   </div>
 
   <div>

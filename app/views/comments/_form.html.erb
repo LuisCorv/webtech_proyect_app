@@ -17,13 +17,21 @@
   </div>
 
   <div>
-    <%= form.label :writer, style: "display: block" %>
-    <%= form.text_field :writer %>
+    <%= form.label :writer, style: "display: none" %>
+    <%= form.text_field :writer, value: current_user.name+" "+current_user.last_name, readonly: true, style: "display: none" %>
   </div>
 
   <div>
-    <%= form.label :chat_id, style: "display: block" %>
-    <%= form.text_field :chat_id %>
+    <%= form.label :chat_id, style: "display: none" %>
+    <%= form.text_field :chat_id, value: @current_chat_id, readonly: true, style: "display: none"%>
+  </div>
+
+  <div>
+    <%if params[:assign_ticket_id].present?  %>
+      <%= form.text_field :assign_list_nothing, value: "assign"+" "+params[:assign_ticket_id], readonly: true, style: "display: none"%>
+    <%elsif params[:ticket_list_id].present?  %>
+      <%= form.text_field :assign_list_nothing, value: "list"+" "+params[:ticket_list_id], readonly: true, style: "display: none"%>
+    <%end %>
   </div>
 
   <div>

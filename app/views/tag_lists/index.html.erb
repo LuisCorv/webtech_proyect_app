@@ -1,6 +1,6 @@
 <p style="color: green"><%= notice %></p>
 
-<%current_user= User.find(params[:user_id])%>
+
 <%current_ticket= Ticket.find(params[:ticket_id])%>
 
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
@@ -43,19 +43,16 @@
 <%if current_user.Executive?  %>
   <% if params[:ticket_list_id].present?%>
   <p>
-    <%= link_to "New tag list", new_user_ticket_list_ticket_tag_list_path %>|
     <%= link_to "Back to ticket", user_ticket_list_ticket_path(current_user,current_ticket.ticket_list,current_ticket)%>
   </p>
   <%else  %>
   <p>
-    <%= link_to "New tag list", new_user_assign_ticket_ticket_tag_list_path %>|
     <%= link_to "Back to ticket", user_assign_ticket_ticket_path(current_user,current_ticket.assign_ticket,current_ticket)%>
   </p>
   <%end  %>
 
 <%elsif current_user.Supervisor? or current_user.Administrator? %>
   <p>
-    <%= link_to "New tag list", new_user_ticket_tag_list_path %>|
     <%= link_to "Back to ticket", user_ticket_path(current_user,current_ticket)%>
   </p>
 <%end  %>

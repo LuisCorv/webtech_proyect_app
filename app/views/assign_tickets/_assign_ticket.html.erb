@@ -1,12 +1,13 @@
 <div id="<%= dom_id assign_ticket %>">
-  <p>
-    <strong>User:</strong>
-    <%= assign_ticket.user_id %>
+ <p>
+    <strong>Executive:</strong>
+    <%= assign_ticket.user.email %>
   </p>
 
   <p>
     <strong>Ticket:</strong>
-    <%= assign_ticket.ticket_id %>
+    <%= assign_ticket.ticket.title %>
   </p>
+
 
 </div>

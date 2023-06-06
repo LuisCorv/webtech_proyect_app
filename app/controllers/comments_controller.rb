@@ -13,48 +13,71 @@ class CommentsController < ApplicationController
   # GET /comments/new
   def new
     @comment = Comment.new
+    @current_chat_id = session[:current_chat_id]
   end
 
   # GET /comments/1/edit
   def edit
+    @current_chat_id = session[:current_chat_id]
   end
 
   # POST /comments or /comments.json
   def create
     @comment = Comment.new(comment_params)
 
-    respond_to do |format|
       if @comment.save
-        format.html { redirect_to comment_url(@comment), notice: "Comment was successfully created." }
-        format.json { render :show, status: :created, location: @comment }
+        cha=Chat.find(params[:comment][:chat_id])
+        assign_or_list=(params[:comment][:assign_list_nothing]).split(" ")
+        if current_user.Executive? 
+          if assign_or_list[0]=="list"
+            redirect_to user_ticket_list_ticket_chat_comment_path(current_user,cha.ticket.ticket_list,cha.ticket,cha,@comment), notice: "Comment was successfully created." 
+          elsif assign_or_list[0]=="assign"
+            redirect_to user_assign_ticket_ticket_chat_comment_path(current_user,cha.ticket.assign_ticket,cha.ticket,cha,@comment), notice: "Comment was successfully created." 
+          end  
+        elsif current_user.Supervisor? or current_user.Administrator?
+          redirect_to user_ticket_chat_comment_path(current_user,cha.ticket,cha,@comment), notice: "Comment was successfully created."
+
+        end 
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
+        render :new, status: :unprocessable_entity 
       end
-    end
   end
 
   # PATCH/PUT /comments/1 or /comments/1.json
   def update
-    respond_to do |format|
       if @comment.update(comment_params)
-        format.html { redirect_to comment_url(@comment), notice: "Comment was successfully updated." }
-        format.json { render :show, status: :ok, location: @comment }
+        cha=Chat.find(params[:comment][:chat_id])
+        assign_or_list=(params[:comment][:assign_list_nothing]).split(" ")
+        if current_user.Executive? 
+          if assign_or_list[0]=="list"
+            redirect_to user_ticket_list_ticket_chat_comment_path(current_user,cha.ticket.ticket_list,cha.ticket,cha,@comment), notice: "Comment was successfully updated." 
+          elsif assign_or_list[0]=="assign"
+            redirect_to user_assign_ticket_ticket_chat_comment_path(current_user,cha.ticket.assign_ticket,cha.ticket,cha,@comment), notice: "Comment was successfully updated." 
+          end  
+        elsif current_user.Supervisor? or current_user.Administrator?
+          redirect_to user_ticket_chat_comment_path(current_user,cha.ticket,cha,@comment), notice: "Comment was successfully updated."
+
+        end 
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
+       render :edit, status: :unprocessable_entity 
       end
-    end
   end
 
   # DELETE /comments/1 or /comments/1.json
   def destroy
     @comment.destroy
 
-    respond_to do |format|
-      format.html { redirect_to comments_url, notice: "Comment was successfully destroyed." }
-      format.json { head :no_content }
-    end
+        cha=Chat.find(params[:chat_id])
+        if current_user.Executive? 
+          if params[:ticket_list_id].present?
+            redirect_to user_ticket_list_ticket_chat_comments_path(current_user,cha.ticket.ticket_list,cha.ticket,cha), notice: "Comment was successfully destroyed." 
+          elsif params[:assign_ticket_id].present?
+            redirect_to user_assign_ticket_ticket_chat_comments_path(current_user,cha.ticket.assign_ticket,cha.ticket,cha), notice: "Comment was successfully destroyed." 
+          end  
+        elsif current_user.Supervisor? or current_user.Administrator?
+          redirect_to user_ticket_chat_comments_path(current_user,cha.ticket,cha), notice: "Comment was successfully destroyed."
+
+        end 
   end
 
   private
