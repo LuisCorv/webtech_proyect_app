@@ -4,8 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-    has_many :ticket_lists
-    has_many :assign_tickets
+    has_many :ticket_lists, dependent: :destroy
+    has_many :assign_tickets, dependent: :destroy
     has_many :performance_reports
 
 

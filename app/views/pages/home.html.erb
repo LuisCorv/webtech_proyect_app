@@ -1,7 +1,40 @@
-<h1 class="text-center" style="color: black;">Futura pagina para login</h1>
-<br><br>
+<br>
 
-<div class="text-center">
-HOla
+<div class="card mx-auto w-50 p-3 text-black text-center"style=" background-color: #E5B4FF">
+  <h2 style="font-size:26px;">Welcome to our client support app</h2>
 </div>
+
+<br>
+
+<% if user_signed_in? %>
+
+   <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+      <p>Now you are able to use the <strong>navbar</strong> and access the options 
+      corresponding to your autority level
+      </p>
+      <br>
+      <p>If you want to log out, you should just press the "Logout?" 
+      button in the navbar  or press the button bellow:</p>
+   <p><%= link_to 'Logout?', destroy_user_session_path, method: :delete,  :class=> 'btn btn-primary' %></p>
+      <br>
+      <p>Thanks for choosing us and</p>
+      <p>We hope you have a great day </p> 
+   </div>
+
+<% else%>
+
+   <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+      <p>To use our webpage you have to be login</p>
+      <br>
+      <p>If you have an account please press the next button </p>
+   <p><%= link_to 'Log in', new_user_session_path,  class: "btn btn-primary" %></p>
+      <br>
+      <p>Else, you should create an account.</p>
+      <br>
+      <p>You can do it be pressing </p> 
+      <p><%= link_to 'Sign up', new_user_registration_path,  class: "btn btn-primary" %></p>
+   </div>
+
+<%end  %>
+
 </div>
