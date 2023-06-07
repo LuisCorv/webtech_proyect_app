@@ -1,6 +1,6 @@
 class Ticket < ApplicationRecord
 
-    has_one :ticket_list
+    has_one :ticket_list, dependent: :destroy
     has_one :assign_ticket
     has_one :tag_list
     has_many :tags ,through: :tag_list

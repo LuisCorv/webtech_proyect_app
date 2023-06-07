@@ -4,6 +4,7 @@ class AssignTicketsController < ApplicationController
   # GET /assign_tickets or /assign_tickets.json
   def index
     @assign_tickets = AssignTicket.all
+    session[:assign] = "yes"
   end
 
   # GET /assign_tickets/1 or /assign_tickets/1.json

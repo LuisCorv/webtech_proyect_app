@@ -25,6 +25,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    redirect_to user_url(current_user),alert: "You have to press the button to edit your user, and you can't change others users this way"
   end
 
   # POST /users or /users.json
@@ -57,10 +58,16 @@ class UsersController < ApplicationController
 
   # DELETE /users/1 or /users/1.json
   def destroy
+    if  not @user.ticket_list_ids.empty? 
+      @user.ticket_lists.each do |t|
+        t.ticket.destroy
+      end
+    end
+
     @user.destroy
 
     respond_to do |format|
-      format.html { redirect_to users_url, notice: "User was successfully destroyed." }
+      format.html { redirect_to root_path, notice: "User was successfully destroyed." }
       format.json { head :no_content }
     end
   end

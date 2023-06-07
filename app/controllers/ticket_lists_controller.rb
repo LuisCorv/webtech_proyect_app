@@ -4,6 +4,7 @@ class TicketListsController < ApplicationController
   # GET /ticket_lists or /ticket_lists.json
   def index
     @ticket_lists = TicketList.all
+    session[:assign] = "no"
   end
 
   # GET /ticket_lists/1 or /ticket_lists/1.json

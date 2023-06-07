@@ -22,9 +22,10 @@
     </p>
     
   <%end  %>
-  <%= link_to "Edit this user", edit_user_registration_path() %> |
+  <%if current_user==@user %>
+    <%= link_to "Edit this user", edit_user_registration_path() %> 
+  <%end  %>
   
-  <%= link_to "Back to users", users_path %>
 
   <%# Fix o modify the destroy %>
   <%= button_to "Destroy this user", @user, method: :delete %>

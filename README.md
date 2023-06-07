@@ -14,14 +14,7 @@ Que Ticket show e index le muestren al usuario correpondiente los datos que le c
 
 ### <ins>Delimitar el forms the Tickets, para que Usuarios,Executivos, Supervisores y Administradores no editen o crear lo que no deben</ins>
 
-Que al destruir un usuario se borre 
-
-        El usuario;
-        La Ticket List associada;
-        La Assign List associada;
-        Todos los tickets asociados a TicketList y AssignList
-
-### <ins>Arreglar el metodo de destroy del controlador de Tickets, ya que un Executive en AssignTickets no debe de poder borrar un ticket</ins>
+Como modificar a otros usuarios siendo Admin y Supervisor
 
 Revisar que todos los metodos de ticket funcionen correctamente
 

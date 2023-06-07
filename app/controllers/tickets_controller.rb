@@ -15,8 +15,10 @@ class TicketsController < ApplicationController
 
     if current_user.Supervisor? or current_user.Administrator?
       redirect_to user_tickets_path(current_user), alert: "You can't create Tickets."
+      return
     elsif current_user.Executive? and params[:assign_ticket_id].present?
       redirect_to user_assign_ticket_tickets_path(current_user,params[:assign_ticket_id]), alert: "You can't created tickets from your assign tickets, please go to your ticket list to do this"
+      return
     end
 
     @ticket = Ticket.new
@@ -60,17 +62,18 @@ class TicketsController < ApplicationController
           assign_or_list=(params[:ticket][:assign_list_nothing]).split(" ")
           if assign_or_list[0]=="assign"
             redirect_to user_assign_ticket_ticket_path(current_user,@ticket.assign_ticket,@ticket), notice: "Ticket was successfully created." 
+            return
           elsif assign_or_list[0]=="list"
             redirect_to user_ticket_list_ticket_path(current_user,@ticket.ticket_list,@ticket), notice: "Ticket was successfully created." 
-
+            return
           end  
         elsif current_user.User?
           redirect_to user_ticket_list_ticket_path(current_user,@ticket.ticket_list,@ticket), notice: "Ticket was successfully created."
-        
+          return
         
         elsif current_user.Supervisor? or current_user.Administrator?
           redirect_to user_ticket_path(current_user,@ticket), notice: "Ticket was successfully created."
-
+          return
         end
       else
         render :new, status: :unprocessable_entity 
@@ -80,12 +83,14 @@ class TicketsController < ApplicationController
   # DELETE /tickets/1 or /tickets/1.json
   def destroy
     #Check that when is executive and assign_ticket, it can't delete the ticket
-    # if current_user.Executive? 
-    #   debugg
-    # end
-
-
+    @assig=session[:assign]
+    if current_user.Executive?  and @assig=="yes"
+      redirect_to user_assign_ticket_ticket_path(current_user,@ticket.assign_ticket,@ticket), alert: "You can't delete a ticket if it's your assign ticket"
+      return
+    end
+    @ticket.chat.comments.destroy_all
     @ticket.chat.destroy
+    @ticket.tag_list.tags.destroy_all
     @ticket.tag_list.destroy
     if not  @ticket.assign_ticket.nil?
       @ticket.assign_ticket.destroy
@@ -97,13 +102,14 @@ class TicketsController < ApplicationController
 
 
     if current_user.Executive? 
-            redirect_to user_ticket_lists_path(current_user), notice: "Ticket was successfully destroyed." 
+      redirect_to user_ticket_lists_path(current_user), notice: "Ticket was successfully destroyed." 
+      return
     elsif current_user.User?
       redirect_to user_ticket_lists_path(current_user), notice: "Ticket was successfully destroyed."
-    
+      return
     elsif current_user.Supervisor? or current_user.Administrator?
       redirect_to user_tickets_path(current_user), notice: "Ticket was successfully destroyed."
-
+      return
     end
   end
 
