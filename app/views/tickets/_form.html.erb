@@ -23,7 +23,7 @@
 
   <div>
     <%= form.label :creation_date, style: "display: block" %>
-    <%= form.datetime_field :creation_date %>
+    <%= form.datetime_field :creation_date, value: Time.current, readonly: true%>
   </div>
 
   <div>
@@ -36,39 +36,38 @@
     <%= form.datetime_field :response_to_user_date %>
   </div>
 
-  <div>
-    <%= form.label :priority, style: "display: block" %>
-    <%= form.number_field :priority %>
+  <div >
+      <%= form.label :priority, style: "display: block"%>
+      <%= form.select :priority, Ticket.priorities.keys %>
   </div>
 
-  <div>
-    <%= form.label :state, style: "display: block" %>
-    <%= form.number_field :state %>
+   <div >
+      <%= form.label :state, style: "display: block"%>
+      <%= form.select :state, Ticket.states.keys %>
   </div>
 
-  <div>
-    <%= form.label :resolution_key, style: "display: block" %>
-    <%= form.number_field :resolution_key %>
+  <div >
+      <%= form.label :resolution_key, style: "display: block"%>
+      <%= form.select :resolution_key, Ticket.resolution_keys.keys %>
   </div>
 
-  <div>
-    <%= form.label :response_key, style: "display: block" %>
-    <%= form.number_field :response_key %>
+  <div >
+      <%= form.label :response_key, style: "display: block"%>
+      <%= form.select :response_key, Ticket.response_keys.keys %>
   </div>
-
   <div>
     <%= form.label :response_to_user, style: "display: block" %>
     <%= form.text_area :response_to_user %>
   </div>
 
-  <div>
-    <%= form.label :accept_or_reject_solution, style: "display: block" %>
-    <%= form.number_field :accept_or_reject_solution %>
+  <div >
+      <%= form.label :accept_or_reject_solution, style: "display: block"%>
+      <%= form.select :accept_or_reject_solution, Ticket.accept_or_reject_solutions.keys %>
   </div>
 
   <div>
     <%= form.label :star_number, style: "display: block" %>
-    <%= form.number_field :star_number %>
+    <%= form.select :star_number, (0..5).to_a %>
   </div>
 
   <div>
@@ -80,6 +79,16 @@
     <%= form.label :limit_time_resolution, style: "display: block" %>
     <%= form.datetime_field :limit_time_resolution %>
   </div>
+
+
+  <div>
+    <%if params[:assign_ticket_id].present?  %>
+      <%= form.text_field :assign_list_nothing, value: "assign"+" "+params[:assign_ticket_id], readonly: true, style: "display: none"%>
+    <%elsif params[:ticket_list_id].present? %>
+    <%= form.text_field :assign_list_nothing, value: "list"+" "+params[:ticket_list_id], readonly: true, style: "display: none"%>
+    <%end %>
+  </div>
+
 
   <div>
     <%= form.submit %>

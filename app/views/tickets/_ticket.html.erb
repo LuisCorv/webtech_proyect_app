@@ -10,8 +10,23 @@
   </p>
 
   <p>
+    <strong>Requesting User:</strong>
+    <%= ticket.ticket_list.user.email %>
+  </p>
+
+  <p>
     <strong>Creation date:</strong>
     <%= ticket.creation_date %>
+  </p>
+
+
+  <p>
+    <strong>Executive in charge:</strong>
+    <%if not ticket.assign_ticket.nil?  %>
+      <%= ticket.assign_ticket.user.email %>
+    <%else %>
+      Defining Executive
+    <%end  %>
   </p>
 
   <p>

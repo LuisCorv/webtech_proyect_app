@@ -57,7 +57,7 @@
 
 <%elsif current_user.Supervisor? or current_user.Administrator? %>
   <p>
-    <%= link_to "New tag", new_user_ticket_chat_comment_path %>|
+    <%= link_to "New comment", new_user_ticket_chat_comment_path %>|
     <%= link_to "Back to chat", user_ticket_chat_path(current_user,current_ticket,current_chat)%>
   </p>
 <%end  %>

@@ -27,11 +27,10 @@ class CommentsController < ApplicationController
 
       if @comment.save
         cha=Chat.find(params[:comment][:chat_id])
-        assign_or_list=(params[:comment][:assign_list_nothing]).split(" ")
+       
         if current_user.Executive? 
-          if assign_or_list[0]=="list"
-            redirect_to user_ticket_list_ticket_chat_comment_path(current_user,cha.ticket.ticket_list,cha.ticket,cha,@comment), notice: "Comment was successfully created." 
-          elsif assign_or_list[0]=="assign"
+           assign_or_list=(params[:comment][:assign_list_nothing]).split(" ")
+         if assign_or_list[0]=="assign"
             redirect_to user_assign_ticket_ticket_chat_comment_path(current_user,cha.ticket.assign_ticket,cha.ticket,cha,@comment), notice: "Comment was successfully created." 
           end  
         elsif current_user.Supervisor? or current_user.Administrator?
@@ -45,13 +44,12 @@ class CommentsController < ApplicationController
 
   # PATCH/PUT /comments/1 or /comments/1.json
   def update
+    if ((current_user.name+" "+current_user.last_name) == params[:comment][:writer]) or (current_user.Supervisor? or current_user.Administrator?)
       if @comment.update(comment_params)
         cha=Chat.find(params[:comment][:chat_id])
-        assign_or_list=(params[:comment][:assign_list_nothing]).split(" ")
         if current_user.Executive? 
-          if assign_or_list[0]=="list"
-            redirect_to user_ticket_list_ticket_chat_comment_path(current_user,cha.ticket.ticket_list,cha.ticket,cha,@comment), notice: "Comment was successfully updated." 
-          elsif assign_or_list[0]=="assign"
+          assign_or_list=(params[:comment][:assign_list_nothing]).split(" ")
+          if assign_or_list[0]=="assign"
             redirect_to user_assign_ticket_ticket_chat_comment_path(current_user,cha.ticket.assign_ticket,cha.ticket,cha,@comment), notice: "Comment was successfully updated." 
           end  
         elsif current_user.Supervisor? or current_user.Administrator?
@@ -61,6 +59,7 @@ class CommentsController < ApplicationController
       else
        render :edit, status: :unprocessable_entity 
       end
+    end
   end
 
   # DELETE /comments/1 or /comments/1.json

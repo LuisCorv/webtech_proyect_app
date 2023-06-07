@@ -12,48 +12,98 @@ class TicketsController < ApplicationController
 
   # GET /tickets/new
   def new
+
+    if current_user.Supervisor? or current_user.Administrator?
+      redirect_to user_tickets_path(current_user), alert: "You can't create Tickets."
+    elsif current_user.Executive? and params[:assign_ticket_id].present?
+      redirect_to user_assign_ticket_tickets_path(current_user,params[:assign_ticket_id]), alert: "You can't created tickets from your assign tickets, please go to your ticket list to do this"
+    end
+
     @ticket = Ticket.new
   end
 
   # GET /tickets/1/edit
   def edit
+
   end
 
   # POST /tickets or /tickets.json
   def create
     @ticket = Ticket.new(ticket_params)
-
-    respond_to do |format|
+    
       if @ticket.save
-        format.html { redirect_to ticket_url(@ticket), notice: "Ticket was successfully created." }
-        format.json { render :show, status: :created, location: @ticket }
+        Chat.create(ticket:@ticket)
+        TagList.create(ticket:@ticket)
+
+        if current_user.Executive? 
+             # crear TicketList y luego hacer el siguiente paso
+            ticket_list=TicketList.create(user:current_user, ticket: @ticket)
+           
+            redirect_to user_ticket_list_ticket_path(current_user,ticket_list,@ticket), notice: "Ticket was successfully created." 
+ 
+        elsif current_user.User?
+          # crear TicketList y luego hacer el siguiente paso
+          ticket_list=TicketList.create(user:current_user, ticket: @ticket)
+          
+          redirect_to user_ticket_list_ticket_path(current_user,ticket_list,@ticket), notice: "Ticket was successfully created."
+        end
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @ticket.errors, status: :unprocessable_entity }
+        render :new, status: :unprocessable_entity 
       end
-    end
   end
 
   # PATCH/PUT /tickets/1 or /tickets/1.json
   def update
-    respond_to do |format|
+    
       if @ticket.update(ticket_params)
-        format.html { redirect_to ticket_url(@ticket), notice: "Ticket was successfully updated." }
-        format.json { render :show, status: :ok, location: @ticket }
+        if current_user.Executive? 
+          assign_or_list=(params[:ticket][:assign_list_nothing]).split(" ")
+          if assign_or_list[0]=="assign"
+            redirect_to user_assign_ticket_ticket_path(current_user,@ticket.assign_ticket,@ticket), notice: "Ticket was successfully created." 
+          elsif assign_or_list[0]=="list"
+            redirect_to user_ticket_list_ticket_path(current_user,@ticket.ticket_list,@ticket), notice: "Ticket was successfully created." 
+
+          end  
+        elsif current_user.User?
+          redirect_to user_ticket_list_ticket_path(current_user,@ticket.ticket_list,@ticket), notice: "Ticket was successfully created."
+        
+        
+        elsif current_user.Supervisor? or current_user.Administrator?
+          redirect_to user_ticket_path(current_user,@ticket), notice: "Ticket was successfully created."
+
+        end
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @ticket.errors, status: :unprocessable_entity }
+        render :new, status: :unprocessable_entity 
       end
-    end
   end
 
   # DELETE /tickets/1 or /tickets/1.json
   def destroy
+    #Check that when is executive and assign_ticket, it can't delete the ticket
+    # if current_user.Executive? 
+    #   debugg
+    # end
+
+
+    @ticket.chat.destroy
+    @ticket.tag_list.destroy
+    if not  @ticket.assign_ticket.nil?
+      @ticket.assign_ticket.destroy
+    end
+    @ticket.ticket_list.destroy
+
     @ticket.destroy
 
-    respond_to do |format|
-      format.html { redirect_to tickets_url, notice: "Ticket was successfully destroyed." }
-      format.json { head :no_content }
+
+
+    if current_user.Executive? 
+            redirect_to user_ticket_lists_path(current_user), notice: "Ticket was successfully destroyed." 
+    elsif current_user.User?
+      redirect_to user_ticket_lists_path(current_user), notice: "Ticket was successfully destroyed."
+    
+    elsif current_user.Supervisor? or current_user.Administrator?
+      redirect_to user_tickets_path(current_user), notice: "Ticket was successfully destroyed."
+
     end
   end
 
@@ -67,6 +117,12 @@ class TicketsController < ApplicationController
 
 
   private
+
+  def is_assign_ticket_route?
+    request.path =~ %r{/users/\d+/assign_tickets/\d+/tickets/\d+}
+  end
+
+
     # Use callbacks to share common setup or constraints between actions.
     def set_ticket
       @ticket = Ticket.find(params[:id])

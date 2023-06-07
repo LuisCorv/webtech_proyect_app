@@ -91,16 +91,12 @@
         <br>
         <%= link_to "Back to Ticket List", user_ticket_list_path(current_user.id,params[:ticket_list_id])%>
       <%elsif params[:assign_ticket_id].present?  %>
-        <%= link_to "New ticket", new_user_assign_ticket_ticket_path %>
-        <br>
         <%= link_to "Back to Assign Ticket", user_assign_ticket_path(current_user.id,params[:assign_ticket_id])%>
 
       <%end %>
     </p>
   <%elsif  current_user.Supervisor?  or current_user.Administrator?%>
     <p>
-      <%= link_to "New ticket", new_user_ticket_path %>
-      <br>
       <%= link_to "Back to the user", user_path(current_user.id)%>
     </p>
 

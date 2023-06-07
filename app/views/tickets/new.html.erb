@@ -6,19 +6,29 @@
 <br>
 
 <div>
-  <%current_user= User.find(params[:user_id])%>
   <%if current_user.User? %>
-  <p>
-    <%= link_to "Back to tickets", user_ticket_list_tickets_path %>
-    </p>
+    <% if params[:ticket_list_id].present?%>
+    <p>
+      <%= link_to "Back to tickets", user_ticket_list_tickets_path %>
+      </p>
+    <%else  %>
+      <p>
+      <%= link_to "Back to ticket list", user_ticket_lists_path %>
+      </p>
+    <%end  %>
   <%elsif current_user.Executive?  %>
-  <p>
-  <% if params[:ticket_list_id].present?%>
-    <%= link_to "Back to tickets", user_ticket_list_tickets_path %>
-  <%else  %>
-    <%= link_to "Back to tickets", user_assign_ticket_tickets_path %>
-  <%end  %>
-    </p>
+    <p>
+    <% if params[:ticket_list_id].present?%>
+      <%= link_to "Back to tickets", user_ticket_list_tickets_path %>
+    <%elsif params[:assign_ticket_id].present?  %>
+      <%= link_to "Back to tickets", user_assign_ticket_tickets_path %>
+
+    <%else  %>
+      <p>
+        <%= link_to "Back to tickets", user_tickets_path(current_user) %>
+        </p>
+    <%end  %>
+      </p>
   <%else  %>
   <p>
     <%= link_to "Back to tickets", user_tickets_path %>

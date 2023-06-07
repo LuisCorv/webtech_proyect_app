@@ -28,11 +28,10 @@ class TagsController < ApplicationController
   
       if @tag.save
         tg=TagList.find(params[:tag][:tag_list_id])
-        assign_or_list=(params[:tag][:assign_list_nothing]).split(" ")
+        
         if current_user.Executive? 
-          if assign_or_list[0]=="list"
-            redirect_to user_ticket_list_ticket_tag_list_tag_path(current_user,tg.ticket.ticket_list,tg.ticket,tg,@tag), notice: "Tag was successfully created." 
-          elsif assign_or_list[0]=="assign"
+          assign_or_list=(params[:tag][:assign_list_nothing]).split(" ")
+          if assign_or_list[0]=="assign"
             redirect_to user_assign_ticket_ticket_tag_list_tag_path(current_user,tg.ticket.assign_ticket,tg.ticket,tg,@tag), notice: "Tag was successfully created." 
           end  
         elsif current_user.Supervisor? or current_user.Administrator?
@@ -50,11 +49,10 @@ class TagsController < ApplicationController
     
       if @tag.update(tag_params)
         tg=TagList.find(params[:tag][:tag_list_id])
-        assign_or_list=(params[:tag][:assign_list_nothing]).split(" ")
+        
         if current_user.Executive? 
-          if assign_or_list[0]=="list"
-            redirect_to user_ticket_list_ticket_tag_list_tag_path(current_user,tg.ticket.ticket_list,tg.ticket,tg,@tag), notice: "Tag was successfully updated." 
-          elsif assign_or_list[0]=="assign"
+          assign_or_list=(params[:tag][:assign_list_nothing]).split(" ")
+          if assign_or_list[0]=="assign"
             redirect_to user_assign_ticket_ticket_tag_list_tag_path(current_user,tg.ticket.assign_ticket,tg.ticket,tg,@tag), notice: "Tag was successfully updated." 
           end  
         elsif current_user.Supervisor? or current_user.Administrator?

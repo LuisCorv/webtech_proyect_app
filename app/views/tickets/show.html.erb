@@ -10,27 +10,26 @@
     <%= link_to "Back to tickets", user_ticket_list_tickets_path %>
     </p>
   <%elsif current_user.Executive?  %>
-  <p>
-  <% if params[:ticket_list_id].present?%>
-    <%# Can't check Tags or Chat in this option, beause its 'private' to the executives working in the ticket and Supervisor's and Administrator %>
-    <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],@ticket) %> |
-    <%= link_to "Back to tickets", user_ticket_list_tickets_path %>
-  <%else  %>
-
     <p>
-      <%= link_to "Check Tags", user_assign_ticket_ticket_tag_lists_path(current_user.id,params[:assign_ticket_id],@ticket) %>|
-      <%= link_to "Check Chat", user_assign_ticket_ticket_chats_path(current_user.id,params[:assign_ticket_id],@ticket) %>
-    </p>
-    <%= link_to "Edit this ticket", edit_user_assign_ticket_ticket_path(current_user.id,params[:assign_ticket_id],@ticket) %> |
-    <%= link_to "Back to tickets", user_assign_ticket_tickets_path %>
+    <% if params[:ticket_list_id].present?%>
+      <%# Can't check Tags or Chat in this option, beause its 'private' to the executives working in the ticket and Supervisor's and Administrator %>
+      <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],@ticket) %> |
+      <%= link_to "Back to tickets", user_ticket_list_tickets_path %>
+    <%elsif  params[:assign_ticket_id].present? %>
+      <p>
+        <%= link_to "Check Tags", user_assign_ticket_ticket_tag_lists_path(current_user.id,params[:assign_ticket_id],@ticket) %>|
+        <%= link_to "Check Chat", user_assign_ticket_ticket_chats_path(current_user.id,params[:assign_ticket_id],@ticket) %>
+      </p>
+      <%= link_to "Edit this ticket", edit_user_assign_ticket_ticket_path(current_user.id,params[:assign_ticket_id],@ticket) %> |
+      <%= link_to "Back to tickets", user_assign_ticket_tickets_path %>
 
-  <%end  %>
-    </p>
+    <%end  %>
+      </p>
   <%else  %>
       <%= link_to "Check Tags", user_ticket_tag_lists_path(current_user.id,@ticket) %>|
       <%= link_to "Check Chat", user_ticket_chats_path(current_user.id,@ticket) %>
     <p>
-      <%= link_to "Edit this ticket", edit_user_ticket_path(current_user.id,@ticket) %> |
+    <%= link_to "Edit this ticket", edit_user_ticket_path(current_user.id,@ticket) %> |
       <%= link_to "Back to tickets", user_tickets_path %>
     </p>
     

@@ -71,20 +71,21 @@ class ChatsController < ApplicationController
 
   # DELETE /chats/1 or /chats/1.json
   def destroy
-    @chat.comments.destroy_all
+    if current_user.Supervisor? or current_user.Administrator?
+      @chat.comments.destroy_all
 
-    @current_ticket= Ticket.find(params[:ticket_id])
-    if current_user.Executive? 
-      if params[:ticket_list_id].present?
-        redirect_to user_ticket_list_ticket_chat_path(current_user,@current_ticket.ticket_list,@current_ticket,@chat) , notice: "Chat was successfully clean."
-      elsif params[:assign_ticket_id].present?
-        redirect_to user_assign_ticket_ticket_chat_path(current_user,@current_ticket.assign_ticket,@current_ticket,@chat), notice: "Chat was successfully clean." 
-      end  
-    elsif current_user.Supervisor? or current_user.Administrator?
-      redirect_to user_ticket_chat_path(current_user,@current_ticket,@chat), notice: "Chat was successfully clean."
+      @current_ticket= Ticket.find(params[:ticket_id])
+      if current_user.Executive? 
+        if params[:ticket_list_id].present?
+          redirect_to user_ticket_list_ticket_chat_path(current_user,@current_ticket.ticket_list,@current_ticket,@chat) , notice: "Chat was successfully clean."
+        elsif params[:assign_ticket_id].present?
+          redirect_to user_assign_ticket_ticket_chat_path(current_user,@current_ticket.assign_ticket,@current_ticket,@chat), notice: "Chat was successfully clean." 
+        end  
+      elsif current_user.Supervisor? or current_user.Administrator?
+        redirect_to user_ticket_chat_path(current_user,@current_ticket,@chat), notice: "Chat was successfully clean."
 
-    end 
-    
+      end 
+    end
   end
 
   private

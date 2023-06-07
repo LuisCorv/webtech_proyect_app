@@ -12,7 +12,8 @@ class TicketListsController < ApplicationController
 
   # GET /ticket_lists/new
   def new
-    @ticket_list = TicketList.new
+    redirect_to user_ticket_lists_path, alert: "You can't create Ticket List this way, you should make a 'new Ticket' for that"
+
   end
 
   # GET /ticket_lists/1/edit

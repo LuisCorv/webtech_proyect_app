@@ -3,7 +3,11 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   # GET /users or /users.json
   def index
-    @users = User.all
+    if current_user.Supervisor? or current_user.Administrator?
+      @users = User.all
+    else
+      redirect_to user_url(current_user)
+    end
   end
 
   # GET /users/1 or /users/1.json
@@ -12,7 +16,11 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def new
-    @user = User.new
+    if current_user.Supervisor? or current_user.Administrator?
+      @user = User.new
+    else
+      redirect_to user_url(current_user)
+    end
   end
 
   # GET /users/1/edit

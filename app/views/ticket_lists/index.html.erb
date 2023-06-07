@@ -28,7 +28,14 @@
 <%if not @user_ticket_list_example.nil?  %>
   <%= link_to "See All Tickets", user_ticket_list_tickets_path(current_user,@user_ticket_list_example) %>
   <%end  %>
-<%= link_to "New ticket list", new_user_ticket_list_path %>
+
+<%if current_user.User?%>
+      <%= link_to "New Ticket", new_user_ticket_path %>
+  <%elsif current_user.Executive?  %>
+      <%= link_to "New Ticket", new_user_ticket_path %>
+<%end  %>
+
 <%= link_to "Back to the user", user_path(current_user.id)%>
 <%= link_to "Back to Home Page", "/"%>
 </div>
+
