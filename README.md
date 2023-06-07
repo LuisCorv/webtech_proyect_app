@@ -22,3 +22,5 @@ Ver como hacer mas facil el ingreso de fechas en la app
 
 
 ###  Hacer que ticket_id sea unico en AssignTicket, para que asi no haya un problema ente ticket.assign_list y assign_list.ticket
+
+Arreglar la validacion del phone

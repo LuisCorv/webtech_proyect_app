@@ -10,13 +10,19 @@
 
 
 <div id="tickets">
+  <%check=0  %>
   <% @tickets.each do |ticket| %>
 
       <%if not current_user.nil?%>
 
         <%if current_user.User? %>
-          <% if params[:ticket_list_id].present?%>
-            <% if ticket.ticket_list.user==current_user%>
+          <%if current_user.ticket_lists.empty? and check==0 %>
+              <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+              Here will be display all the tickets you have made or have access to
+              </div>
+              <%check=1 %>
+          <%elsif params[:ticket_list_id].present?%>
+            <%if ticket.ticket_list.user==current_user%>
             <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
               <%= render ticket %>
               <p>
@@ -49,9 +55,16 @@
               </div>
             <%end  %>
           <%else  %>
-          <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-            <%= render ticket %>
-          </div>
+            <%if current_user.ticket_lists.empty? and check==0 %>
+              <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+              Here will be display all the tickets you have made or have access to
+              </div>
+              <%check=1 %>
+            <%else %>
+            <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+              <%= render ticket %>
+            </div>
+            <%end  %>
           <%end  %>
 
         <%elsif  current_user.Supervisor?  or current_user.Administrator?%>
