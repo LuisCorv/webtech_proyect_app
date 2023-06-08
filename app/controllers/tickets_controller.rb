@@ -14,10 +14,13 @@ class TicketsController < ApplicationController
   def new
 
     if current_user.Supervisor? or current_user.Administrator?
-      redirect_to user_tickets_path(current_user), alert: "You can't create Tickets."
+      redirect_to user_tickets_path(current_user), alert: "You can't create Tickets, only Users and Executives can."
       return
-    elsif current_user.Executive? and params[:assign_ticket_id].present?
-      redirect_to user_assign_ticket_tickets_path(current_user,params[:assign_ticket_id]), alert: "You can't created tickets from your assign tickets, please go to your ticket list to do this"
+    elsif current_user.Executive? and not params[:ticket_list_id].present?
+      redirect_to user_tickets_path(current_user), alert: "You can only created tickets from your ticket list"
+      return
+    elsif  current_user.User? 
+      redirect_to user_tickets_path(current_user), alert: "You can't created tickets this way, you can only make them from your ticket list"
       return
     end
 
@@ -32,6 +35,8 @@ class TicketsController < ApplicationController
   # POST /tickets or /tickets.json
   def create
     @ticket = Ticket.new(ticket_params)
+    
+    @ticket.files.attach(params[:ticket][:new_files]) if params[:ticket][:new_files].present?
     
       if @ticket.save
         Chat.create(ticket:@ticket)
@@ -56,8 +61,11 @@ class TicketsController < ApplicationController
 
   # PATCH/PUT /tickets/1 or /tickets/1.json
   def update
+
     
       if @ticket.update(ticket_params)
+        @ticket.files.attach(params[:ticket][:new_files]) if params[:ticket][:new_files].present?
+
         if current_user.Executive? 
           assign_or_list=(params[:ticket][:assign_list_nothing]).split(" ")
           if assign_or_list[0]=="assign"
@@ -114,20 +122,22 @@ class TicketsController < ApplicationController
   end
 
   def ticket_report
+    if  not current_user.Supervisor? and  not current_user.Administrator?
+      redirect_to user_tickets_path(current_user), alert: "You can't access the ticket report"
+      return
+    end
 
   end
 
   def overdue_report
-
+    if  not current_user.Supervisor? and  not current_user.Administrator?
+      redirect_to user_tickets_path(current_user), alert: "You can't access the overdue report"
+      return
+    end
   end
 
 
   private
-
-  def is_assign_ticket_route?
-    request.path =~ %r{/users/\d+/assign_tickets/\d+/tickets/\d+}
-  end
-
 
     # Use callbacks to share common setup or constraints between actions.
     def set_ticket

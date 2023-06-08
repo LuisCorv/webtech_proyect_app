@@ -46,13 +46,15 @@
             <%end  %>
 
           <%elsif params[:assign_ticket_id].present?  %>
-            <% if ticket.assign_ticket.user==current_user%>
-              <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-              <%= render ticket %>
-              <p>
-              <%= link_to "Show this ticket", user_assign_ticket_ticket_path(current_user.id,params[:assign_ticket_id],ticket) %>
-              </p>
-              </div>
+            <%if not ticket.assign_ticket.nil?  %>
+              <% if ticket.assign_ticket.user==current_user%>
+                <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+                <%= render ticket %>
+                <p>
+                <%= link_to "Show this ticket", user_assign_ticket_ticket_path(current_user.id,params[:assign_ticket_id],ticket) %>
+                </p>
+                </div>
+              <%end  %>
             <%end  %>
           <%else  %>
             <%if current_user.ticket_lists.empty? and check==0 %>
@@ -61,9 +63,19 @@
               </div>
               <%check=1 %>
             <%else %>
-            <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-              <%= render ticket %>
-            </div>
+              <%if not ticket.assign_ticket.nil?  %>
+                <% if ticket.assign_ticket.user==current_user or ticket.ticket_list.user==current_user%>
+                  <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+                    <%= render ticket %>
+                  </div>
+                <%end  %>
+              <%else  %>
+                <% if ticket.ticket_list.user==current_user%>
+                  <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+                    <%= render ticket %>
+                  </div>
+                <%end  %>
+              <%end  %>
             <%end  %>
           <%end  %>
 

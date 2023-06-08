@@ -1,5 +1,8 @@
 class Ticket < ApplicationRecord
 
+    has_many_attached :files, dependent: :destroy
+
+
     has_one :ticket_list, dependent: :destroy
     has_one :assign_ticket
     has_one :tag_list

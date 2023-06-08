@@ -1,0 +1,13 @@
+
+<% ticket.files.each do |file|%>
+    
+    <% if file.image?%>
+        <div class="message-image-container">
+            <%= image_tag(file, class:"message-image")%>
+        </div>
+    <% elsif file.video?%>
+        <%= video_tag(url_for(file), class:"message-video",controls: "")%>
+    <% else%>
+        <%= link_to file.filename, url_for(file), class:"message-file"%>
+    <%end%>
+<% end%>

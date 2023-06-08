@@ -1,87 +1,134 @@
 <div id="<%= dom_id ticket %>">
   <p>
     <strong>Title:</strong>
+    <p>
     <%= ticket.title %>
+    </p>
   </p>
 
   <p>
     <strong>Incident description:</strong>
+    <p>
     <%= ticket.incident_description %>
+    </p>
   </p>
 
   <p>
     <strong>Requesting User:</strong>
+    <p>
     <%= ticket.ticket_list.user.email %>
+    </p>
   </p>
 
   <p>
     <strong>Creation date:</strong>
+    <p>
     <%= ticket.creation_date %>
+    </p>
   </p>
 
 
   <p>
     <strong>Executive in charge:</strong>
     <%if not ticket.assign_ticket.nil?  %>
+    <p>
       <%= ticket.assign_ticket.user.email %>
+      </p>
     <%else %>
+    <p>
       Defining Executive
+    </p>
     <%end  %>
   </p>
 
   <p>
     <strong>Resolution date:</strong>
+    <p>
     <%= ticket.resolution_date %>
+    </p>
   </p>
 
   <p>
     <strong>Response to user date:</strong>
+    <p>
     <%= ticket.response_to_user_date %>
+    </p>
   </p>
 
   <p>
     <strong>Priority:</strong>
+    <p>
     <%= ticket.priority %>
+    </p>
   </p>
 
   <p>
     <strong>State:</strong>
+    <p>
     <%= ticket.state %>
+    </p>
   </p>
 
   <p>
     <strong>Resolution key:</strong>
+    <p>
     <%= ticket.resolution_key %>
+    </p>
   </p>
 
   <p>
     <strong>Response key:</strong>
+    <p>
     <%= ticket.response_key %>
+    </p>
   </p>
 
   <p>
     <strong>Response to user:</strong>
+    <p>
     <%= ticket.response_to_user %>
+    </p>
   </p>
 
   <p>
     <strong>Accept or reject solution:</strong>
+    <p>
     <%= ticket.accept_or_reject_solution %>
+    </p>
   </p>
 
   <p>
     <strong>Star number:</strong>
+    <p>
     <%= ticket.star_number %>
+    </p>
   </p>
 
   <p>
     <strong>Limit time response:</strong>
+    <p>
     <%= ticket.limit_time_response %>
+    </p>
   </p>
 
   <p>
     <strong>Limit time resolution:</strong>
+    <p>
     <%= ticket.limit_time_resolution %>
+    </p>
+  </p>
+
+  <p>
+    <strong>Attached Files:</strong>
+    <%if ticket.files.empty? %>
+    <p>
+      There are no files attached
+    </p>
+    <%else  %>
+    <p>
+      <%= render "tickets/attachment", ticket: ticket%>
+    </p>
+    <%end %>
   </p>
 
 </div>

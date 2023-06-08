@@ -31,7 +31,7 @@
     <%elsif resource.profile=="Supervisor"  %>
       <div class="field">
         <%= f.label :profile %><br />
-        <%= f.select :profile, User.profiles.except(:Administrator).keys%>
+        <%= f.select :profile, User.profiles.except(:Administrator, :Supervisor).keys%>
       </div>
     <%end  %>
 

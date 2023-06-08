@@ -82,6 +82,11 @@
 
 
   <div>
+    <%= form.label :files, style: "display: block" %>
+    <%= form.file_field :new_files, multiple: true %>
+  </div>
+
+  <div>
     <%if params[:assign_ticket_id].present?  %>
       <%= form.text_field :assign_list_nothing, value: "assign"+" "+params[:assign_ticket_id], readonly: true, style: "display: none"%>
     <%elsif params[:ticket_list_id].present? %>

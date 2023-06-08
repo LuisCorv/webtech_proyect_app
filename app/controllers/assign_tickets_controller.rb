@@ -13,11 +13,22 @@ class AssignTicketsController < ApplicationController
 
   # GET /assign_tickets/new
   def new
+
+    if current_user.Executive? or current_user.User? 
+      redirect_to user_tickets_path(current_user), alert: "You can't created assign tickets, only Supervisor and Administrators can"
+      return
+    end
+
     @assign_ticket = AssignTicket.new
   end
 
   # GET /assign_tickets/1/edit
   def edit
+
+    if current_user.Executive? or current_user.User? 
+      redirect_to user_tickets_path(current_user), alert: "You can't edit assign tickets, only Supervisor and Administrators can"
+      return
+    end
   end
 
   # POST /assign_tickets or /assign_tickets.json

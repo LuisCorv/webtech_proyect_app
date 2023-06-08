@@ -11,15 +11,23 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.text_field :user_id %>
+  <div class="field">
+    <%= form.label :user_id %><br />
+    <%= form.select :user_id, User.where(profile: User.profiles[:Executive]).pluck(Arel.sql("CONCAT(name, ' ', last_name)"), :id)%>
   </div>
 
-  <div>
-    <%= form.label :ticket_id, style: "display: block" %>
-    <%= form.text_field :ticket_id %>
+
+
+   <div class="field">
+    <%= form.label :ticket_id %><br />
+    <% selected_ticket_id = form.object.ticket_id || (form.object.ticket.present? ? form.object.ticket.id : nil) %>
+    <% disable_select = form.object.ticket.present? ? { disabled: true } : {} %>
+    <%= form.select :ticket_id, options_for_select(Ticket.all.select { |ticket| ticket.assign_ticket.nil? || ticket.id == selected_ticket_id }.map(&:id), selected_ticket_id), {}, disable_select %>
   </div>
+
+
+<br>
+
 
   <div>
     <%= form.submit %>
