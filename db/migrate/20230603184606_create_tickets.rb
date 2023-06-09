@@ -12,7 +12,7 @@ class CreateTickets < ActiveRecord::Migration[7.0]
       t.integer :response_key,null: false, default: 0
       t.text :response_to_user,null: false, default: " "
       t.integer :accept_or_reject_solution,null: false, default: 0
-      t.integer :star_number,null: false, default: 0
+      t.integer :star_number,null: false, default: 6
       t.datetime :limit_time_response, null: false, default: Time.now
       t.datetime :limit_time_resolution, null: false, default: Time.now
 

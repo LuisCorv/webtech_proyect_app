@@ -30,9 +30,11 @@
   <%end  %>
 
 <%if current_user.User?%>
-      <%= link_to "New Ticket", new_user_ticket_path %>
+    <%var =true %>
+      <%= link_to "New Ticket", new_user_ticket_path(check_location: var) %>
   <%elsif current_user.Executive?  %>
-      <%= link_to "New Ticket", new_user_ticket_path %>
+    <%var =true %>
+      <%= link_to "New Ticket", new_user_ticket_path(check_location: var) %>
 <%end  %>
 
 <%= link_to "Back to the user", user_path(current_user.id)%>

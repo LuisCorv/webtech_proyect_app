@@ -8,29 +8,32 @@
 
 <br>
 
-<div class="card text-black text-center" style="width: 18rem; font-size: 15px; background-color: #A0F5FF; margin: 0 auto;">
+
+<div class="card mx-auto p-3 bg-white text-black text-center"style="width: 40rem;">
+  <h5>Here will be display all the tickets you have made or have access to</h5>
+</div>
+<br>
+
+<div class="card text-black text-center" style="width: 30rem; font-size: 15px; background-color: #A0F5FF; margin: 0 auto;">
+  <h5>Want to check an especific ticket??</h5>
   <a class="input-group m-1">
     <input class="form-control me-2" type="search" id="searchbar" placeholder="Search" aria-label="Search">
   </a>
-  <div class="dropdown-menu w-100" id="results-menu" aria-labelledby="navbarDropdown">
-    <div id="results"></div>
   </div>
-</div>
+  <br>
+  <div class="dropdown-menu " id="results-menu" aria-labelledby="navbarDropdown" style="width: 40rem; position: relative;
+  left: 50%; top: 100%; transform: translate(-50%, -0%);">
+    <div class="mx-auto p-3"id="results"></div>
+  </div>
 
 
 <div id="tickets">
-  <%check=0  %>
   <% @tickets.each do |ticket| %>
 
       <%if not current_user.nil?%>
 
         <%if current_user.User? %>
-          <%if current_user.ticket_lists.empty? and check==0 %>
-              <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-              Here will be display all the tickets you have made or have access to
-              </div>
-              <%check=1 %>
-          <%elsif params[:ticket_list_id].present?%>
+          <%if params[:ticket_list_id].present?%>
             <%if ticket.ticket_list.user==current_user%>
             <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
               <%= render ticket %>
@@ -66,12 +69,6 @@
               <%end  %>
             <%end  %>
           <%else  %>
-            <%if current_user.ticket_lists.empty? and check==0 %>
-              <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-              Here will be display all the tickets you have made or have access to
-              </div>
-              <%check=1 %>
-            <%else %>
               <%if not ticket.assign_ticket.nil?  %>
                 <% if ticket.assign_ticket.user==current_user or ticket.ticket_list.user==current_user%>
                   <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
@@ -85,7 +82,6 @@
                   </div>
                 <%end  %>
               <%end  %>
-            <%end  %>
           <%end  %>
 
         <%elsif  current_user.Supervisor?  or current_user.Administrator?%>
@@ -152,7 +148,7 @@
   document.getElementById('searchbar').addEventListener('keyup', event => {
     inputbar = document.getElementById('searchbar').value;
     result = document.getElementById('results');
-    console.log(inputbar)
+    //console.log(inputbar)
     if (inputbar === "") {
       document.getElementById('results-menu').classList.remove('show');
     }

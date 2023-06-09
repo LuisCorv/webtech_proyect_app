@@ -16,9 +16,10 @@ class TicketsController < ApplicationController
     if current_user.Supervisor? or current_user.Administrator?
       redirect_to user_tickets_path(current_user), alert: "You can't create Tickets, only Users and Executives can."
       return
-    elsif current_user.Executive? and not params[:ticket_list_id].present?
+    elsif current_user.Executive? and  not params[:check_location].present?
       redirect_to user_tickets_path(current_user), alert: "You can only created tickets from your ticket list"
       return
+    
     elsif  current_user.User? 
       redirect_to user_tickets_path(current_user), alert: "You can't created tickets this way, you can only make them from your ticket list"
       return

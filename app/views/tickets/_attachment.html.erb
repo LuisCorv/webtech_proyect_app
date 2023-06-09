@@ -8,6 +8,8 @@
     <% elsif file.video?%>
         <%= video_tag(url_for(file), class:"message-video",controls: "")%>
     <% else%>
+        <p>
         <%= link_to file.filename, url_for(file), class:"message-file"%>
+        </p>
     <%end%>
 <% end%>

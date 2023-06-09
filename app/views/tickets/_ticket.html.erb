@@ -41,17 +41,12 @@
     <%end  %>
   </p>
 
+
+<%if (current_user.Supervisor? or current_user.Administrator?) or (not current_user.User? and current_user!=ticket.ticket_list.user) %>
   <p>
     <strong>Resolution date:</strong>
     <p>
     <%= ticket.resolution_date %>
-    </p>
-  </p>
-
-  <p>
-    <strong>Response to user date:</strong>
-    <p>
-    <%= ticket.response_to_user_date %>
     </p>
   </p>
 
@@ -83,10 +78,21 @@
     </p>
   </p>
 
+<%end  %>
+
+
+<%if (current_user.Supervisor? or current_user.Administrator?) or (ticket.response_key=="Response Done" and current_user==ticket.ticket_list.user)%>
   <p>
     <strong>Response to user:</strong>
     <p>
     <%= ticket.response_to_user %>
+    </p>
+  </p>
+
+    <p>
+    <strong>Response to user date:</strong>
+    <p>
+    <%= ticket.response_to_user_date %>
     </p>
   </p>
 
@@ -104,6 +110,11 @@
     </p>
   </p>
 
+<%end %>
+
+
+<%if (current_user.Supervisor? or current_user.Administrator?) or (not current_user.User? and current_user!=ticket.ticket_list.user) %>
+
   <p>
     <strong>Limit time response:</strong>
     <p>
@@ -118,6 +129,7 @@
     </p>
   </p>
 
+<%end  %>
   <p>
     <strong>Attached Files:</strong>
     <%if ticket.files.empty? %>
