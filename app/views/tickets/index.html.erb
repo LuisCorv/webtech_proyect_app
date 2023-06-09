@@ -42,6 +42,12 @@
               </p>
               </div>
             <%end  %>
+          <%else  %>
+            <%if ticket.ticket_list.user==current_user%>
+              <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+                <%= render ticket %>
+              </div>
+              <%end  %>
           <%end  %>
         
           
@@ -110,15 +116,11 @@
 <%if not current_user.nil?%>
   <%if current_user.User? and params[:ticket_list_id].present? %>
     <p>
-      <%= link_to "New ticket", new_user_ticket_list_ticket_path %>
-      <br>
       <%= link_to "Back to Ticket List", user_ticket_list_path(current_user.id,params[:ticket_list_id])%>
     </p>
   <%elsif current_user.Executive?  %>
     <p>
       <% if params[:ticket_list_id].present?%>
-        <%= link_to "New ticket", new_user_ticket_list_ticket_path %>
-        <br>
         <%= link_to "Back to Ticket List", user_ticket_list_path(current_user.id,params[:ticket_list_id])%>
       <%elsif params[:assign_ticket_id].present?  %>
         <%= link_to "Back to Assign Ticket", user_assign_ticket_path(current_user.id,params[:assign_ticket_id])%>

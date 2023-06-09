@@ -11,80 +11,145 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
-  </div>
+  <%if (current_user.User? or current_user.Executive?)%>
+    <%if not form.object.ticket_list.nil? %>
+      <%if current_user==form.object.ticket_list.user  %>
+        <div>
+          <%= form.label :title, style: "display: block" %>
+          <%= form.text_field :title %>
+        </div>
 
-  <div>
-    <%= form.label :incident_description, style: "display: block" %>
-    <%= form.text_area :incident_description %>
-  </div>
+        <div>
+          <%= form.label :incident_description, style: "display: block" %>
+          <%= form.text_area :incident_description %>
+        </div>
 
-  <div>
-    <%= form.label :creation_date, style: "display: block" %>
-    <%= form.datetime_field :creation_date, value: Time.current, readonly: true%>
-  </div>
+        <div>
+          <%= form.label :creation_date, style: "display: block" %>
+          <%= form.datetime_field :creation_date, value: Time.current, readonly: true%>
+        </div>
+      <%end  %>
+    <%else  %>
+      <div>
+        <%= form.label :title, style: "display: block" %>
+        <%= form.text_field :title %>
+      </div>
 
-  <div>
-    <%= form.label :resolution_date, style: "display: block" %>
-    <%= form.datetime_field :resolution_date %>
-  </div>
+      <div>
+        <%= form.label :incident_description, style: "display: block" %>
+        <%= form.text_area :incident_description %>
+      </div>
 
-  <div>
-    <%= form.label :response_to_user_date, style: "display: block" %>
-    <%= form.datetime_field :response_to_user_date %>
-  </div>
+      <div>
+        <%= form.label :creation_date, style: "display: block" %>
+        <%= form.datetime_field :creation_date, value: Time.current, readonly: true%>
+      </div>
+    <%end  %>
+    
+  <%end %>
 
-  <div >
-      <%= form.label :priority, style: "display: block"%>
-      <%= form.select :priority, Ticket.priorities.keys %>
-  </div>
+  <%if (current_user.Supervisor? or current_user.Administrator?)%>
 
-   <div >
-      <%= form.label :state, style: "display: block"%>
-      <%= form.select :state, Ticket.states.keys %>
-  </div>
+    <div >
+        <%= form.label :priority, style: "display: block"%>
+        <%= form.select :priority, Ticket.priorities.keys %>
+    </div>
 
-  <div >
-      <%= form.label :resolution_key, style: "display: block"%>
-      <%= form.select :resolution_key, Ticket.resolution_keys.keys %>
-  </div>
+    <div >
+        <%= form.label :state, style: "display: block"%>
+        <%= form.select :state, Ticket.states.keys %>
+        <%# Hacer que pueda ser cambiado a reopen, solo si es que ya estaba cerrado %>
+    </div>
 
-  <div >
-      <%= form.label :response_key, style: "display: block"%>
-      <%= form.select :response_key, Ticket.response_keys.keys %>
-  </div>
-  <div>
-    <%= form.label :response_to_user, style: "display: block" %>
-    <%= form.text_area :response_to_user %>
-  </div>
+    <div >
+      <%# Cambiar el resolution key nuevamente a "Resolution Pending" %>
+        <%= form.label :resolution_key, style: "display: block"%>
+        <%= form.select :resolution_key, Ticket.resolution_keys.keys %>
+    </div>
 
-  <div >
-      <%= form.label :accept_or_reject_solution, style: "display: block"%>
-      <%= form.select :accept_or_reject_solution, Ticket.accept_or_reject_solutions.keys %>
-  </div>
-
-  <div>
-    <%= form.label :star_number, style: "display: block" %>
-    <%= form.select :star_number, (0..5).to_a %>
-  </div>
-
-  <div>
-    <%= form.label :limit_time_response, style: "display: block" %>
-    <%= form.datetime_field :limit_time_response %>
-  </div>
-
-  <div>
-    <%= form.label :limit_time_resolution, style: "display: block" %>
-    <%= form.datetime_field :limit_time_resolution %>
-  </div>
+  <%elsif (current_user.Executive? and not form.object.assign_ticket.nil?)%>
 
 
-  <div>
-    <%= form.label :files, style: "display: block" %>
-    <%= form.file_field :new_files, multiple: true %>
-  </div>
+    <div>
+      <%= form.label :response_to_user, style: "display: block" %>
+      <%= form.text_area :response_to_user %>
+    </div>
+
+    <%# Hacer que response_key se vuelva "Response Done" si es que response_to_user tiene algo escrito(probablemente javascript) %>
+
+    <div >
+        <%= form.label :response_key, style: "display: block"%>
+        <%= form.select :response_key, Ticket.response_keys.keys %>
+    </div>
+
+    <div>
+      <%= form.label :response_to_user_date, style: "display: block" %>
+      <%= form.datetime_field :response_to_user_date,value: Time.current,readonly: true  %>
+    </div>
+
+    <%if  form.object.state== "Waiting State" %>
+      <div >
+          <%= form.label :state, style: "display: block"%>
+          <%= form.select :state, Ticket.states.keys,value: "Open" ,readonly: true%>
+      </div>
+    <%elsif (form.object.state.Open? or form.object.state.ReOpen? ) and form.object.resolution_key=="Resolution Done" %>
+      <div >
+          <%= form.label :state, style: "display: block"%>
+          <%= form.select :state, Ticket.states.keys,value: "Closed" ,readonly: true%>
+      </div>
+    <%end %>
+
+  <%end %>
+
+  <%if (current_user.User? and form.object.response_key=="Response Done")%>
+    <div >
+        <%= form.label :accept_or_reject_solution, style: "display: block"%>
+        <%= form.select :accept_or_reject_solution, Ticket.accept_or_reject_solutions.keys %>
+    </div>
+
+    <%# Hacer que se despliegue star_number si es que accept_reject es accept (probablemente javascript) %>
+    <div>
+      <%= form.label :star_number, style: "display: block" %>
+      <%= form.select :star_number, (0..5).to_a %>
+    </div>
+
+
+    <%# Hacer que resolution_key se vuelva "Resolution Done" si es que accept_reject es accept(probablemente javascript) %>
+    <div >
+        <%= form.label :resolution_key, style: "display: block"%>
+        <%= form.select :resolution_key, Ticket.resolution_keys.keys,readonly: true %>
+    </div>
+    <div>
+      <%= form.label :resolution_date, style: "display: block" %>
+      <%= form.datetime_field :resolution_date,value: Time.current,readonly: true %>
+    </div>
+
+
+  <%end  %>
+
+
+  <%if (current_user.Supervisor? or current_user.Administrator?)%>
+    <div>
+      <%= form.label :limit_time_response, style: "display: block" %>
+      <%= form.datetime_field :limit_time_response %>
+    </div>
+
+    <div>
+      <%= form.label :limit_time_resolution, style: "display: block" %>
+      <%= form.datetime_field :limit_time_resolution %>
+    </div>
+
+  <%end  %>
+
+
+  <%if (current_user.User? or current_user.Executive?)%>
+    <div>
+      <%= form.label :files, style: "display: block" %>
+      <%= form.file_field :new_files, multiple: true %>
+    </div>
+
+  <%end  %>
+
 
   <div>
     <%if params[:assign_ticket_id].present?  %>

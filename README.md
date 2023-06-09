@@ -1,19 +1,10 @@
 # Por Hacer
 
 
-
-Ticket edit 
-
-    -> delimitar los parametros que cada usuario puede modificar
-
-Ticket new 
-
-    -> delimitar los parametros que cada usuario puede modificar
-    -> Solo poder crear tickets desde ticketList
-
 Ticket _form  
 
     -> hacer fechas mas amigables para el usuario
+    -> Hacer que algunos parametros funcionen con dondicionales o se modifiquen automaticamente 'sin que se vean'
 
 User index 
 
@@ -51,8 +42,6 @@ Areglar las paginas ("views") a lo que se quiere hacer
     Hacer que se puedan eliminar archivos que se encuentren en el Ticket, si es que uno es el usuario
     (Para lograr el eliminar uno en especifico puede servir el @ticket.files.id_archivo.purge   -> el id_archivo puede ser mas cacho de obtener)
 
-
-### <ins>Delimitar el forms the Tickets, para que Usuarios,Executivos, Supervisores y Administradores no editen o crear lo que no deben</ins>
 
 Como modificar a otros usuarios siendo Admin y Supervisor
 

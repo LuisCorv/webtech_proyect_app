@@ -12,7 +12,7 @@
     <%elsif not params[:user_id].present?  %>
       <p>
       <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user.id,@ticket.ticket_list,@ticket) %> |
-      <%= link_to "Back to tickets", user_tickets_path %>
+      <%= link_to "Back to tickets", user_tickets_path(current_user) %>
       </p>
     <%end  %>
   <%elsif current_user.Executive?  %>
@@ -49,12 +49,12 @@
       <%= link_to "Check Chat", user_ticket_chats_path(current_user.id,@ticket) %>
     <p>
     <%= link_to "Edit this ticket", edit_user_ticket_path(current_user.id,@ticket) %> |
-      <%= link_to "Back to tickets", user_tickets_path %>
+      <%= link_to "Back to tickets", user_tickets_path(current_user) %>
     </p>
     
   <%end  %>
 
-  <%# Fix the destroy %>
+  <%# Make an alert to check if the user is sure to destroy%>
   <%= button_to "Destroy this ticket", @ticket, method: :delete %>
 </div>
 
