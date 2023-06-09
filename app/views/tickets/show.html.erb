@@ -3,12 +3,18 @@
 <%= render @ticket %>
 
 <div>
-  <%current_user= User.find(params[:user_id])%>
   <%if current_user.User? %>
-  <p>
-    <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],@ticket) %> |
-    <%= link_to "Back to tickets", user_ticket_list_tickets_path %>
-    </p>
+    <% if params[:ticket_list_id].present?%>
+      <p>
+      <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],@ticket) %> |
+      <%= link_to "Back to tickets", user_ticket_list_tickets_path %>
+      </p>
+    <%elsif not params[:user_id].present?  %>
+      <p>
+      <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user.id,@ticket.ticket_list,@ticket) %> |
+      <%= link_to "Back to tickets", user_tickets_path %>
+      </p>
+    <%end  %>
   <%elsif current_user.Executive?  %>
     <p>
     <% if params[:ticket_list_id].present?%>
@@ -22,6 +28,19 @@
       </p>
       <%= link_to "Edit this ticket", edit_user_assign_ticket_ticket_path(current_user.id,params[:assign_ticket_id],@ticket) %> |
       <%= link_to "Back to tickets", user_assign_ticket_tickets_path %>
+
+    <%elsif not params[:user_id].present?  %>
+      <p>
+      <%if @ticket.ticket_list.user ==current_user  %>
+        <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user.id,@ticket.ticket_list,@ticket) %> |
+         <%= link_to "Back to tickets", user_ticket_list_tickets_path(current_user,@ticket.ticket_list) %>
+      <%elsif  not @ticket.assign_ticket.nil?  %>
+        <%if @ticket.assign_ticket.user ==current_user  %>
+          <%= link_to "Edit this ticket", edit_user_assign_ticket_ticket_path(current_user.id,@ticket.assign_ticket,@ticket) %> |
+          <%= link_to "Back to tickets", user_assign_ticket_tickets_path(current_user,@ticket.assign_ticket) %>
+        <%end  %>
+      <%end  %>
+      </p>
 
     <%end  %>
       </p>

@@ -30,7 +30,9 @@ Ticket model
 
 Ticket index
 
-    Agregar la searchbar
+    Agregar la searchbar -> index agregar el input, una vez aprete 'enter' o 'buscar' redireccione a otra view, esta view llamemosla results.html.erb , en ella tenemos que desplegar los tickets que tengan user_mail, ticket_title o ticket_incident_description LIKE el input que se ingreso por la searchbar. Para obtener estos tickets, se tiene que hacer un nuevo metodo en el controlador de ticket (llamemoslo search), dentro de el se tiene que hacer una query para obtener los tickets 'similares' al input. Y ademas generar una vista (llamada search.html.erb) que tenga estos datos, para poder hacer el fetch a esta pagina.
+
+    Agregar los sorts a los tickets, esto quiere decir, que hayan 'botones' en esta view que permitan hacen dinamica la vista de los tickets (es decir trabajar con javascript). Estos sort tiene que ser de priority (urgent, high, normal, low), closing_date y response_date.
 
 User "rutas a otros modelos"
 

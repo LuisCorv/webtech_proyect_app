@@ -1,0 +1,54 @@
+<div id="datos">
+♦♦♦♦ Coincidences in ♦♦♦♦
+<% @ticket_title.each_with_index do |ticket, ticket_number| %>
+
+    <%if current_user.User? %>
+        <%if ticket.ticket_list.user==current_user%>
+            <% if ticket_number==0 %>
+                <li><%= link_to "•"+ticket.title, ticket, class: 'nav-link dropdown-item fw-bold' %></li>
+                
+            <% else %>
+                <li><%= link_to "•"+ticket.title, ticket, class: 'nav-link dropdown-item' %></li>
+                
+            <% end %>
+        <%end  %>
+
+    <%elsif current_user.Executive?  %>
+        <%if not ticket.assign_ticket.nil?%>
+            <%if ticket.ticket_list.user==current_user or ticket.assign_ticket.user==current_user%>
+                <% if ticket_number==0 %>
+                    <li><%= link_to "•"+ticket.title, ticket, class: 'nav-link dropdown-item fw-bold' %></li>
+                    
+                <% else %>
+                    <li><%= link_to "•"+ticket.title, ticket, class: 'nav-link dropdown-item' %></li>
+                    
+                <% end %>
+            <%end  %>
+        <%else  %>
+            <%if ticket.ticket_list.user==current_user%>
+                <% if ticket_number==0 %>
+                    <li><%= link_to "•"+ticket.title, ticket, class: 'nav-link dropdown-item fw-bold' %></li>
+                    
+                <% else %>
+                    <li><%= link_to "•"+ticket.title, ticket, class: 'nav-link dropdown-item' %></li>
+                    
+                <% end %>
+            <%end  %>
+        <%end %>
+
+    <%elsif  current_user.Supervisor?  or current_user.Administrator?%>
+         <% if ticket_number==0 %>
+            <li><%= link_to "•"+ticket.title, ticket, class: 'nav-link dropdown-item fw-bold' %></li>
+            
+        <% else %>
+            <li><%= link_to "•"+ticket.title, ticket, class: 'nav-link dropdown-item' %></li>
+            
+        <% end %>
+    <%end  %>
+     
+    
+    <% if ticket_number==4 %>
+        <% break %>
+    <% end %>
+<% end %>
+</div>

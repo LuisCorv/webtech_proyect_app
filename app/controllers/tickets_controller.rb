@@ -121,6 +121,7 @@ class TicketsController < ApplicationController
     end
   end
 
+
   def ticket_report
     if  not current_user.Supervisor? and  not current_user.Administrator?
       redirect_to user_tickets_path(current_user), alert: "You can't access the ticket report"
@@ -136,6 +137,10 @@ class TicketsController < ApplicationController
     end
   end
 
+  def search
+    @query = params[:query]
+    @ticket_title =Ticket.joins(ticket_list: :user).where("tickets.title ILIKE :query OR tickets.incident_description ILIKE :query OR users.email ILIKE :query", query: "%#{@query}%")
+  end
 
   private
 

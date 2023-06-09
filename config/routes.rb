@@ -13,10 +13,12 @@ Rails.application.routes.draw do
 
   
 
+  get '/tickets/search', to: 'tickets#search'
   resources :users do
 
     resources :ticket_lists do
-      resources :tickets
+      resources :tickets 
+
     end
 
     resources :assign_tickets do
