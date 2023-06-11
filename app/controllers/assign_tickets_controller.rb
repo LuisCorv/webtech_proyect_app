@@ -37,9 +37,9 @@ class AssignTicketsController < ApplicationController
   # POST /assign_tickets or /assign_tickets.json
   def create
     @assign_ticket = AssignTicket.new(assign_ticket_params)
-
     respond_to do |format|
       if @assign_ticket.save
+        @assign_ticket.ticket.update(state:"Open")
         format.html { redirect_to assign_ticket_url(@assign_ticket), notice: "Assign ticket was successfully created." }
         format.json { render :show, status: :created, location: @assign_ticket }
       else

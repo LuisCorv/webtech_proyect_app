@@ -1,11 +1,6 @@
 # Por Hacer
 
 
-Ticket _form  
-
-    -> hacer fechas mas amigables para el usuario
-    -> Hacer que algunos parametros funcionen con condicionales o se modifiquen automaticamente 'sin que se vean'
-
 User index 
 
     -> Habilitar la opcion de editar otros usuarios(User, Executive y/o SUpervisor), si el current_user es admin o supervisor.

@@ -37,6 +37,12 @@ class TicketsController < ApplicationController
   # POST /tickets or /tickets.json
   def create
     @ticket = Ticket.new(ticket_params)
+
+    @ticket.creation_date=Time.current
+    @ticket.response_to_user_date=Time.current
+    @ticket.resolution_date=Time.current
+    @ticket.limit_time_response=Time.current
+    @ticket.limit_time_response=Time.current
     
     @ticket.files.attach(params[:ticket][:new_files]) if params[:ticket][:new_files].present?
     
@@ -63,26 +69,65 @@ class TicketsController < ApplicationController
 
   # PATCH/PUT /tickets/1 or /tickets/1.json
   def update
+      parameter=ticket_params
+      time_limit_hour="23:59:59.999999999"
 
+      if (parameter[:limit_time_response].present?)
+        if (parameter[:limit_time_response]!=@ticket.limit_time_response.to_date) and (parameter[:limit_time_resolution]!=@ticket.limit_time_resolution.to_date)
+          parameter[:limit_time_response]= "#{parameter[:limit_time_response]} #{time_limit_hour}"
+          parameter[:limit_time_resolution]= "#{parameter[:limit_time_resolution]} #{time_limit_hour}"
+
+        elsif parameter[:limit_time_response]!=@ticket.limit_time_response.to_date
+          
+          parameter[:limit_time_response]= "#{parameter[:limit_time_response]} #{time_limit_hour}"
+
+        elsif parameter[:limit_time_resolution]!=@ticket.limit_time_resolution.to_date
+
+          parameter[:limit_time_resolution]= "#{parameter[:limit_time_resolution]} #{time_limit_hour}"
+
+        end
+      end
+
+
+      if (parameter[:response_to_user].present?)
+        if not parameter[:response_to_user].empty?
+          parameter[:response_key]="Response Done"
+          parameter[:response_to_user_date]=Time.current
+        end
+      end
+
+      if (parameter[:accept_or_reject_solution].present?)
+        if parameter[:accept_or_reject_solution]=="Accept"
+          parameter[:state]="Closed"
+        end
+      end
+
+      if (parameter[:state].present?)
+        if parameter[:state]=="Closed"
+          parameter[:resolution_key]="Resolution Done"
+          parameter[:resolution_date]=Time.current
+        end
+      end
+     
     
-      if @ticket.update(ticket_params)
+      if @ticket.update(parameter)
         @ticket.files.attach(params[:ticket][:new_files]) if params[:ticket][:new_files].present?
 
         if current_user.Executive? 
           assign_or_list=(params[:ticket][:assign_list_nothing]).split(" ")
           if assign_or_list[0]=="assign"
-            redirect_to user_assign_ticket_ticket_path(current_user,@ticket.assign_ticket,@ticket), notice: "Ticket was successfully created." 
+            redirect_to user_assign_ticket_ticket_path(current_user,@ticket.assign_ticket,@ticket), notice: "Ticket was successfully updated." 
             return
           elsif assign_or_list[0]=="list"
-            redirect_to user_ticket_list_ticket_path(current_user,@ticket.ticket_list,@ticket), notice: "Ticket was successfully created." 
+            redirect_to user_ticket_list_ticket_path(current_user,@ticket.ticket_list,@ticket), notice: "Ticket was successfully updated." 
             return
           end  
         elsif current_user.User?
-          redirect_to user_ticket_list_ticket_path(current_user,@ticket.ticket_list,@ticket), notice: "Ticket was successfully created."
+          redirect_to user_ticket_list_ticket_path(current_user,@ticket.ticket_list,@ticket), notice: "Ticket was successfully updated."
           return
         
         elsif current_user.Supervisor? or current_user.Administrator?
-          redirect_to user_ticket_path(current_user,@ticket), notice: "Ticket was successfully created."
+          redirect_to user_ticket_path(current_user,@ticket), notice: "Ticket was successfully updated."
           return
         end
       else

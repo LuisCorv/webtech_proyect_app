@@ -23,12 +23,8 @@
           <%= form.label :incident_description, style: "display: block" %>
           <%= form.text_area :incident_description %>
         </div>
-
-        <div>
-          <%= form.label :creation_date, style: "display: block" %>
-          <%= form.datetime_field :creation_date, value: Time.current, readonly: true%>
-        </div>
       <%end  %>
+
     <%else  %>
       <div>
         <%= form.label :title, style: "display: block" %>
@@ -38,11 +34,6 @@
       <div>
         <%= form.label :incident_description, style: "display: block" %>
         <%= form.text_area :incident_description %>
-      </div>
-
-      <div>
-        <%= form.label :creation_date, style: "display: block" %>
-        <%= form.datetime_field :creation_date, value: Time.current, readonly: true%>
       </div>
     <%end  %>
     
@@ -54,18 +45,27 @@
         <%= form.label :priority, style: "display: block"%>
         <%= form.select :priority, Ticket.priorities.keys %>
     </div>
-
+  
     <div >
+      <%if  form.object.state=="Open"  %>
+
         <%= form.label :state, style: "display: block"%>
-        <%= form.select :state, Ticket.states.keys %>
-        <%# Hacer que pueda ser cambiado a reopen, solo si es que ya estaba cerrado %>
+        <%= form.select :state, Ticket.states.except(:"Waiting State", :ReOpen).keys %>
+
+      <%elsif form.object.state=="Closed"  %>
+
+        <%= form.label :state, style: "display: block"%>
+        <%= form.select :state, Ticket.states.except(:"Waiting State", :Open).keys %>
+
+      <%elsif form.object.state=="ReOpen" %>
+
+         <%= form.label :state, style: "display: block"%>
+        <%= form.select :state, Ticket.states.except(:"Waiting State", :Open).keys %>
+
+      <%end  %>
     </div>
 
-    <div >
-      <%# Cambiar el resolution key nuevamente a "Resolution Pending" %>
-        <%= form.label :resolution_key, style: "display: block"%>
-        <%= form.select :resolution_key, Ticket.resolution_keys.keys %>
-    </div>
+    
 
   <%elsif (current_user.Executive? and not form.object.assign_ticket.nil?)%>
 
@@ -73,18 +73,6 @@
     <div>
       <%= form.label :response_to_user, style: "display: block" %>
       <%= form.text_area :response_to_user %>
-    </div>
-
-    <%# Hacer que response_key se vuelva "Response Done" si es que response_to_user tiene algo escrito(probablemente javascript) %>
-
-    <div >
-        <%= form.label :response_key, style: "display: block"%>
-        <%= form.select :response_key, Ticket.response_keys.keys %>
-    </div>
-
-    <div>
-      <%= form.label :response_to_user_date, style: "display: block" %>
-      <%= form.datetime_field :response_to_user_date,value: Time.current,readonly: true  %>
     </div>
 
     <%if  form.object.state== "Waiting State" %>
@@ -114,29 +102,18 @@
     </div>
 
 
-    <%# Hacer que resolution_key se vuelva "Resolution Done" si es que accept_reject es accept(probablemente javascript) %>
-    <div >
-        <%= form.label :resolution_key, style: "display: block"%>
-        <%= form.select :resolution_key, Ticket.resolution_keys.keys,readonly: true %>
-    </div>
-    <div>
-      <%= form.label :resolution_date, style: "display: block" %>
-      <%= form.datetime_field :resolution_date,value: Time.current,readonly: true %>
-    </div>
-
-
   <%end  %>
 
 
   <%if (current_user.Supervisor? or current_user.Administrator?)%>
     <div>
       <%= form.label :limit_time_response, style: "display: block" %>
-      <%= form.datetime_field :limit_time_response %>
+      <%= form.datetime_field :limit_time_response,  value: form.object.limit_time_response.to_date, placeholder:"YYYY/MM/DD"%>
     </div>
 
     <div>
       <%= form.label :limit_time_resolution, style: "display: block" %>
-      <%= form.datetime_field :limit_time_resolution %>
+      <%= form.datetime_field :limit_time_resolution, value: form.object.limit_time_resolution.to_date, placeholder:"YYYY/MM/DD"%>
     </div>
 
   <%end  %>

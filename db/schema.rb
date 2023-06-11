@@ -102,18 +102,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_133253) do
   create_table "tickets", force: :cascade do |t|
     t.string "title", null: false
     t.text "incident_description", null: false
-    t.datetime "creation_date", default: "2023-06-09 16:56:44", null: false
-    t.datetime "resolution_date", default: "2023-06-09 16:56:44", null: false
-    t.datetime "response_to_user_date", default: "2023-06-09 16:56:44", null: false
+    t.datetime "creation_date", default: "2023-06-11 17:32:36", null: false
+    t.datetime "resolution_date", default: "2023-06-11 17:32:36", null: false
+    t.datetime "response_to_user_date", default: "2023-06-11 17:32:36", null: false
     t.integer "priority", default: 0, null: false
     t.integer "state", default: 0, null: false
     t.integer "resolution_key", default: 0, null: false
     t.integer "response_key", default: 0, null: false
-    t.text "response_to_user", default: " ", null: false
+    t.text "response_to_user", default: "", null: false
     t.integer "accept_or_reject_solution", default: 0, null: false
     t.integer "star_number", default: 6, null: false
-    t.datetime "limit_time_response", default: "2023-06-09 16:56:44", null: false
-    t.datetime "limit_time_resolution", default: "2023-06-09 16:56:44", null: false
+    t.datetime "limit_time_response", default: "2023-06-11 17:32:36", null: false
+    t.datetime "limit_time_resolution", default: "2023-06-11 17:32:36", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
