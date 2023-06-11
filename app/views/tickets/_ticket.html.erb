@@ -23,7 +23,7 @@
   <p>
     <strong>Creation date:</strong>
     <p>
-    <%= ticket.creation_date %>
+    <%= ticket.creation_date.strftime("%e/%m/%Y") %>
     </p>
   </p>
 
@@ -46,7 +46,7 @@
   <p>
     <strong>Resolution date:</strong>
     <p>
-    <%= ticket.resolution_date %>
+    <%= ticket.resolution_date.strftime("%e/%m/%Y") %>
     </p>
   </p>
 
@@ -92,7 +92,7 @@
     <p>
     <strong>Response to user date:</strong>
     <p>
-    <%= ticket.response_to_user_date %>
+    <%= ticket.response_to_user_date.strftime("%e/%m/%Y") %>
     </p>
   </p>
 
@@ -118,14 +118,14 @@
   <p>
     <strong>Limit time response:</strong>
     <p>
-    <%= ticket.limit_time_response %>
+    <%= ticket.limit_time_response.strftime("%e/%m/%Y") %>
     </p>
   </p>
 
   <p>
     <strong>Limit time resolution:</strong>
     <p>
-    <%= ticket.limit_time_resolution %>
+    <%= ticket.limit_time_resolution.strftime("%e/%m/%Y") %>
     </p>
   </p>
 

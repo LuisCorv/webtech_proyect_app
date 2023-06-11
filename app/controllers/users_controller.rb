@@ -12,6 +12,9 @@ class UsersController < ApplicationController
 
   # GET /users/1 or /users/1.json
   def show
+    if current_user.Supervisor? and @user.profile=="Administrator"
+      redirect_to users_url, alert: "You can see or edit the administrator personal information"
+    end
   end
 
   # GET /users/new

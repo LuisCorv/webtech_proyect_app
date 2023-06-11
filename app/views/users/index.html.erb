@@ -8,7 +8,11 @@
   <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
     <%= render user %>
     <p>
-      <%= link_to "Show this user", user %>
+      <%if current_user.Supervisor? and user.profile!="Administrator" %>
+        <%= link_to "Show this user", user %>
+      <%elsif current_user.Administrator? %>
+        <%= link_to "Show this user", user %>
+      <%end  %>
     </p>
     </div>
     <br>

@@ -20,7 +20,8 @@ class TicketsController < ApplicationController
       redirect_to user_tickets_path(current_user), alert: "You can only created tickets from your ticket list"
       return
     
-    elsif  current_user.User? 
+    elsif  current_user.User? and  not params[:check_location].present?
+      # Ajustar esta parte para que userpueda crear tickets a trave de ticket_list
       redirect_to user_tickets_path(current_user), alert: "You can't created tickets this way, you can only make them from your ticket list"
       return
     end

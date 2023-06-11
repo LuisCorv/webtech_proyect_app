@@ -9,16 +9,25 @@
 
 <div id="assign_tickets">
   <% @assign_tickets.each do |assign_ticket| %>
-  <%if User.find(assign_ticket.user_id) == current_user  %>
-  <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-    <% @user_assign_ticket_example= assign_ticket  %>
-    <%= render assign_ticket %>
-    <p>
-      <%= link_to "Show this assign ticket", user_assign_ticket_path(current_user,assign_ticket) %>
-    </p>
-    </div>
-    <br>
-  <%end  %>
+    <%if User.find(assign_ticket.user_id) == current_user  %>
+      <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+        <% @user_assign_ticket_example= assign_ticket  %>
+        <%= render assign_ticket %>
+        <p>
+          <%= link_to "Show this assign ticket", user_assign_ticket_path(current_user,assign_ticket) %>
+        </p>
+        </div>
+        <br>
+    <%elsif current_user.Supervisor? or current_user.Administrator?  %>
+      <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+       <%= render assign_ticket %>
+        <p>
+          <%= link_to "Show this assign ticket", assign_ticket_path(assign_ticket) %>
+        </p>
+      </div>
+      <br>
+    <%end  %>
+
   <% end %>
 </div>
 
@@ -26,7 +35,10 @@
   <%if not @user_assign_ticket_example.nil?  %>
   <%= link_to "See All Tickets", user_assign_ticket_tickets_path(current_user,@user_assign_ticket_example) %>
   <%end  %>
-<%= link_to "New assign ticket",new_user_assign_ticket_path %>
+
+<%if current_user.Supervisor? or current_user.Administrator? %>
+  <%= link_to "New assign ticket",new_assign_ticket_path %>
+<%end %>
 <%= link_to "Back to the user", user_path(current_user)%>
 <%= link_to "Back to Home Page", "/"%>
 </div>

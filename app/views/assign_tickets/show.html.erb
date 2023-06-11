@@ -9,8 +9,6 @@
   <%= link_to "Edit this assign ticket", edit_user_assign_ticket_path(current_user,@assign_ticket) %> |
   <%= link_to "See Ticket info", user_assign_ticket_ticket_path(current_user,@assign_ticket, @assign_ticket.ticket) %>|
   <%= link_to "Back to assign tickets", user_assign_tickets_path(current_user) %>
-
-  <%= button_to "Destroy this assign ticket", user_assign_tickets_path(current_user), method: :delete %>
 </div>
 
 </div>

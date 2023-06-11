@@ -4,7 +4,7 @@
 Ticket _form  
 
     -> hacer fechas mas amigables para el usuario
-    -> Hacer que algunos parametros funcionen con dondicionales o se modifiquen automaticamente 'sin que se vean'
+    -> Hacer que algunos parametros funcionen con condicionales o se modifiquen automaticamente 'sin que se vean'
 
 User index 
 
@@ -23,13 +23,6 @@ User "rutas a otros modelos"
 
     -> Hacer que si el current_user es Supervisor o Administrator, y este 'ingresa' a traves de otro usuario de la tabla User. Ellos puedan acceder al index , show, back y 'next' de esos usuarios
 
-User Administrator y Supervisor
-
-    -> Agregar un metodo que permita editar y crear AssignTickets en el index de AssignTicket
-
-    ->Agregar un boton para ingresar al AssignTicket index desde el show del user (Similar al de "See all tickets")
-
-Arregalr el link de "new assign ticket" para los executivos, para que no salga
 
 ### <ins>Arreglar los botones de destroy de todas las paginas</ins>
 

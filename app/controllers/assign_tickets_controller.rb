@@ -13,9 +13,12 @@ class AssignTicketsController < ApplicationController
 
   # GET /assign_tickets/new
   def new
-
-    if current_user.Executive? or current_user.User? 
-      redirect_to user_tickets_path(current_user), alert: "You can't created assign tickets, only Supervisor and Administrators can"
+    
+    if current_user.User? 
+      redirect_to user_tickets_path(current_user), alert: "You can't assign tickets, because you are a User, and not support staff"
+      return
+    elsif current_user.Executive?
+      redirect_to user_assign_tickets_path(current_user), alert: "You can't created assign tickets, only Supervisor and Administrators can"
       return
     end
 

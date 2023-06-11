@@ -16,19 +16,8 @@
     <% if user_signed_in? %>
       <%= render 'layouts/navbar' %>
     <%end  %>
-
     <br>
-   <% flash.each do |type, msg| %>
-      <% if type == "notice" %>
-        <div class="alert alert-success text-black text-center">
-      <% elsif type == "alert" %>
-        <div class="alert alert-danger text-black text-center">
-      <% else %>
-        <div class='alert alert-<%= "#{type}" %> text-black text-center'>
-      <% end %>
-      <h2><%= msg %></h2>
-      </div>
-    <% end %>
+    <%=render partial:"layouts/flash"  %>
 
     <%= yield %>
   </body>
