@@ -10,10 +10,6 @@ Ticket model
 
     ->Agregar validacion del phone
 
-Ticket index
-
-    Agregar los sorts a los tickets, esto quiere decir, que hayan 'botones' en esta view que permitan hacen dinamica la vista de los tickets (es decir trabajar con javascript). Estos sort tiene que ser de priority (urgent, high, normal, low), closing_date y response_date.
-
 User "rutas a otros modelos"
 
     -> Hacer que si el current_user es Supervisor o Administrator, y este 'ingresa' a traves de otro usuario de la tabla User. Ellos puedan acceder al index , show, back y 'next' de esos usuarios

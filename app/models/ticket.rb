@@ -17,10 +17,10 @@ class Ticket < ApplicationRecord
     validates :star_number, numericality: {only_integer: true ,in: 0..6}
 
     enum :priority, {
-        "Low Priority": 0,
-        "Normal Priority": 1,
-        "High Priority": 2,
-        "Urgent Priority": 3
+        Low: 0,
+        Normal: 1,
+        High: 2,
+        Urgent: 3
       }
     enum :state, {
         "Waiting State": 0,
@@ -41,4 +41,9 @@ class Ticket < ApplicationRecord
         Accept: 1,
         Decline: 2
     }
+
+
+    def tag_listing
+        tags.map{ |t| "✨  "+t.name+"  ✨"}
+    end
 end

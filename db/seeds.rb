@@ -90,11 +90,11 @@ ch=Chat.create [
 puts "Chat ready"
 
 cm=Comment.create [
-    {text:"buen ejemplo de comentario",writer:adm.name + " " + adm.last_name,chat:ch.first},
-    {text:"problema para el que sigue", writer:exe1.name + " " + exe1.last_name,chat:ch.second},
-    {text:"No deberias de decir eso",writer:sup.name + " " + sup.last_name,chat:ch.second},
-    {text:"otro ejemplo",writer:exe.name + " " + exe.last_name,chat:ch.last},
-    {text:"No se que responder",writer:exe1.name + " " + exe1.last_name,chat:ch.fourth}
+    {text:"buen ejemplo de comentario",writer:"⚙️ "+adm.name + " " + adm.last_name,chat:ch.first},
+    {text:"problema para el que sigue", writer:"🐾 "+exe1.name + " " + exe1.last_name,chat:ch.second},
+    {text:"No deberias de decir eso",writer:"🌀 "+sup.name + " " + sup.last_name,chat:ch.second},
+    {text:"otro ejemplo",writer:"🐾 "+exe.name + " " + exe.last_name,chat:ch.last},
+    {text:"No se que responder",writer:"🐾 "+exe1.name + " " + exe1.last_name,chat:ch.fourth}
 ]
 puts "Comments ready"
 

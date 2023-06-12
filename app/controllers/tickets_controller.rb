@@ -184,10 +184,12 @@ class TicketsController < ApplicationController
     end
   end
 
+
   def search
     @query = params[:query]
     @ticket_title =Ticket.joins(ticket_list: :user).where("tickets.title ILIKE :query OR tickets.incident_description ILIKE :query OR users.email ILIKE :query", query: "%#{@query}%")
   end
+
 
   private
 

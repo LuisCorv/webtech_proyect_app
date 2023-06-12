@@ -8,7 +8,7 @@
     <strong>Comments:</strong>
     <% chat.comments.each do |t| %>
     <ul>
-      <li><%= t.writer %>: <%= t.text %></li>
+      <li><%= t.display_comment %></li>
     </ul>
     <%end %>
   </p>

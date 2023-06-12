@@ -25,6 +25,14 @@ class CommentsController < ApplicationController
   def create
     @comment = Comment.new(comment_params)
 
+    if current_user.Executive?
+      @comment.writer="🐾 "+@comment.writer
+    elsif current_user.Supervisor?
+      @comment.writer="🌀 "+@comment.writer
+    elsif current_user.Administrator?
+      @comment.writer="⚙️ "+@comment.writer
+    end
+
       if @comment.save
         cha=Chat.find(params[:comment][:chat_id])
        
