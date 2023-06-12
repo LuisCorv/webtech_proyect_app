@@ -17,11 +17,13 @@ class PerformanceReportsController < ApplicationController
 
   # GET /performance_reports/1/edit
   def edit
+    redirect_to user_performance_reports_url(current_user), alert: "You can't edit a performance report"
   end
 
   # POST /performance_reports or /performance_reports.json
   def create
     @performance_report = PerformanceReport.new(performance_report_params)
+    @performance_report.report_date=Time.current
 
     respond_to do |format|
       if @performance_report.save

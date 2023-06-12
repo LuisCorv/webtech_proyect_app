@@ -1,19 +1,17 @@
-<p style="color: green"><%= notice %></p>
+
 
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 
 <%= render @performance_report %>
 
 <div>
-  <%current_user= User.find(params[:user_id])%>
   <%if  current_user.Supervisor?  or current_user.Administrator?  %>
-      <%= link_to "Edit this performance report", edit_user_performance_report_path(current_user.id,@performance_report) %> |
-      <%= link_to "Back to performance reports", user_performance_reports_path %>
+      <%= link_to "Back to performance reports", user_performance_reports_path(current_user), class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;' %>
     </p>
     
   <%end  %>
 
-  <%= button_to "Destroy this performance report", @performance_report, method: :delete %>
+  <%= button_to "Destroy this performance report", @performance_report, method: :delete, class:"btn btn-danger btn-sm mt-2" %>
 </div>
 
 

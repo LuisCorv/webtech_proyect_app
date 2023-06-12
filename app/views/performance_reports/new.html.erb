@@ -6,10 +6,9 @@
 <br>
 
 <div>
-  <%current_user= User.find(params[:user_id])%>
   <%if  current_user.Supervisor?  or current_user.Administrator?  %>
   <p>
-    <%= link_to "Back to performance reports", user_performance_reports_path %>
+    <%= link_to "Back to performance reports", user_performance_reports_path(current_user), class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;' %>
     </p>
   <%end%>
 

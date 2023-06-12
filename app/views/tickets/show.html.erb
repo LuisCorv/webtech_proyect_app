@@ -1,61 +1,57 @@
-<p style="color: green"><%= notice %></p>
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+
 <%= render @ticket, locals: {index: false} %>
 
 <div>
   <%if current_user.User? %>
     <% if params[:ticket_list_id].present?%>
-      <p>
-      <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],@ticket) %> |
-      <%= link_to "Back to tickets", user_ticket_list_tickets_path %>
-      </p>
+      <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],@ticket), class:"btn btn-sm btn-info", style:'margin-right: 10px;' %> 
+      <%= link_to "Back to tickets", user_ticket_list_tickets_path, class:"btn btn-sm btn-secondary", style:'margin-right: 10px;' %>
+
     <%elsif not params[:user_id].present?  %>
-      <p>
-      <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user.id,@ticket.ticket_list,@ticket) %> |
-      <%= link_to "Back to tickets", user_tickets_path(current_user) %>
-      </p>
+      <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user.id,@ticket.ticket_list,@ticket), class:"btn btn-sm btn-info", style:'margin-right: 10px;'  %> 
+      <%= link_to "Back to tickets", user_tickets_path(current_user), class:"btn btn-sm btn-secondary", style:'margin-right: 10px;'  %>
     <%end  %>
+
   <%elsif current_user.Executive?  %>
-    <p>
     <% if params[:ticket_list_id].present?%>
       <%# Can't check Tags or Chat in this option, beause its 'private' to the executives working in the ticket and Supervisor's and Administrator %>
-      <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],@ticket) %> |
-      <%= link_to "Back to tickets", user_ticket_list_tickets_path %>
+      <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],@ticket), class:"btn btn-sm btn-info", style:'margin-right: 10px;'  %> 
+      <%= link_to "Back to tickets", user_ticket_list_tickets_path, class:"btn btn-sm btn-secondary", style:'margin-right: 10px;'  %>
+    
     <%elsif  params[:assign_ticket_id].present? %>
-      <p>
-        <%= link_to "Check Tags", user_assign_ticket_ticket_tag_lists_path(current_user.id,params[:assign_ticket_id],@ticket) %>|
-        <%= link_to "Check Chat", user_assign_ticket_ticket_chats_path(current_user.id,params[:assign_ticket_id],@ticket) %>
-      </p>
-      <%= link_to "Edit this ticket", edit_user_assign_ticket_ticket_path(current_user.id,params[:assign_ticket_id],@ticket) %> |
-      <%= link_to "Back to tickets", user_assign_ticket_tickets_path %>
+     
+        <%= link_to "Check Tags", user_assign_ticket_ticket_tag_lists_path(current_user.id,params[:assign_ticket_id],@ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %>
+        <%= link_to "Check Chat", user_assign_ticket_ticket_chats_path(current_user.id,params[:assign_ticket_id],@ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;'  %>
+      
+      <%= link_to "Edit this ticket", edit_user_assign_ticket_ticket_path(current_user.id,params[:assign_ticket_id],@ticket), class:"btn btn-sm btn-info mt-2", style:'margin-right: 10px;'  %>
+      <%= link_to "Back to tickets", user_assign_ticket_tickets_path, class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;'  %>
 
     <%elsif not params[:user_id].present?  %>
-      <p>
+
       <%if @ticket.ticket_list.user ==current_user  %>
-        <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user.id,@ticket.ticket_list,@ticket) %> |
-         <%= link_to "Back to tickets", user_ticket_list_tickets_path(current_user,@ticket.ticket_list) %>
+        <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user.id,@ticket.ticket_list,@ticket), class:"btn btn-sm btn-info", style:'margin-right: 10px;'  %>
+         <%= link_to "Back to tickets", user_ticket_list_tickets_path(current_user,@ticket.ticket_list), class:"btn btn-sm btn-secondary", style:'margin-right: 10px;'  %>
       <%elsif  not @ticket.assign_ticket.nil?  %>
         <%if @ticket.assign_ticket.user ==current_user  %>
-          <%= link_to "Edit this ticket", edit_user_assign_ticket_ticket_path(current_user.id,@ticket.assign_ticket,@ticket) %> |
-          <%= link_to "Back to tickets", user_assign_ticket_tickets_path(current_user,@ticket.assign_ticket) %>
+          <%= link_to "Edit this ticket", edit_user_assign_ticket_ticket_path(current_user.id,@ticket.assign_ticket,@ticket), class:"btn btn-sm btn-info mt-2", style:'margin-right: 10px;'  %>
+          <%= link_to "Back to tickets", user_assign_ticket_tickets_path(current_user,@ticket.assign_ticket), class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;'  %>
         <%end  %>
       <%end  %>
-      </p>
 
     <%end  %>
-      </p>
   <%else  %>
-      <%= link_to "Check Tags", user_ticket_tag_lists_path(current_user.id,@ticket) %>|
-      <%= link_to "Check Chat", user_ticket_chats_path(current_user.id,@ticket) %>
-    <p>
-    <%= link_to "Edit this ticket", edit_user_ticket_path(current_user.id,@ticket) %> |
-      <%= link_to "Back to tickets", user_tickets_path(current_user) %>
-    </p>
+      <%= link_to "Check Tags", user_ticket_tag_lists_path(current_user.id,@ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %>
+      <%= link_to "Check Chat", user_ticket_chats_path(current_user.id,@ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %>
+
+    <%= link_to "Edit this ticket", edit_user_ticket_path(current_user.id,@ticket), class:"btn btn-sm btn-info mt-2", style:'margin-right: 10px;'  %>
+      <%= link_to "Back to tickets", user_tickets_path(current_user), class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;'  %>
+  
     
   <%end  %>
 
-  <%# Make an alert to check if the user is sure to destroy%>
-  <%= button_to "Destroy this ticket", @ticket, method: :delete %>
+
+  <%= button_to "Destroy this ticket", @ticket, method: :delete, class:"btn btn-danger btn-sm mt-2"%>
 </div>
 
 </div>

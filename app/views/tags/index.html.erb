@@ -1,6 +1,5 @@
-<p style="color: green"><%= notice %></p>
 
-<%current_user= User.find(params[:user_id])%>
+
 <%current_ticket= Ticket.find(params[:ticket_id])%>
 <%current_taglist= TagList.find(params[:tag_list_id])%>
 
@@ -19,16 +18,16 @@
       <%if current_user.Executive?  %>
         <% if params[:ticket_list_id].present?%>
           <p>
-            <%= link_to "Show this tag ", user_ticket_list_ticket_tag_list_tag_path(current_user,current_ticket.ticket_list,current_ticket,current_taglist,tag) %>
+            <%= link_to "Tag detaills ", user_ticket_list_ticket_tag_list_tag_path(current_user,current_ticket.ticket_list,current_ticket,current_taglist,tag), class:"btn btn-warning mt-2" %>
           </p>
         <%else  %>
            <p>
-            <%= link_to "Show this tag ", user_assign_ticket_ticket_tag_list_tag_path(current_user,current_ticket.assign_ticket,current_ticket,current_taglist,tag) %>
+            <%= link_to "Tag detaills", user_assign_ticket_ticket_tag_list_tag_path(current_user,current_ticket.assign_ticket,current_ticket,current_taglist,tag), class:"btn btn-warning mt-2" %>
           </p>
         <%end  %>
       <%elsif current_user.Supervisor? or current_user.Administrator? %>
         <p>
-          <%= link_to "Show this tag ", user_ticket_tag_list_tag_path(current_user,current_ticket,current_taglist,tag) %>
+          <%= link_to "Tag detaills", user_ticket_tag_list_tag_path(current_user,current_ticket,current_taglist,tag), class:"btn btn-warning mt-2" %>
         </p>
 
       <%end  %>
@@ -41,28 +40,28 @@
 </div>
 
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+<p class="mx-auto text-center", style="display: flex; flex-wrap: wrap;">
 
 
 <%if current_user.Executive?  %>
   <% if params[:ticket_list_id].present?%>
-  <p>
-    <%= link_to "New tag ", new_user_ticket_list_ticket_tag_list_tag_path %>|
-    <%= link_to "Back to tag list", user_ticket_list_ticket_tag_list_path(current_user,current_ticket.ticket_list,current_ticket,current_taglist)%>
-  </p>
+    <%= link_to "New tag ", new_user_ticket_list_ticket_tag_list_tag_path, class:"btn btn-success mt-2", style:'margin-right: 10px;' %>
+    <%= link_to "Back to tag list", user_ticket_list_ticket_tag_list_path(current_user,current_ticket.ticket_list,current_ticket,current_taglist), class:"btn btn-secondary mt-2", style:'margin-right: 10px;'%>
+
   <%else  %>
-  <p>
-    <%= link_to "New tag ", new_user_assign_ticket_ticket_tag_list_tag_path %>|
-    <%= link_to "Back to tag list", user_assign_ticket_ticket_tag_list_path(current_user,current_ticket.assign_ticket,current_ticket,current_taglist)%>
-  </p>
+
+    <%= link_to "New tag ", new_user_assign_ticket_ticket_tag_list_tag_path, class:"btn btn-success mt-2", style:'margin-right: 10px;' %>
+    <%= link_to "Back to tag list", user_assign_ticket_ticket_tag_list_path(current_user,current_ticket.assign_ticket,current_ticket,current_taglist), class:"btn btn-secondary mt-2", style:'margin-right: 10px;'%>
+ 
   <%end  %>
 
 <%elsif current_user.Supervisor? or current_user.Administrator? %>
-  <p>
-    <%= link_to "New tag", new_user_ticket_tag_list_tag_path %>|
-    <%= link_to "Back to tag list", user_ticket_tag_list_path(current_user,current_ticket,current_taglist)%>
-  </p>
+ 
+    <%= link_to "New tag", new_user_ticket_tag_list_tag_path , class:"btn btn-success mt-2", style:'margin-right: 10px;'%>
+    <%= link_to "Back to tag list", user_ticket_tag_list_path(current_user,current_ticket,current_taglist), class:"btn btn-secondary mt-2", style:'margin-right: 10px;'%>
+  
 <%end  %>
 
-<%= link_to "Back to Home Page", "/"%>
-
+<%= link_to "Back to Home Page", root_path, class:"btn btn-outline-dark mt-2" , style:'margin-right: 10px;'%>
+<p>
 </div>

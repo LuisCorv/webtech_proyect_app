@@ -9,20 +9,19 @@
     <%= render user %>
     <p>
       <%if current_user.Supervisor? and user.profile!="Administrator" %>
-        <%= link_to "Show this user", user %>
+        <%= link_to "Show this user", user, class:"btn btn-warning mt-2" %>
       <%elsif current_user.Administrator? %>
-        <%= link_to "Show this user", user %>
+        <%= link_to "Show this user", user, class:"btn btn-warning mt-2" %>
       <%end  %>
     </p>
     </div>
     <br>
   <% end %>
 </div>
- <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-<%= link_to "New user", new_user_path %>
-</div>
 
 <br>
  <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-<%= link_to "Back to Home Page", "/"%>
+ <p class="mx-auto text-center", style="display: flex; flex-wrap: wrap;"> 
+      <%= link_to "Back to Home Page", root_path ,class:"btn btn-outline-secondary"%>
+  </p>
 </div>

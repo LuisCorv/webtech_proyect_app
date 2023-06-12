@@ -9,29 +9,29 @@
   <%if current_user.User? %>
     <% if params[:ticket_list_id].present?%>
     <p>
-      <%= link_to "Back to tickets", user_ticket_list_tickets_path %>
+      <%= link_to "Back to tickets", user_ticket_list_tickets_path, class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;' %>
       </p>
     <%else  %>
       <p>
-      <%= link_to "Back to ticket list", user_ticket_lists_path %>
+      <%= link_to "Back to ticket list", user_ticket_lists_path, class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;' %>
       </p>
     <%end  %>
   <%elsif current_user.Executive?  %>
     <p>
     <% if params[:ticket_list_id].present?%>
-      <%= link_to "Back to tickets", user_ticket_list_tickets_path %>
+      <%= link_to "Back to tickets", user_ticket_list_tickets_path, class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;' %>
     <%elsif params[:assign_ticket_id].present?  %>
-      <%= link_to "Back to tickets", user_assign_ticket_tickets_path %>
+      <%= link_to "Back to tickets", user_assign_ticket_tickets_path, class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;' %>
 
     <%else  %>
       <p>
-        <%= link_to "Back to tickets", user_tickets_path(current_user) %>
+        <%= link_to "Back to tickets", user_tickets_path(current_user), class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;' %>
         </p>
     <%end  %>
       </p>
   <%else  %>
   <p>
-    <%= link_to "Back to tickets", user_tickets_path %>
+    <%= link_to "Back to tickets", user_tickets_path, class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;' %>
     </p>
   <%end%>
 </div>

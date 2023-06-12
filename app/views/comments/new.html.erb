@@ -9,21 +9,22 @@
 <%current_ticket= Ticket.find(params[:ticket_id])%>
 <%current_chat= Chat.find(params[:chat_id])%>
 
+<p class="mx-auto text-center", style="display: flex; flex-wrap: wrap;">
 <%if current_user.Executive?  %>
         <% if params[:ticket_list_id].present?%>
-          <p>
-            <%= link_to "Back to comments", user_ticket_list_ticket_chat_comments_path(current_user,params[:ticket_list_id],current_ticket,current_chat) %>          
-            </p>
+      
+            <%= link_to "Back to comments", user_ticket_list_ticket_chat_comments_path(current_user,params[:ticket_list_id],current_ticket,current_chat), class:"btn btn-sm btn-secondary mt-2" %>          
+           
         <%else  %>
-           <p>
-            <%= link_to "Back to comments", user_assign_ticket_ticket_chat_comments_path(current_user,params[:assign_ticket_id],current_ticket,current_chat) %>           
-          </p>
+        
+            <%= link_to "Back to comments", user_assign_ticket_ticket_chat_comments_path(current_user,params[:assign_ticket_id],current_ticket,current_chat), class:"btn btn-sm btn-secondary mt-2" %>           
+         
         <%end  %>
       <%elsif current_user.Supervisor? or current_user.Administrator? %>
-        <p>
-           <%= link_to "Back to comments",  user_ticket_chat_comments_path(current_user,current_ticket,current_chat) %>          
-        </p>
+   
+           <%= link_to "Back to comments",  user_ticket_chat_comments_path(current_user,current_ticket,current_chat), class:"btn btn-sm btn-secondary mt-2" %>          
+       
 
       <%end  %>
-
+</p>
 </div>

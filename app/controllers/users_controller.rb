@@ -19,11 +19,7 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def new
-    if current_user.Supervisor? or current_user.Administrator?
-      @user = User.new
-    else
-      redirect_to user_url(current_user)
-    end
+      redirect_to user_url(current_user), alert:"You can't register other people, they should register by they own"
   end
 
   # GET /users/1/edit

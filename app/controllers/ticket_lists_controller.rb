@@ -19,6 +19,7 @@ class TicketListsController < ApplicationController
 
   # GET /ticket_lists/1/edit
   def edit
+    redirect_to user_ticket_lists_path, alert: "You can't edit a Ticket List element"
   end
 
   # POST /ticket_lists or /ticket_lists.json

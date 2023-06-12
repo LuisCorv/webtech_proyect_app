@@ -9,21 +9,22 @@
 <%current_ticket= Ticket.find(params[:ticket_id])%>
 <%current_taglist= TagList.find(params[:tag_list_id])%>
 
+<p class="mx-auto text-center", style="display: flex; flex-wrap: wrap;">
 <%if current_user.Executive?  %>
         <% if params[:ticket_list_id].present?%>
           <p>
-            <%= link_to "Back to tags", user_ticket_list_ticket_tag_list_tags_path(current_user,params[:ticket_list_id],current_ticket,current_taglist) %>          
+            <%= link_to "Back to tags", user_ticket_list_ticket_tag_list_tags_path(current_user,params[:ticket_list_id],current_ticket,current_taglist), class:"btn btn-sm btn-secondary mt-2" %>          
             </p>
         <%else  %>
            <p>
-            <%= link_to "Back to tags", user_assign_ticket_ticket_tag_list_tags_path(current_user,params[:assign_ticket_id],current_ticket,current_taglist) %>           
+            <%= link_to "Back to tags", user_assign_ticket_ticket_tag_list_tags_path(current_user,params[:assign_ticket_id],current_ticket,current_taglist), class:"btn btn-sm btn-secondary mt-2" %>           
           </p>
         <%end  %>
       <%elsif current_user.Supervisor? or current_user.Administrator? %>
         <p>
-           <%= link_to "Back to tags",  user_ticket_tag_list_tags_path(current_user,current_ticket,current_taglist) %>          
+           <%= link_to "Back to tags",  user_ticket_tag_list_tags_path(current_user,current_ticket,current_taglist), class:"btn btn-sm btn-secondary mt-2" %>          
         </p>
 
       <%end  %>
-
+</p>
 </div>

@@ -1,16 +1,14 @@
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-<p style="color: green"><%= notice %></p>
 
 
 
 <%= render @ticket_list %>
 
 <div>
-  <%= link_to "Edit this ticket list", edit_user_ticket_list_path(current_user.id,@ticket_list) %> |
-  <%= link_to "See Ticket info", user_ticket_list_ticket_path(current_user.id,@ticket_list.id, @ticket_list.ticket_id) %>|
-  <%= link_to "Back to ticket lists", user_ticket_lists_path %>
+  <%= link_to "See Ticket info", user_ticket_list_ticket_path(current_user.id,@ticket_list.id, @ticket_list.ticket_id),class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %>
+  <%= link_to "Back to ticket lists", user_ticket_lists_path, class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;'  %>
 
-  <%= button_to "Destroy this ticket list", @ticket_list, method: :delete %>
+  <%= button_to "Destroy this ticket list", @ticket_list, method: :delete, class:"btn btn-danger btn-sm mt-2" %>
 </div>
 
 </div>

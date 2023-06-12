@@ -17,7 +17,7 @@ User "rutas a otros modelos"
 
 ### <ins>Arreglar los botones de destroy de todas las paginas</ins>
 
-Pasar todos los Links a botones
+
 
 ### <ins>Arreglar los forms de todas las paginas</ins>
 

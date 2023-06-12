@@ -171,7 +171,7 @@
   </p>
 
 
-<%if (current_user.Executive? or current_user.Supervisor? or current_user.Administrator?) %>
+<%if ((current_user.Executive? and ticket.ticket_list.user!=current_user )or current_user.Supervisor? or current_user.Administrator?) %>
   
   <div class="card mx-auto w-75 text-black text-center"style=" background-color: #E1F5A1">
     <p>

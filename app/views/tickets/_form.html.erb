@@ -1,143 +1,176 @@
-<%= form_with(model: ticket) do |form| %>
-  <% if ticket.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(ticket.errors.count, "error") %> prohibited this ticket from being saved:</h2>
+<div class="container ">
+  <%= form_with(model: ticket) do |form| %>
+    <% if ticket.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(ticket.errors.count, "error") %> prohibited this ticket from being saved:</h2>
 
-      <ul>
-        <% ticket.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+        <ul>
+          <% ticket.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%if (current_user.User? or current_user.Executive?)%>
+      <%if not form.object.ticket_list.nil? %>
+        <%if current_user==form.object.ticket_list.user  %>
+          <div class="form-row ">
+            <div class="form-group col-6 mx-auto text-center">
+            <%= form.label :title, style: "display: block" %>
+            <%= form.text_field :title ,  class: "form-control"%>
+            </div>
+        </div>
+
+          <div class="form-row ">
+            <div class="form-group col-8 mx-auto text-center">
+            <%= form.label :incident_description, style: "display: block" %>
+            <%= form.text_area :incident_description ,  class: "form-control"%>
+            </div>
+        </div>
+        <%end  %>
+
+      <%else  %>
+        <div class="form-row ">
+            <div class="form-group col-6 mx-auto text-center">
+          <%= form.label :title, style: "display: block" %>
+          <%= form.text_field :title ,  class: "form-control"%>
+            </div>
+        </div>
+
+       <div class="form-row ">
+            <div class="form-group col-8 mx-auto text-center">
+          <%= form.label :incident_description, style: "display: block" %>
+          <%= form.text_area :incident_description ,  class: "form-control"%>
+            </div>
+        </div>
+      <%end  %>
+      
+    <%end %>
+
+    <%if (current_user.Supervisor? or current_user.Administrator?)%>
+
+      <div class="form-row ">
+          <div class="form-group col-4 mx-auto text-center">
+          <%= form.label :priority, style: "display: block"%>
+          <%= form.select :priority, Ticket.priorities.keys %>
+          </div>
+      </div>
+    
+      <div class="form-row ">
+          <div class="form-group col-4 mx-auto text-center">
+        <%if  form.object.state=="Open"  %>
+
+          <%= form.label :state, style: "display: block"%>
+          <%= form.select :state, Ticket.states.except(:"Waiting State", :ReOpen).keys %>
+
+        <%elsif form.object.state=="Closed"  %>
+
+          <%= form.label :state, style: "display: block"%>
+          <%= form.select :state, Ticket.states.except(:"Waiting State", :Open).keys %>
+
+        <%elsif form.object.state=="ReOpen" %>
+
+          <%= form.label :state, style: "display: block"%>
+          <%= form.select :state, Ticket.states.except(:"Waiting State", :Open).keys %>
+
+        <%end  %>
+          </div>
+      </div>
+
+      
+
+    <%elsif (current_user.Executive? and not form.object.assign_ticket.nil?)%>
+
+
+      <div class="form-row ">
+          <div class="form-group col-8 mx-auto text-center">
+        <%= form.label :response_to_user, style: "display: block" %>
+        <%= form.text_area :response_to_user,  class: "form-control" %>
+          </div>
+      </div>
+
+      <%if  form.object.state== "Waiting State" %>
+        <div class="form-row ">
+          <div class="form-group col-4 mx-auto text-center">
+            <%= form.label :state, style: "display: block"%>
+            <%= form.select :state, Ticket.states.keys,value: "Open" ,readonly: true%>
+          </div>
+      </div>
+      <%elsif (form.object.state.Open? or form.object.state.ReOpen? ) and form.object.resolution_key=="Resolution Done" %>
+        <div class="form-row ">
+          <div class="form-group col-4 mx-auto text-center">
+            <%= form.label :state, style: "display: block"%>
+            <%= form.select :state, Ticket.states.keys,value: "Closed" ,readonly: true%>
+          </div>
+      </div>
+      <%end %>
+
+    <%end %>
+
+    <%if (current_user.User? and form.object.response_key=="Response Done")%>
+      <div class="form-row ">
+          <div class="form-group col-4 mx-auto text-center">
+          <%= form.label :accept_or_reject_solution, style: "display: block"%>
+          <%= form.select :accept_or_reject_solution, Ticket.accept_or_reject_solutions.keys %>
+          </div>
+      </div>
+
+      <%# Hacer que se despliegue star_number si es que accept_reject es accept (probablemente javascript) %>
+      <div class="form-row ">
+          <div class="form-group col-4 mx-auto text-center">
+        <%= form.label :star_number, style: "display: block" %>
+        <%= form.select :star_number, (0..5).to_a %>
+          </div>
+      </div>
+
+
+    <%end  %>
+
+
+    <%if (current_user.Supervisor? or current_user.Administrator?)%>
+      <div class="form-row ">
+          <div class="form-group col-4 mx-auto text-center">
+        <%= form.label :limit_time_response, style: "display: block" %>
+        <%= form.datetime_field :limit_time_response,  value: form.object.limit_time_response.to_date, placeholder:"YYYY/MM/DD",  class: "form-control"%>
+          </div>
+      </div>
+
+      <div class="form-row ">
+          <div class="form-group col-4 mx-auto text-center">
+        <%= form.label :limit_time_resolution, style: "display: block" %>
+        <%= form.datetime_field :limit_time_resolution, value: form.object.limit_time_resolution.to_date, placeholder:"YYYY/MM/DD",  class: "form-control"%>
+          </div>
+      </div>
+
+    <%end  %>
+
+
+    <%if (current_user.User? or current_user.Executive?)%>
+      <div class="form-row ">
+          <div class="form-group col-4 mx-auto text-center">
+        <%= form.label :files, style: "display: block" %>
+        <%= form.file_field :new_files, multiple: true ,  class: "form-control"%>
+          </div>
+      </div>
+
+    <%end  %>
+
+
+    <div class="form-row ">
+          <div class="form-group col-4 mx-auto text-center">
+          <%if params[:assign_ticket_id].present?  %>
+            <%= form.text_field :assign_list_nothing, value: "assign"+" "+params[:assign_ticket_id], readonly: true, style: "display: none"%>
+          <%elsif params[:ticket_list_id].present? %>
+          <%= form.text_field :assign_list_nothing, value: "list"+" "+params[:ticket_list_id], readonly: true, style: "display: none"%>
+          <%end %>
+          </div>
+      </div>
+
+
+    <div class="actions">
+      <%= form.submit "Create/Update", class:' btn btn-success mt-2' %>
     </div>
   <% end %>
 
-  <%if (current_user.User? or current_user.Executive?)%>
-    <%if not form.object.ticket_list.nil? %>
-      <%if current_user==form.object.ticket_list.user  %>
-        <div>
-          <%= form.label :title, style: "display: block" %>
-          <%= form.text_field :title %>
-        </div>
-
-        <div>
-          <%= form.label :incident_description, style: "display: block" %>
-          <%= form.text_area :incident_description %>
-        </div>
-      <%end  %>
-
-    <%else  %>
-      <div>
-        <%= form.label :title, style: "display: block" %>
-        <%= form.text_field :title %>
-      </div>
-
-      <div>
-        <%= form.label :incident_description, style: "display: block" %>
-        <%= form.text_area :incident_description %>
-      </div>
-    <%end  %>
-    
-  <%end %>
-
-  <%if (current_user.Supervisor? or current_user.Administrator?)%>
-
-    <div >
-        <%= form.label :priority, style: "display: block"%>
-        <%= form.select :priority, Ticket.priorities.keys %>
-    </div>
-  
-    <div >
-      <%if  form.object.state=="Open"  %>
-
-        <%= form.label :state, style: "display: block"%>
-        <%= form.select :state, Ticket.states.except(:"Waiting State", :ReOpen).keys %>
-
-      <%elsif form.object.state=="Closed"  %>
-
-        <%= form.label :state, style: "display: block"%>
-        <%= form.select :state, Ticket.states.except(:"Waiting State", :Open).keys %>
-
-      <%elsif form.object.state=="ReOpen" %>
-
-         <%= form.label :state, style: "display: block"%>
-        <%= form.select :state, Ticket.states.except(:"Waiting State", :Open).keys %>
-
-      <%end  %>
-    </div>
-
-    
-
-  <%elsif (current_user.Executive? and not form.object.assign_ticket.nil?)%>
-
-
-    <div>
-      <%= form.label :response_to_user, style: "display: block" %>
-      <%= form.text_area :response_to_user %>
-    </div>
-
-    <%if  form.object.state== "Waiting State" %>
-      <div >
-          <%= form.label :state, style: "display: block"%>
-          <%= form.select :state, Ticket.states.keys,value: "Open" ,readonly: true%>
-      </div>
-    <%elsif (form.object.state.Open? or form.object.state.ReOpen? ) and form.object.resolution_key=="Resolution Done" %>
-      <div >
-          <%= form.label :state, style: "display: block"%>
-          <%= form.select :state, Ticket.states.keys,value: "Closed" ,readonly: true%>
-      </div>
-    <%end %>
-
-  <%end %>
-
-  <%if (current_user.User? and form.object.response_key=="Response Done")%>
-    <div >
-        <%= form.label :accept_or_reject_solution, style: "display: block"%>
-        <%= form.select :accept_or_reject_solution, Ticket.accept_or_reject_solutions.keys %>
-    </div>
-
-    <%# Hacer que se despliegue star_number si es que accept_reject es accept (probablemente javascript) %>
-    <div>
-      <%= form.label :star_number, style: "display: block" %>
-      <%= form.select :star_number, (0..5).to_a %>
-    </div>
-
-
-  <%end  %>
-
-
-  <%if (current_user.Supervisor? or current_user.Administrator?)%>
-    <div>
-      <%= form.label :limit_time_response, style: "display: block" %>
-      <%= form.datetime_field :limit_time_response,  value: form.object.limit_time_response.to_date, placeholder:"YYYY/MM/DD"%>
-    </div>
-
-    <div>
-      <%= form.label :limit_time_resolution, style: "display: block" %>
-      <%= form.datetime_field :limit_time_resolution, value: form.object.limit_time_resolution.to_date, placeholder:"YYYY/MM/DD"%>
-    </div>
-
-  <%end  %>
-
-
-  <%if (current_user.User? or current_user.Executive?)%>
-    <div>
-      <%= form.label :files, style: "display: block" %>
-      <%= form.file_field :new_files, multiple: true %>
-    </div>
-
-  <%end  %>
-
-
-  <div>
-    <%if params[:assign_ticket_id].present?  %>
-      <%= form.text_field :assign_list_nothing, value: "assign"+" "+params[:assign_ticket_id], readonly: true, style: "display: none"%>
-    <%elsif params[:ticket_list_id].present? %>
-    <%= form.text_field :assign_list_nothing, value: "list"+" "+params[:ticket_list_id], readonly: true, style: "display: none"%>
-    <%end %>
-  </div>
-
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>

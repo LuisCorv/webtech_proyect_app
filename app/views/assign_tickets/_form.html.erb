@@ -1,35 +1,37 @@
-<%= form_with(model: assign_ticket) do |form| %>
-  <% if assign_ticket.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(assign_ticket.errors.count, "error") %> prohibited this assign_ticket from being saved:</h2>
+<div class="container ">
+  <%= form_with(model: assign_ticket) do |form| %>
+    <% if assign_ticket.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(assign_ticket.errors.count, "error") %> prohibited this assign_ticket from being saved:</h2>
 
-      <ul>
-        <% assign_ticket.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+        <ul>
+          <% assign_ticket.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label :user_id %><br />
+      <%= form.select :user_id, User.where(profile: User.profiles[:Executive]).pluck(Arel.sql("CONCAT(name, ' ', last_name)"), :id)%>
+    </div>
+
+
+
+    <div class="field">
+      <%= form.label :ticket_id %><br />
+      <% selected_ticket_id = form.object.ticket_id || (form.object.ticket.present? ? form.object.ticket.id : nil) %>
+      <% disable_select = form.object.ticket.present? ? { disabled: true } : {} %>
+      <%= form.select :ticket_id, options_for_select(Ticket.all.select { |ticket| ticket.assign_ticket.nil? || ticket.id == selected_ticket_id }.map(&:id), selected_ticket_id), {}, disable_select %>
+    </div>
+
+
+  <br>
+
+
+    <div class="actions">
+      <%= form.submit "Create/Update", class:' btn btn-success mt-2' %>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= form.label :user_id %><br />
-    <%= form.select :user_id, User.where(profile: User.profiles[:Executive]).pluck(Arel.sql("CONCAT(name, ' ', last_name)"), :id)%>
   </div>
-
-
-
-   <div class="field">
-    <%= form.label :ticket_id %><br />
-    <% selected_ticket_id = form.object.ticket_id || (form.object.ticket.present? ? form.object.ticket.id : nil) %>
-    <% disable_select = form.object.ticket.present? ? { disabled: true } : {} %>
-    <%= form.select :ticket_id, options_for_select(Ticket.all.select { |ticket| ticket.assign_ticket.nil? || ticket.id == selected_ticket_id }.map(&:id), selected_ticket_id), {}, disable_select %>
-  </div>
-
-
-<br>
-
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>

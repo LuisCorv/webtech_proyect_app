@@ -5,76 +5,94 @@
 <br>
 
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+<div class="container ">
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
 
-    <div class="field">
-      <%= f.label :name %><br />
-      <%= f.text_field :name, autofocus: true %>
+    <div class="form-row ">
+      <div class="form-group col-4 mx-auto text-center">
+        <%= f.label :name %><br />
+        <%= f.text_field :name, autofocus: true,  class: "form-control"  %>
+        </div>
     </div>
 
-    <div class="field">
-      <%= f.label :last_name %><br />
-      <%= f.text_field :last_name %>
+    <div class="form-row ">
+      <div class="form-group col-4 mx-auto text-center">
+        <%= f.label :last_name %><br />
+        <%= f.text_field :last_name ,  class: "form-control" %>
+      </div>
     </div>
 
-    <div class="field">
-      <%= f.label :phone %><br />
-      <%= f.text_field :phone %>
+    <div class="form-row ">
+      <div class="form-group col-4 mx-auto text-center">
+        <%= f.label :phone %><br />
+        <%= f.text_field :phone,  class: "form-control" %>
+      </div>
     </div>
 
     <%if  resource.profile =="Administrator" %>
-      <div class="field">
-        <%= f.label :profile %><br />
-        <%= f.select :profile, User.profiles.except(:Administrator).keys %>
+      <div class="form-row ">
+        <div class="form-group col-4 mx-auto text-center">
+          <%= f.label :profile %><br />
+          <%= f.select :profile, User.profiles.keys %>
+        </div>
       </div>
     <%elsif resource.profile=="Supervisor"  %>
-      <div class="field">
-        <%= f.label :profile %><br />
-        <%= f.select :profile, User.profiles.except(:Administrator, :Supervisor).keys%>
+      <div class="form-row ">
+        <div class="form-group col-4 mx-auto text-center">
+          <%= f.label :profile %><br />
+          <%= f.select :profile, User.profiles.except(:Administrator).keys%>
+        </div>
       </div>
     <%end  %>
 
-    <div class="field">
-      <%= f.label :email %><br />
-      <%= f.email_field :email, autocomplete: "email" %>
+    <div class="form-row ">
+      <div class="form-group col-4 mx-auto text-center">
+        <%= f.label :email %><br />
+        <%= f.email_field :email, autocomplete: "email",  class: "form-control"  %>
+      </div>
     </div>
 
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
       <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
     <% end %>
 
-    <div class="field">
-      <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-      <%= f.password_field :password, autocomplete: "new-password" unless resource.new_record? %>
-      <% if @minimum_password_length && resource.new_record? %>
-        <br />
-        <em><%= @minimum_password_length %> characters minimum</em>
-      <% end %>
+    <div class="form-row ">
+      <div class="form-group col-4 mx-auto text-center">
+        <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+        <%= f.password_field :password,  class: "form-control" , autocomplete: "new-password" unless resource.new_record? %>
+        <% if @minimum_password_length && resource.new_record? %>
+          <br />
+          <em><%= @minimum_password_length %> characters minimum</em>
+        <% end %>
+      </div>
     </div>
 
-    <div class="field">
-      <%= f.label :password_confirmation %><br />
-      <%= f.password_field :password_confirmation, autocomplete: "new-password" unless resource.new_record? %>
+    <div class="form-row ">
+      <div class="form-group col-4 mx-auto text-center">
+        <%= f.label :password_confirmation %><br />
+        <%= f.password_field :password_confirmation,  class: "form-control", autocomplete: "new-password" unless resource.new_record?  %>
+      </div>
     </div>
 
 
     <div class="actions">
-      <%= f.submit "Update" %>
+      <%= f.submit "Update", class:' btn btn-success mt-2' %>
     </div>
   <% end %>
+  </div>
 </div>
 
 <br>
 
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-  <h3>Cancel my account</h3>
+  <h3>Cancel my account??</h3>
 
-  <div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
+  <div><%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class:"btn btn-danger btn-sm mt-2" %></div>
 </div>
 
 <br>
 
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-  <%= link_to "Back", :back %>
+  <%= link_to "Back", :back ,class:"btn btn-secondary"%>
 </div>

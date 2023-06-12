@@ -1,6 +1,4 @@
-<p style="color: green"><%= notice %></p>
 
-<%current_user= User.find(params[:user_id])%>
 
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h1>Performance reports</h1>
@@ -13,7 +11,7 @@
     <%= render performance_report %>
         <%if  current_user.Supervisor?  or current_user.Administrator?%>
           <p>
-            <%= link_to "Show this performance report", user_performance_report_path(current_user.id,performance_report) %>
+            <%= link_to "Show this performance report", user_performance_report_path(current_user.id,performance_report), class:"btn btn-warning mt-2" %>
           </p>
 
         <%end  %>
@@ -23,14 +21,12 @@
 </div>
 
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-  <%if  current_user.Supervisor?  or current_user.Administrator?%>
-    <p>
-      <%= link_to "New performance report", new_user_performance_report_path %>
-      <br>
-      <%= link_to "Back to the user", user_path(current_user.id)%>
-    </p>
+<p class="mx-auto text-center", style="display: flex; flex-wrap: wrap;">
+    <%if  current_user.Supervisor?  or current_user.Administrator?%>
+        <%= link_to "New performance report", new_user_performance_report_path, class:"btn btn-success mt-2", style:'margin-right: 10px;' %>
+        <%= link_to "Back to the user", user_path(current_user.id), class:"btn btn-outline-info mt-2", style:'margin-right: 10px;'%>
+    <%end  %>
 
-  <%end  %>
-
-  <%= link_to "Back to Home Page", "/"%>
+  <%= link_to "Back to Home Page", root_path ,class:"btn btn-outline-secondary mt-2"%>
+</p>
 </div>

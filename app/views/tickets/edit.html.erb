@@ -10,23 +10,23 @@
   <%current_user= User.find(params[:user_id])%>
   <%if current_user.User? %>
   <p>
-    <%= link_to "Back to tickets", user_ticket_list_tickets_path %>|
-    <%= link_to "Show this ticket", user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],@ticket) %>
+    <%= link_to "Back to tickets", user_ticket_list_tickets_path, class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;' %>
+    <%= link_to "Show this ticket", user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],@ticket), class:"btn btn-sm btn-warning mt-2" %>
     </p>
   <%elsif current_user.Executive?  %>
   <p>
   <% if params[:ticket_list_id].present?%>
-    <%= link_to "Back to tickets", user_ticket_list_tickets_path %>|
-    <%= link_to "Show this ticket", user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],@ticket) %>
+    <%= link_to "Back to tickets", user_ticket_list_tickets_path, class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;' %>
+    <%= link_to "Show this ticket", user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],@ticket), class:"btn btn-sm btn-warning mt-2" %>
   <%else  %>
-    <%= link_to "Back to tickets", user_assign_ticket_tickets_path %>|
-    <%= link_to "Show this ticket", user_assign_ticket_ticket_path(current_user.id,params[:assign_ticket_id],@ticket) %>
+    <%= link_to "Back to tickets", user_assign_ticket_tickets_path, class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;' %>
+    <%= link_to "Show this ticket", user_assign_ticket_ticket_path(current_user.id,params[:assign_ticket_id],@ticket), class:"btn btn-sm btn-warning mt-2" %>
   <%end  %>
     </p>
   <%else  %>
   <p>
-    <%= link_to "Back to tickets", user_tickets_path %>|
-    <%= link_to "Show this ticket", user_ticket_path(current_user.id,@ticket) %>
+    <%= link_to "Back to tickets", user_tickets_path, class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;' %>
+    <%= link_to "Show this ticket", user_ticket_path(current_user.id,@ticket), class:"btn btn-sm btn-warning mt-2" %>
     </p>
   <%end%>
 </div>

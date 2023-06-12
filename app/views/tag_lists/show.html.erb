@@ -1,26 +1,25 @@
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-<p style="color: green"><%= notice %></p>
+
 
 <%= render @tag_list %>
 
 <div>
-  <%current_user= User.find(params[:user_id])%>
   <%current_ticket= Ticket.find(params[:ticket_id])%>
 
   <%if current_user.Executive?  %>
         <% if params[:assign_ticket_id].present?%>
-           <p>
-            <%= link_to "Check Tag", user_assign_ticket_ticket_tag_list_tags_path(current_user,current_ticket.assign_ticket,current_ticket,@tag_list) %> |
-            <%= link_to "Back to tag lists", user_assign_ticket_ticket_tag_lists_path(current_user,params[:assign_ticket_id],current_ticket) %>            
-            <%= button_to "Destroy this tag list", user_assign_ticket_ticket_tag_list_path(current_user,current_ticket.assign_ticket,current_ticket,@tag_list), method: :delete %>
-          </p>
+
+            <%= link_to "Check Tags", user_assign_ticket_ticket_tag_list_tags_path(current_user,current_ticket.assign_ticket,current_ticket,@tag_list), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %> 
+            <%= link_to "Back to tag lists", user_assign_ticket_ticket_tag_lists_path(current_user,params[:assign_ticket_id],current_ticket), class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;' %>            
+            <%= button_to "Empty this tag list", user_assign_ticket_ticket_tag_list_path(current_user,current_ticket.assign_ticket,current_ticket,@tag_list), method: :delete, class:"btn btn-danger btn-sm mt-2" %>
+
         <%end  %>
       <%elsif current_user.Supervisor? or current_user.Administrator? %>
-        <p>
-            <%= link_to "Check Tag", user_ticket_tag_list_tags_path(current_user,current_ticket,@tag_list) %> |
-            <%= link_to "Back to tag lists",  user_ticket_tag_lists_path(current_user,current_ticket) %>    
-              <%= button_to "Destroy this tag list", user_ticket_tag_list_path(current_user,current_ticket,@tag_list), method: :delete %>        
-        </p>
+
+            <%= link_to "Check Tags", user_ticket_tag_list_tags_path(current_user,current_ticket,@tag_list), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %> 
+            <%= link_to "Back to tag lists",  user_ticket_tag_lists_path(current_user,current_ticket), class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;' %>    
+              <%= button_to "Empty this tag list", user_ticket_tag_list_path(current_user,current_ticket,@tag_list), method: :delete, class:"btn btn-danger btn-sm mt-2" %>        
+
 
       <%end  %>
 

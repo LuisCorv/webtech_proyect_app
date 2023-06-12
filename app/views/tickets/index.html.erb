@@ -48,7 +48,7 @@
                 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
                     <%= render partial:"ticket", locals: {ticket: t}%> 
                     <p>
-                    <%= link_to "Show this ticket", user_ticket_list_ticket_path(current_user,t.ticket_list,t) %>
+                    <%= link_to "More information", user_ticket_list_ticket_path(current_user,t.ticket_list,t), class:"btn btn-warning mt-2" %>
                     </p>
                 </div>
                 <br>
@@ -77,7 +77,7 @@
                     <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
                         <%= render partial:"ticket", locals: {ticket: t}%> 
                     <p>
-                    <%= link_to "Show this ticket", user_ticket_list_ticket_path(current_user,t.ticket_list,t) %>
+                    <%= link_to "More information", user_ticket_list_ticket_path(current_user,t.ticket_list,t), class:"btn btn-warning mt-2" %>
                     </p>
                     </div>
                     <br>
@@ -94,7 +94,7 @@
                     <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
                         <%= render partial:"ticket", locals: {ticket: t}%> 
                     <p>
-                    <%= link_to "Show this ticket", user_assign_ticket_ticket_path(current_user,t.assign_ticket,t) %>
+                    <%= link_to "More information", user_assign_ticket_ticket_path(current_user,t.assign_ticket,t), class:"btn btn-warning mt-2" %>
                     </p>
                     </div>
                     <br>
@@ -141,7 +141,7 @@
             <%= render partial:"ticket", locals: {ticket: t}%>
             
             <p>
-                <%= link_to "Show this ticket", user_ticket_path(current_user,t) %>
+                <%= link_to "More information", user_ticket_path(current_user,t), class:"btn btn-warning mt-2" %>
             </p>
             </div>
             <br>
@@ -157,28 +157,27 @@
 
 
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-<%if not current_user.nil?%>
-  <%if current_user.User? and params[:ticket_list_id].present? %>
-    <p>
-      <%= link_to "Back to Ticket List", user_ticket_list_path(current_user.id,params[:ticket_list_id])%>
-    </p>
-  <%elsif current_user.Executive?  %>
-    <p>
-      <% if params[:ticket_list_id].present?%>
-        <%= link_to "Back to Ticket List", user_ticket_list_path(current_user.id,params[:ticket_list_id])%>
-      <%elsif params[:assign_ticket_id].present?  %>
-        <%= link_to "Back to Assign Ticket", user_assign_ticket_path(current_user.id,params[:assign_ticket_id])%>
+  <p class="mx-auto text-center", style="display: flex; flex-wrap: wrap;">
+    <%if not current_user.nil?%>
 
-      <%end %>
-    </p>
-  <%elsif  current_user.Supervisor?  or current_user.Administrator?%>
-    <p>
-      <%= link_to "Back to the user", user_path(current_user.id)%>
-    </p>
+      <%if current_user.User? and params[:ticket_list_id].present? %>
+          <%= link_to "Back to Ticket List", user_ticket_list_path(current_user.id,params[:ticket_list_id]), class:"btn btn-outline-primary", style:'margin-right: 10px;'%>
+        
+      <%elsif current_user.Executive?  %>
 
-  <%end  %>
-<%end%>
-  <%= link_to "Back to Home Page", "/"%>
+          <% if params[:ticket_list_id].present?%>
+            <%= link_to "Back to Ticket List", user_ticket_list_path(current_user.id,params[:ticket_list_id]), class:"btn btn-outline-primary", style:'margin-right: 10px;'%>
+          <%elsif params[:assign_ticket_id].present?  %>
+            <%= link_to "Back to Assign Ticket", user_assign_ticket_path(current_user.id,params[:assign_ticket_id]), class:"btn btn-outline-dark", style:'margin-right: 10px;'%>
+          <%end %>
+
+      <%elsif  current_user.Supervisor?  or current_user.Administrator?%>
+          <%= link_to "Back to the user", user_path(current_user.id), class:"btn btn-outline-info", style:'margin-right: 10px;'%>
+      <%end  %>
+
+    <%end%>
+      <%= link_to "Back to Home Page", root_path ,class:"btn btn-outline-secondary"%>
+  </p>
 </div>
 
 <script>
