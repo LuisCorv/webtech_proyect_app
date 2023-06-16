@@ -29,23 +29,7 @@
         <%= f.text_field :phone,  class: "form-control" %>
       </div>
     </div>
-
-    <%if  resource.profile =="Administrator" %>
-      <div class="form-row ">
-        <div class="form-group col-4 mx-auto text-center">
-          <%= f.label :profile %><br />
-          <%= f.select :profile, User.profiles.keys %>
-        </div>
-      </div>
-    <%elsif resource.profile=="Supervisor"  %>
-      <div class="form-row ">
-        <div class="form-group col-4 mx-auto text-center">
-          <%= f.label :profile %><br />
-          <%= f.select :profile, User.profiles.except(:Administrator).keys%>
-        </div>
-      </div>
-    <%end  %>
-
+    
     <div class="form-row ">
       <div class="form-group col-4 mx-auto text-center">
         <%= f.label :email %><br />

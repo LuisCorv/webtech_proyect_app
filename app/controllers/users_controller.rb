@@ -24,7 +24,9 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    redirect_to user_url(current_user),alert: "You have to press the button to edit your user, and you can't change others users this way"
+    if not ((current_user.Supervisor? and (@user.profile!="Administrator" or @user.profile!="Supervisor")) or current_user.Administrator?)
+      redirect_to user_url(current_user),alert: "You have to press the button to edit your user, and you can't change others users this way"
+    end
   end
 
   # POST /users or /users.json

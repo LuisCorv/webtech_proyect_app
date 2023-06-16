@@ -13,13 +13,13 @@ class TicketListsController < ApplicationController
 
   # GET /ticket_lists/new
   def new
-    redirect_to user_ticket_lists_path, alert: "You can't create Ticket List this way, you should make a 'new Ticket' for that"
+    redirect_to user_ticket_lists_path(current_user), alert: "You can't create Ticket List this way, you should make a 'new Ticket' for that"
 
   end
 
   # GET /ticket_lists/1/edit
   def edit
-    redirect_to user_ticket_lists_path, alert: "You can't edit a Ticket List element"
+    redirect_to user_ticket_lists_path(current_user), alert: "You can't edit a Ticket List element"
   end
 
   # POST /ticket_lists or /ticket_lists.json
@@ -52,12 +52,8 @@ class TicketListsController < ApplicationController
 
   # DELETE /ticket_lists/1 or /ticket_lists/1.json
   def destroy
-    @ticket_list.destroy
+    redirect_to user_ticket_lists_path(@ticket_list.user), alert: "You can't delete a Ticket List element"
 
-    respond_to do |format|
-      format.html { redirect_to ticket_lists_url, notice: "Ticket list was successfully destroyed." }
-      format.json { head :no_content }
-    end
   end
 
   private

@@ -1,23 +1,27 @@
 # Por Hacer
 
 
-User index 
+Reports (Performance, Ticket, Overdue) 
 
-    -> Habilitar la opcion de editar otros usuarios(User, Executive y/o SUpervisor), si el current_user es admin o supervisor.
-    ->Mostrar los metodos correctos para cada usuario
+    -> Implement All reports methods needed to create a report
 
 Ticket model
 
     ->Agregar validacion del phone
 
-User "rutas a otros modelos"
+Ticket "index and #show
 
-    -> Hacer que si el current_user es Supervisor o Administrator, y este 'ingresa' a traves de otro usuario de la tabla User. Ellos puedan acceder al index , show, back y 'next' de esos usuarios
+    -> change the some "data color"(could be the card color) based in the nearest to de limit time
 
+Assign Ticket 
 
-### <ins>Arreglar los botones de destroy de todas las paginas</ins>
+    -> Automatic assignment of tickets to executives (the executive with less tickets)
 
+    #Index ->eliminar o blockear el new de assign tickets, ya que si se crean y asignan automaticamente, lo unico que es necesario es editarlos
 
+Users
+
+    -> Associate an account with a google email
 
 ### <ins>Arreglar los forms de todas las paginas</ins>
 
@@ -27,6 +31,6 @@ Areglar las paginas ("views") a lo que se quiere hacer
     (Para lograr el eliminar uno en especifico puede servir el @ticket.files.id_archivo.purge   -> el id_archivo puede ser mas cacho de obtener)
 
 
-Como modificar a otros usuarios siendo Admin y Supervisor
+-Implement methods to manege correctly this 'automatic creation' objects
 
-Revisar que todos los metodos de ticket funcionen correctamente
+

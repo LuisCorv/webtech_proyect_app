@@ -9,8 +9,8 @@
 <br>
 
 <div>
-  <%= link_to "Show this assign ticket", user_assign_ticket_path(current_user.id,@assign_ticket), class:"btn btn-sm btn-warning mt-2" %> 
-  <%= link_to "Back to assign tickets", user_assign_tickets_path, class:"btn btn-sm btn-secondary mt-2" %>
+  <%= link_to "Show this assign ticket", user_assign_ticket_path(@assign_ticket.user,@assign_ticket), class:"btn btn-sm btn-warning mt-2" %> 
+  <%= link_to "Back to assign tickets", user_assign_tickets_path(@assign_ticket.user), class:"btn btn-sm btn-secondary mt-2" %>
 </div>
 
 </div>

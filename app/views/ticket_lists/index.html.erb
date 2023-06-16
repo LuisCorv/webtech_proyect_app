@@ -9,12 +9,12 @@
 
 <div id="ticket_lists">
   <% @ticket_lists.each do |ticket_list| %>
-  <%if User.find(ticket_list.user_id) == current_user  %>
+  <%if (User.find(ticket_list.user_id) == current_user ) or ((current_user.Administrator? or current_user.Supervisor?)and (User.find(ticket_list.user_id)==User.find(params[:user_id])))%>
   <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
    <% @user_ticket_list_example= ticket_list  %>
     <%= render ticket_list %>
     <p>
-      <%= link_to "Show this element detaills", user_ticket_list_path(current_user.id,ticket_list), class:"btn btn-warning mt-2", style:'margin-right: 10px;'  %>
+      <%= link_to "Show this element detaills", user_ticket_list_path(ticket_list.user,ticket_list), class:"btn btn-warning mt-2", style:'margin-right: 10px;'  %>
     </p>
   </div>
   <br>
@@ -27,6 +27,9 @@
 <p class="mx-auto text-center", style="display: flex; flex-wrap: wrap;">
   <%if not @user_ticket_list_example.nil?  %>
     <%= link_to "See All Tickets", user_ticket_list_tickets_path(current_user,@user_ticket_list_example), class:"btn btn-primary mt-2", style:'margin-right: 10px;' %>
+    <% @user_ticket_list_example= @user_ticket_list_example.user %>
+   <%else %> 
+    <% @user_ticket_list_example= User.find(params[:user_id])  %>
     <%end  %>
 
   <%if current_user.User?%>
@@ -37,7 +40,7 @@
         <%= link_to "New Ticket", new_user_ticket_path(check_location: var), class:"btn btn-success mt-2", style:'margin-right: 10px;' %>
   <%end  %>
 
-    <%= link_to "Back to the user", user_path(current_user), class:"btn btn-outline-info mt-2", style:'margin-right: 10px;'%>
+    <%= link_to "Back to the user", user_path(@user_ticket_list_example), class:"btn btn-outline-info mt-2", style:'margin-right: 10px;'%>
 
     <%= link_to "Back to Home Page", root_path, class:"btn btn-dark mt-2" , style:'margin-right: 10px;'%>
 </p>

@@ -18,8 +18,8 @@
       <%= link_to "See Performance Report", user_performance_reports_path(@user), class:"btn btn-sm btn-primary mt-2", style:'margin-right: 10px;' %>
       <%= link_to "Back to the users", users_path, class:"btn btn-sm btn-outline-dark mt-2", style:'margin-right: 10px;'%>
     <%end  %>
-    <%if current_user==@user %>
-      <p> <%= link_to "Edit this user", edit_user_registration_path(), class:"btn btn-sm btn-info mt-2"%> </p>
+    <%if current_user==@user%>
+      <p> <%= link_to "Edit your user", edit_user_registration_path(), class:"btn btn-sm btn-info mt-2"%> </p>
     <%end  %>
   </p>
 
