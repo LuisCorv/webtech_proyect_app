@@ -35,11 +35,11 @@ adm=User.create email:"add@gmail.com",name:"Miguel",last_name:"Perez",phone:"154
 puts "Administrator & supervisor ready"
 
 t=Ticket.create [
-    {title:"No me permite crear un usuario", incident_description:"Intente crear de nuevo mi cuenta utilizando un mail ya utilizado", creation_date:Time.now},
-    {title:"Nadie quiere solucionar mi problema", incident_description:"COmo es posible que nadie pueda solucionar un problema tan simple", creation_date:Time.now},
-    {title:"Nose como resumir", incident_description:"Tengo el problema de que no se como hacer que rails use bootstrap bien", creation_date:Time.now},
-    {title:" Vacio ", incident_description:" vacio otra vez", creation_date:Time.now},
-    {title:"UN ejemplo", incident_description:"esto no es nada mas que un ejemplo", creation_date:Time.now}
+    {title:"No me permite crear un usuario", incident_description:"Intente crear de nuevo mi cuenta utilizando un mail ya utilizado", state:1},
+    {title:"Nadie quiere solucionar mi problema", incident_description:"COmo es posible que nadie pueda solucionar un problema tan simple",state:1},
+    {title:"Nose como resumir", incident_description:"Tengo el problema de que no se como hacer que rails use bootstrap bien",state:1},
+    {title:" Vacio ", incident_description:" vacio otra vez",state:1},
+    {title:"UN ejemplo", incident_description:"esto no es nada mas que un ejemplo",state:1}
 ]
 puts "Ticket ready"
 
@@ -99,8 +99,8 @@ cm=Comment.create [
 puts "Comments ready"
 
 pfr=PerformanceReport.create [
-    {report_date:Time.now,user:adm},
-    {report_date:Time.now,user:sup},
-    {report_date:Time.now,user:adm}
+    {report_date:DateTime.current.beginning_of_day,user:adm},
+    {report_date:DateTime.current.beginning_of_day,user:sup},
+    {report_date:DateTime.current.beginning_of_day,user:adm}
 ]
 puts "PerformanceReport ready"

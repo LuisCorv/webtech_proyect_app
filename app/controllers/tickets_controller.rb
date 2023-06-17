@@ -38,11 +38,7 @@ class TicketsController < ApplicationController
   def create
     @ticket = Ticket.new(ticket_params)
 
-    @ticket.creation_date=Time.current
-    @ticket.response_to_user_date=Time.current
-    @ticket.resolution_date=Time.current
-    @ticket.limit_time_response=Time.current
-    @ticket.limit_time_response=Time.current
+    
     
     @ticket.files.attach(params[:ticket][:new_files]) if params[:ticket][:new_files].present?
     

@@ -1,210 +1,416 @@
-<div id="<%= dom_id ticket %>">
-  <p>
-    <strong>Title:</strong>
+<div class="card mx-auto w-50 p-3 text-black text-center ticket-<%=ticket.id%>">
+  <div id="<%= dom_id ticket %>">
     <p>
-    <%= ticket.title %>
-    </p>
-  </p>
-
-  <p>
-    <strong>Incident description:</strong>
-    <p>
-    <%= ticket.incident_description %>
-    </p>
-  </p>
-
-  <p>
-    <strong>Requesting User:</strong>
-    <p>
-    <%= ticket.ticket_list.user.email %>
-    </p>
-  </p>
-
-  <p>
-    <strong>Creation date:</strong>
-    <p>
-    <%= ticket.creation_date.strftime("%e/%m/%Y") %>
-    </p>
-  </p>
-
-
-  <p>
-    <strong>Executive in charge:</strong>
-    <%if not ticket.assign_ticket.nil?  %>
-    <p>
-      <%= ticket.assign_ticket.user.email %>
-      </p>
-    <%else %>
-    <p>
-      Defining Executive
-    </p>
-    <%end  %>
-  </p>
-
-
-<%if (current_user.Supervisor? or current_user.Administrator?) or (not current_user.User? and current_user!=ticket.ticket_list.user) %>
-  <p>
-    <strong>Resolution date:</strong>
-    <%if ticket.resolution_date.to_date!=ticket.creation_date.to_date  %>
+      <strong>Title:</strong>
       <p>
-      <%= ticket.resolution_date.strftime("%e/%m/%Y") %>
+      <%= ticket.title %>
       </p>
-    <%else  %>
+    </p>
+
+    <p>
+      <strong>Incident description:</strong>
       <p>
-        In Progress
+      <%= ticket.incident_description %>
       </p>
-    <%end  %>
-  </p>
-
-  <p>
-    <strong>Priority:</strong>
-    <p>
-    <%= ticket.priority %>
     </p>
-  </p>
-
-  <p>
-    <strong>State:</strong>
-    <p>
-    <%= ticket.state %>
-    </p>
-  </p>
-
-  <p>
-    <strong>Resolution key:</strong>
-    <p>
-    <%= ticket.resolution_key %>
-    </p>
-  </p>
-
-  <p>
-    <strong>Response key:</strong>
-    <p>
-    <%= ticket.response_key %>
-    </p>
-  </p>
-
-<%end  %>
-
-
-<%if (current_user.Supervisor? or current_user.Administrator?) or (ticket.response_key=="Response Done" and current_user==ticket.ticket_list.user)%>
-  <p>
-    <strong>Response to user:</strong>
-    <p>
-    <%if ticket.response_to_user.empty?%>
-      Currently Empty
-    <%else  %>
-      <%= ticket.response_to_user %>
-    <%end  %>
-    </p>
-  </p>
 
     <p>
-    <strong>Response to user date:</strong>
-    <%if ticket.response_to_user_date.to_date!=ticket.creation_date.to_date  %>
+      <strong>Requesting User:</strong>
       <p>
-      <%= ticket.response_to_user_date.strftime("%e/%m/%Y") %>
+      <%= ticket.ticket_list.user.email %>
       </p>
-    <%else  %>
+    </p>
+
+    <p>
+      <strong>Creation date:</strong>
       <p>
-        In Progress
+      <%= ticket.creation_date.strftime("%e/%m/%Y") %>
       </p>
-    <%end  %>
-  </p>
-
-  <p>
-    <strong>Accept or reject solution:</strong>
-    <p>
-    <%= ticket.accept_or_reject_solution %>
     </p>
-  </p>
 
-  <p>
-    <strong>Star number:</strong>
+
     <p>
-    <%if ticket.star_number == 6 %>
-      Not rated yet
-    <%else  %>
-      <%= ticket.star_number %>
-    <%end  %>
-    </p>
-  </p>
-
-<%end %>
-
-
-<%if (current_user.Supervisor? or current_user.Administrator?) or (not current_user.User? and current_user!=ticket.ticket_list.user) %>
-
-    <%if ticket.limit_time_response.to_date!=ticket.creation_date.to_date  %>
-    <p>
-      <strong>Limit time response:</strong>
-        <p>
-        <%= ticket.limit_time_response.strftime("%e/%m/%Y") %>
+      <strong>Executive in charge:</strong>
+      <%if not ticket.assign_ticket.nil?  %>
+      <p>
+        <%= ticket.assign_ticket.user.email %>
         </p>
+      <%else %>
+      <p>
+        Defining Executive
+      </p>
+      <%end  %>
     </p>
-    <%end  %>
+
+
+  <%if (current_user.Supervisor? or current_user.Administrator?) or (not current_user.User? and current_user!=ticket.ticket_list.user) %>
+    <p>
+      <strong>Resolution date:</strong>
+      <%if ticket.resolution_date.to_date!=ticket.creation_date.to_date  %>
+        <p>
+        <%= ticket.resolution_date.strftime("%e/%m/%Y") %>
+        </p>
+      <%else  %>
+        <p>
+          In Progress
+        </p>
+      <%end  %>
+    </p>
+
+    <p>
+      <strong>Priority:</strong>
+      <p>
+      <%= ticket.priority %>
+      </p>
+    </p>
+
+    <p>
+      <strong>State:</strong>
+      <p>
+      <%= ticket.state %>
+      </p>
+    </p>
+
+    <p>
+      <strong>Resolution key:</strong>
+      <p>
+      <%= ticket.resolution_key %>
+      </p>
+    </p>
+
+    <p>
+      <strong>Response key:</strong>
+      <p>
+      <%= ticket.response_key %>
+      </p>
+    </p>
+
+  <%end  %>
+
+
+  <%if (current_user.Supervisor? or current_user.Administrator?) or (ticket.response_key=="Response Done" and current_user==ticket.ticket_list.user)%>
+    <p>
+      <strong>Response to user:</strong>
+      <p>
+      <%if ticket.response_to_user.empty?%>
+        Currently Empty
+      <%else  %>
+        <%= ticket.response_to_user %>
+      <%end  %>
+      </p>
+    </p>
+
+      <p>
+      <strong>Response to user date:</strong>
+      <%if ticket.response_to_user_date.to_date!=ticket.creation_date.to_date  %>
+        <p>
+        <%= ticket.response_to_user_date.strftime("%e/%m/%Y") %>
+        </p>
+      <%else  %>
+        <p>
+          In Progress
+        </p>
+      <%end  %>
+    </p>
+
+    <p>
+      <strong>Accept or reject solution:</strong>
+      <p>
+      <%= ticket.accept_or_reject_solution %>
+      </p>
+    </p>
+
+    <p>
+      <strong>Star number:</strong>
+      <p>
+      <%if ticket.star_number == 6 %>
+        Not rated yet
+      <%else  %>
+        <%= ticket.star_number %>
+      <%end  %>
+      </p>
+    </p>
+
+  <%end %>
+
+
+  <%if (current_user.Supervisor? or current_user.Administrator?) or (not current_user.User? and current_user!=ticket.ticket_list.user) %>
+
+      <%if ticket.limit_time_response.to_date!=ticket.creation_date.to_date  %>
+      <p>
+        <strong>Limit time response:</strong>
+          <p>
+          <%= ticket.limit_time_response.strftime("%e/%m/%Y") %>
+          </p>
+      </p>
+      <%end  %>
+
+    
+      <%if ticket.limit_time_response.to_date!=ticket.creation_date.to_date  %>
+      <p>
+      <strong>Limit time resolution:</strong>
+        <p>
+        <%= ticket.limit_time_resolution.strftime("%e/%m/%Y") %>
+        </p>
+      </p>
+      <%end  %>
+
+  <%end  %>
+
+
+    <p>
+      <strong>Attached Files:</strong>
+      <%if ticket.files.empty? %>
+      <p>
+        There are no files attached
+      </p>
+      <%else  %>
+      <p>
+        <%= render "tickets/attachment", ticket: ticket%>
+      </p>
+      <%end %>
+    </p>
+
+
+  <%if ((current_user.Executive? and ticket.ticket_list.user!=current_user )or current_user.Supervisor? or current_user.Administrator?) %>
+    
+    <div class="card mx-auto w-75 text-black text-center"style=" background-color: #E1F5A1">
+      <p>
+        <strong>Comments:</strong>
+        <%if ticket.comments.empty? %>
+          <p>
+            <div class="card mx-auto  text-black text-center mt-2 bg-white">
+              <%= "📥  "+"There are no comments yet"+"  📤" %>
+            </div>
+          </p>
+        <%else  %>
+          <p>
+          <%= render partial:"comment", collection: ticket.comments%>
+          </p>
+        <%end %>
+      </p>
+    </div>
+
+
+    <div class="card mx-auto w-50 text-black text-center mt-2"style=" background-color: #FE7C76">
+      <p>
+        <strong>Tags:</strong>
+        <%if ticket.tags.empty? %>
+          <p>
+            <div class="card mx-auto  text-black text-center mt-2 bg-white">
+              <%= "⚡  "+"There are no tags assign yet "+"  ⚡" %>
+            </div>
+          </p>
+        <%else  %>
+          <%= render partial:"tag", collection: ticket.tag_listing%>
+        <%end %>
+      </p>
+    </div>
+
+  <%end  %>
+
+
+  <%if index=="user" %>
+    <p>
+      <%= link_to "More information", user_ticket_list_ticket_path(current_user,ticket.ticket_list,ticket), class:"btn btn-warning mt-2" %>
+    </p>
+  <%elsif index=="executive_list"  %>
+    <p>
+      <%= link_to "More information", user_ticket_list_ticket_path(current_user,ticket.ticket_list,ticket), class:"btn btn-warning mt-2" %>
+    </p>
+  <%elsif index=="executive_assign"  %>
+    <p>
+      <%= link_to "More information", user_assign_ticket_ticket_path(current_user,ticket.assign_ticket,ticket), class:"btn btn-warning mt-2" %>
+      </p>
+
+  <%elsif index=="supervisor_admin"  %>
+    <p>
+        <%= link_to "More information", user_ticket_path(current_user,ticket), class:"btn btn-warning mt-2" %>
+    </p>
+
+  <%elsif index=="show_user"  %>
+
+    <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user,ticket.ticket_list,ticket), class:"btn btn-sm btn-info", style:'margin-right: 10px;'  %> 
+    <%= link_to "Back to tickets", user_tickets_path(current_user), class:"btn btn-sm btn-secondary", style:'margin-right: 10px;'  %>
+
+    <%= button_to "Destroy this ticket", ticket, method: :delete, class:"btn btn-danger btn-sm mt-2"%>
+
+  <%elsif index=="show_executive_list"  %>
+
+    <%# Can't check Tags or Chat in this option, beause its 'private' to the executives working in the ticket and Supervisor's and Administrator %>
+    <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user,params[:ticket_list_id],ticket), class:"btn btn-sm btn-info", style:'margin-right: 10px;'  %> 
+    <%= link_to "Back to tickets", user_ticket_list_tickets_path, class:"btn btn-sm btn-secondary", style:'margin-right: 10px;'  %>
+      
+    <%= button_to "Destroy this ticket", ticket, method: :delete, class:"btn btn-danger btn-sm mt-2"%>
+
+  <%elsif index=="show_executive_assign"  %>
+
+    <%= link_to "Check Tags", user_assign_ticket_ticket_tag_lists_path(current_user,params[:assign_ticket_id],ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %>
+    <%= link_to "Check Chat", user_assign_ticket_ticket_chats_path(current_user,params[:assign_ticket_id],@ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;'  %>
+
+    <%= link_to "Edit this ticket", edit_user_assign_ticket_ticket_path(current_user,params[:assign_ticket_id],ticket), class:"btn btn-sm btn-info mt-2", style:'margin-right: 10px;'  %>
+    <%= link_to "Back to tickets", user_assign_ticket_tickets_path, class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;'  %>
+
+  <%elsif index=="show_executive_assign_basic"  %>
+    <%= link_to "Edit this ticket", edit_user_assign_ticket_ticket_path(current_user,ticket.assign_ticket,ticket), class:"btn btn-sm btn-info mt-2", style:'margin-right: 10px;'  %>
+    <%= link_to "Back to tickets", user_assign_ticket_tickets_path(current_user,ticket.assign_ticket), class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;'  %>
+
+  <%elsif index=="show_supervisor_admin"  %>
+    <%= link_to "Check Tags", user_ticket_tag_lists_path(current_user,ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %>
+    <%= link_to "Check Chat", user_ticket_chats_path(current_user,ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %>
+
+    <%= link_to "Edit this ticket", edit_user_ticket_path(current_user,ticket), class:"btn btn-sm btn-info mt-2", style:'margin-right: 10px;'  %>
+    <%= link_to "Back to tickets", user_tickets_path(current_user), class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;'  %>
+
+    <%= button_to "Destroy this ticket", ticket, method: :delete, class:"btn btn-danger btn-sm mt-2"%>
+  <%end  %>
 
    
-    <%if ticket.limit_time_response.to_date!=ticket.creation_date.to_date  %>
-    <p>
-     <strong>Limit time resolution:</strong>
-      <p>
-      <%= ticket.limit_time_resolution.strftime("%e/%m/%Y") %>
-      </p>
-    </p>
-    <%end  %>
-
-<%end  %>
-
-
-  <p>
-    <strong>Attached Files:</strong>
-    <%if ticket.files.empty? %>
-    <p>
-      There are no files attached
-    </p>
-    <%else  %>
-    <p>
-      <%= render "tickets/attachment", ticket: ticket%>
-    </p>
-    <%end %>
-  </p>
-
-
-<%if ((current_user.Executive? and ticket.ticket_list.user!=current_user )or current_user.Supervisor? or current_user.Administrator?) %>
-  
-  <div class="card mx-auto w-75 text-black text-center"style=" background-color: #E1F5A1">
-    <p>
-      <strong>Comments:</strong>
-      <%if ticket.comments.empty? %>
-        <p>
-          <div class="card mx-auto  text-black text-center mt-2 bg-white">
-            <%= "📥  "+"There are no comments yet"+"  📤" %>
-          </div>
-        </p>
-      <%else  %>
-        <p>
-        <%= render partial:"comment", collection: ticket.comments%>
-        </p>
-      <%end %>
-    </p>
   </div>
-
-
-  <div class="card mx-auto w-50 text-black text-center mt-2"style=" background-color: #FE7C76">
-    <p>
-      <strong>Tags:</strong>
-      <%if ticket.tags.empty? %>
-        <p>
-          <div class="card mx-auto  text-black text-center mt-2 bg-white">
-            <%= "⚡  "+"There are no tags assign yet "+"  ⚡" %>
-          </div>
-        </p>
-      <%else  %>
-        <%= render partial:"tag", collection: ticket.tag_listing%>
-      <%end %>
-    </p>
-  </div>
-
-<%end  %>
 </div>
+
+
+<script>
+var divElement = document.querySelector('.ticket-<%=ticket.id%>');
+var indexValue = '<%= index %>';
+
+check_resolution_key = '<%= ticket.resolution_key %>';
+check_response_key = '<%= ticket.response_key %>';
+
+var ticketLimitResolutionString = '<%= ticket.limit_time_resolution %>';
+var ticketLimitResponseString = '<%= ticket.limit_time_response %>';
+var ticketCreationDateString = '<%= ticket.creation_date %>';
+
+// Extract date components
+var ticketLimitResolutionComponents = ticketLimitResolutionString.split(/[- :]/);
+var ticketLimitResponseComponents = ticketLimitResponseString.split(/[- :]/);
+var ticketCreationDateComponents = ticketCreationDateString.split(/[- :]/);
+
+// Create Date objects
+var ticketLimitResolution = new Date(
+  ticketLimitResolutionComponents[0], ticketLimitResolutionComponents[1] - 1, ticketLimitResolutionComponents[2],
+  ticketLimitResolutionComponents[3], ticketLimitResolutionComponents[4], ticketLimitResolutionComponents[5]
+);
+
+var ticketLimitResponse = new Date(
+  ticketLimitResponseComponents[0], ticketLimitResponseComponents[1] - 1, ticketLimitResponseComponents[2],
+  ticketLimitResponseComponents[3], ticketLimitResponseComponents[4], ticketLimitResponseComponents[5]
+);
+
+var ticketCreationDate = new Date(
+  ticketCreationDateComponents[0], ticketCreationDateComponents[1] - 1, ticketCreationDateComponents[2],
+  ticketCreationDateComponents[3], ticketCreationDateComponents[4], ticketCreationDateComponents[5]
+);
+
+
+var currentDate = new Date();
+
+var timeDifferenceCreationCurrent= ticketCreationDate.getTime() - currentDate.getTime();
+var totalDaysCreationCurrent = Math.ceil(timeDifferenceCreationCurrent / (1000 * 3600 * 24));
+totalDaysCreationCurrent =Math.abs(totalDaysCreationCurrent );
+
+var timeDifferenceCreationResolution = ticketLimitResolution.getTime() - ticketCreationDate.getTime();
+var totalDaysCreatReso = Math.floor(timeDifferenceCreationResolution / (1000 * 3600 * 24));
+
+var timeDifferenceCreationResponse =ticketLimitResponse.getTime() - ticketCreationDate.getTime();
+var totalDaysCreatResp= Math.floor(timeDifferenceCreationResponse / (1000 * 3600 * 24));
+
+if ((indexValue === 'just_show') || (indexValue === 'user') || (indexValue === 'executive_list') || (indexValue === 'show_user') || (indexValue === 'show_executive_list') ) {
+  divElement.style.backgroundColor = '';
+  } 
+else{
+  
+  if ((totalDaysCreatResp>0)&&(totalDaysCreatReso>0)){
+    if(totalDaysCreatResp>totalDaysCreatReso){
+      deadline_time=totalDaysCreatReso-totalDaysCreationCurrent
+      if ((check_resolution_key== "Resolution Pending") || (check_response_key== "Response Pending") ){
+        if(deadline_time>0){
+          divElement.style.backgroundColor = 'yellow';
+        }
+        else if (deadline_time==0){
+          divElement.style.backgroundColor = 'pink';
+        }
+        else{
+          divElement.style.backgroundColor = '#BA97FF';
+        }
+      }
+      
+
+    }
+    else if(totalDaysCreatResp<totalDaysCreatReso){
+      deadline_time=totalDaysCreatResp-totalDaysCreationCurrent
+
+      if ((check_response_key== "Response Pending") || (check_resolution_key== "Resolution Pending")){
+          if(deadline_time>0){
+            divElement.style.backgroundColor = 'yellow';
+          }
+          else if (deadline_time==0){
+            divElement.style.backgroundColor = 'pink';
+          }
+          else{
+            divElement.style.backgroundColor = '#BA97FF';
+          }
+      }
+
+    }
+    else{
+      deadline_time=totalDaysCreatResp-totalDaysCreationCurrent
+
+      if ((check_response_key== "Response Pending") || (check_resolution_key== "Resolution Pending")){
+        if(deadline_time>0){
+          divElement.style.backgroundColor = 'yellow';
+        }
+        else if (deadline_time==0){
+          divElement.style.backgroundColor = 'pink';
+        }
+        else{
+          divElement.style.backgroundColor = '#BA97FF';
+        }
+      }
+    }
+
+  }
+  else if(totalDaysCreatResp>0){
+    deadline_time=totalDaysCreatResp-totalDaysCreationCurrent
+      
+    if (check_response_key== "Response Pending"){
+      if(deadline_time>0){
+        divElement.style.backgroundColor = 'yellow';
+      }
+      else if (deadline_time==0){
+        divElement.style.backgroundColor = 'pink';
+      }
+      else{
+        divElement.style.backgroundColor = '#BA97FF';
+      }
+    }
+    
+  }
+  else if(totalDaysCreatReso>0){
+     deadline_time=totalDaysCreatReso-totalDaysCreationCurrent
+     if(check_resolution_key== "Resolution Pending"){
+       if(deadline_time>0){
+         divElement.style.backgroundColor = 'yellow';
+       }
+       else if (deadline_time==0){
+         divElement.style.backgroundColor = 'pink';
+       }
+       else{
+         divElement.style.backgroundColor = '#BA97FF';
+       }
+
+     }
+  }
+  else{
+    divElement.style.backgroundColor = '';
+  }
+  // not near -> white
+  // near -> yellow
+  // in deadline -> pink
+  //pass deadline -> #BA97FF
+
+  
+}
+
+
+</script>

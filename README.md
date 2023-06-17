@@ -9,10 +9,6 @@ Ticket model
 
     ->Agregar validacion del phone
 
-Ticket "index and #show
-
-    -> change the some "data color"(could be the card color) based in the nearest to de limit time
-
 Assign Ticket 
 
     -> Automatic assignment of tickets to executives (the executive with less tickets)
@@ -22,6 +18,7 @@ Assign Ticket
 Users
 
     -> Associate an account with a google email
+
 
 ### <ins>Arreglar los forms de todas las paginas</ins>
 

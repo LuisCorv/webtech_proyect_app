@@ -2,6 +2,7 @@ class Ticket < ApplicationRecord
 
     has_many_attached :files, dependent: :destroy
 
+    before_create :set_dates
 
     has_one :ticket_list, dependent: :destroy
     has_one :assign_ticket
@@ -45,5 +46,13 @@ class Ticket < ApplicationRecord
 
     def tag_listing
         tags.map{ |t| "✨  "+t.name+"  ✨"}
+    end
+
+    def set_dates
+        self.creation_date=DateTime.current.beginning_of_day
+        self.response_to_user_date=DateTime.current.beginning_of_day
+        self.resolution_date=DateTime.current.beginning_of_day
+        self.limit_time_response=DateTime.current.beginning_of_day
+        self.limit_time_resolution=DateTime.current.beginning_of_day
     end
 end

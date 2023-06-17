@@ -93,15 +93,13 @@
       <%if  form.object.state== "Waiting State" %>
         <div class="form-row ">
           <div class="form-group col-4 mx-auto text-center">
-            <%= form.label :state, style: "display: block"%>
-            <%= form.select :state, Ticket.states.keys,value: "Open" ,readonly: true%>
+            <%= form.text_area :state,value: "Open" ,readonly: true ,style: "display: none"%>
           </div>
       </div>
-      <%elsif (form.object.state.Open? or form.object.state.ReOpen? ) and form.object.resolution_key=="Resolution Done" %>
+      <%elsif (form.object.state=="Open" or form.object.state=="ReOpen" ) and form.object.resolution_key=="Resolution Done" %>
         <div class="form-row ">
           <div class="form-group col-4 mx-auto text-center">
-            <%= form.label :state, style: "display: block"%>
-            <%= form.select :state, Ticket.states.keys,value: "Closed" ,readonly: true%>
+            <%= form.text_area :state,value: "Closed" ,readonly: true, style: "display: none"%>
           </div>
       </div>
       <%end %>
@@ -143,6 +141,13 @@
           </div>
       </div>
 
+      <%# <div class="form-row "> %>
+          <%# <div class="form-group col-4 mx-auto text-center"> %>
+        <%# <%= form.label :creation_date, style: "display: block" %> 
+        <%# <%= form.datetime_field :creation_date, value: form.object.creation_date.to_date, placeholder:"YYYY/MM/DD",  class: "form-control"%>
+          <%# </div> %>
+      <%# </div> %>
+
     <%end  %>
 
 
@@ -166,6 +171,7 @@
           <%end %>
           </div>
       </div>
+
 
 
     <div class="actions">

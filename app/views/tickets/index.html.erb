@@ -45,12 +45,9 @@
                 data-priority="<%=t.priority%>" 
                 data-response_to_user_date="<%=t.response_to_user_date%>"
                 data-resolution_date="<%=t.resolution_date%>">
-                <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-                    <%= render partial:"ticket", locals: {ticket: t}%> 
-                    <p>
-                    <%= link_to "More information", user_ticket_list_ticket_path(current_user,t.ticket_list,t), class:"btn btn-warning mt-2" %>
-                    </p>
-                </div>
+                
+                    <%= render partial:"ticket", locals: {ticket: t, index:"user"}%> 
+                    
                 <br>
               </div>
             <%end  %>
@@ -60,8 +57,7 @@
             data-priority="<%=t.priority%>" 
             data-response_to_user_date="<%=t.response_to_user_date%>"
             data-resolution_date="<%=t.resolution_date%>">
-                <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-            <%= render partial:"ticket", locals: {ticket: t}%> </div>
+            <%= render partial:"ticket", locals: {ticket: t,index:"just_show"}%>
             <br>
             </div>
               <%end  %>
@@ -74,12 +70,8 @@
                         data-priority="<%=t.priority%>" 
                         data-response_to_user_date="<%=t.response_to_user_date%>"
                         data-resolution_date="<%=t.resolution_date%>">
-                    <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-                        <%= render partial:"ticket", locals: {ticket: t}%> 
-                    <p>
-                    <%= link_to "More information", user_ticket_list_ticket_path(current_user,t.ticket_list,t), class:"btn btn-warning mt-2" %>
-                    </p>
-                    </div>
+                        <%= render partial:"ticket", locals: {ticket: t, index: "executive_list"}%> 
+                   
                     <br>
                     </div>
                 <%end  %>
@@ -91,12 +83,8 @@
                         data-priority="<%=t.priority%>" 
                         data-response_to_user_date="<%=t.response_to_user_date%>"
                         data-resolution_date="<%=t.resolution_date%>">
-                    <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-                        <%= render partial:"ticket", locals: {ticket: t}%> 
-                    <p>
-                    <%= link_to "More information", user_assign_ticket_ticket_path(current_user,t.assign_ticket,t), class:"btn btn-warning mt-2" %>
-                    </p>
-                    </div>
+                        <%= render partial:"ticket", locals: {ticket: t, index:"executive_assign"}%> 
+                    
                     <br>
                     </div>
                 <%end  %>
@@ -108,9 +96,7 @@
                         data-priority="<%=t.priority%>" 
                         data-response_to_user_date="<%=t.response_to_user_date%>"
                         data-resolution_date="<%=t.resolution_date%>">
-                    <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-                        <%= render partial:"ticket", locals: {ticket: t}%> 
-                        </div>
+                        <%= render partial:"ticket", locals: {ticket: t, index:"just_show"}%> 
                         <br>
                     </div>
                     <%end  %>
@@ -120,9 +106,7 @@
                         data-priority="<%=t.priority%>" 
                         data-response_to_user_date="<%=t.response_to_user_date%>"
                         data-resolution_date="<%=t.resolution_date%>">
-                    <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-                        <%= render partial:"ticket", locals: {ticket: t}%> 
-                        </div>
+                        <%= render partial:"ticket", locals: {ticket: t, index:"just_show"}%> 
                         <br>
                     </div>
                     <%end  %>
@@ -137,13 +121,8 @@
             data-response_to_user_date="<%=t.response_to_user_date%>"
             data-resolution_date="<%=t.resolution_date%>">
              
-             <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-            <%= render partial:"ticket", locals: {ticket: t}%>
+            <%= render partial:"ticket", locals: {ticket: t,index:"supervisor_admin"}%>
             
-            <p>
-                <%= link_to "More information", user_ticket_path(current_user,t), class:"btn btn-warning mt-2" %>
-            </p>
-            </div>
             <br>
             
           </div>
