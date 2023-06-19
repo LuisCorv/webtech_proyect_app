@@ -1,7 +1,7 @@
 # Por Hacer
 
 
-Reports (Performance, Ticket, Overdue) 
+Reports (Performance) 
 
     -> Implement All reports methods needed to create a report
 

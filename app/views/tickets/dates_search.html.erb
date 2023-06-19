@@ -1,0 +1,38 @@
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+    <div class="container ">
+        <div class="row">
+            <div class="group col-3 mx-auto text-center">
+                Created Tickets: 
+                <%=@tickets.count %>
+            </div>
+            <div class="group col-3 mx-auto text-center">
+                Open Tickets: 
+                <%=@tickets_open.count %>
+            </div>
+
+            <div class="group col-3 mx-auto text-center">
+                Closed Tickets: 
+                <%=@tickets_closed.count %>
+            </div>
+
+            <div class="group col-3 mx-auto text-center">
+                Reopen Tickets: 
+                <%=@tickets_reopen.count %>
+            </div>
+        </div>
+
+        <div class="row">
+            <%# Make all requirements of this report histogram%>
+        </div>
+    </div>
+    
+</div>
+
+
+
+<br>
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+<p>
+    <%= link_to "Back to the Tickets Reports", user_ticket_report_path(current_user), class:"btn btn-outline-dark", style:'margin-right: 10px;' %>
+</p>
+</div>

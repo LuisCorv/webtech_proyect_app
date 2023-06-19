@@ -14,8 +14,9 @@ Rails.application.routes.draw do
   
 
   get '/tickets/search', to: 'tickets#search'
+  
   resources :users do
-
+    get '/ticket_reports/dates_search', to: 'tickets#dates_search'
     resources :ticket_lists do
       resources :tickets 
 

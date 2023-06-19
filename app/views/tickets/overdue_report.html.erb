@@ -1,11 +1,161 @@
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-Overdue Report
+<h5><strong> Overdue Report</strong></h5>
 </div>
 <br>
 
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+    <h4>The total of overdue tickets: <%=@tickets.count %></h4> 
+</div>
+
+<br>
+
+<div class="card mx-auto p-3 text-black text-center" style="width: 40rem; background-color: #B5D3FF;">
+<h5>Want to sort by Priority, Response Date or Resolution Date ??</h5>
+  <div class="button-container d-flex justify-content-center">
+    <button id="sortButtonPriority" type="button" class="btn  btn-outline-success btn-sm" style="display: block; margin: 0 auto; margin-right: 10px;">Sort by Priority &#10607;</button>
+    <button id="sortButtonClosing" type="button" class="btn  btn-outline-success btn-sm" style="display: block; margin: 0 auto; margin-right: 10px;">Sort by Closing Date &#10607;</button>
+    <button id="sortButtonResponse" type="button" class="btn  btn-outline-success btn-sm" style="display: block; margin: 0 auto;">Sort by Response Date &#10607;</button>
+  </div>
+</div>
+<br>
+
+<div id="ticketContainer">
+    
+    <% @tickets.each do |t| %>
+        <div class="ticket" data-priority="<%=t.priority%>" data-response_to_user_date="<%=t.response_to_user_date%>" data-resolution_date="<%=t.resolution_date%>">
+
+        <div class="card mx-auto w-75 p-3 bg-white text-black text-center mt-1">
+            <p>
+            <%= " |" %> 
+            <strong>Ticket title: </strong> <%= t.title %> <%= " |" %>
+            <strong>Ticket priority: </strong><%=t.priority %> <%= " |" %>
+            <strong>Ticket resolution date: </strong><%= t.resolution_date.strftime("%e/%m/%Y") %> <%= " |" %>
+            <strong>Ticket response date: </strong> <%= t.response_to_user_date.strftime("%e/%m/%Y") %> <%= " |" %>
+            </p>
+        
+        </div></div>
+    <%end  %>
+    
+</div>
+<br>
 
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <p>
     <%= link_to "Back to the user", user_path(params[:user_id]), class:"btn btn-outline-info", style:'margin-right: 10px;' %>
 </p>
 </div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var sortButtonPriority = document.getElementById('sortButtonPriority');
+    var sortButtonClosing = document.getElementById('sortButtonClosing');
+    var sortButtonResponse = document.getElementById('sortButtonResponse');
+
+    var sortOrder = 'asc'; // Initial sort order
+    var sortOrderClosing= "asc" // Initial sort order
+    var sortOrderResponse = 'asc'; // Initial sort order
+
+
+// Priority Sort
+    sortButtonPriority.addEventListener('click', function() {
+        sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'; // Toggle sort order
+
+        var tickets = Array.from(document.getElementsByClassName('ticket'));
+        tickets.sort(function(a, b) {
+        var priorityA = a.getAttribute('data-priority');
+        var priorityB = b.getAttribute('data-priority');
+
+        if (priorityA === priorityB) {
+            return 0;
+        } else if (sortOrder === 'asc') {
+            return getPriorityValue(priorityA) - getPriorityValue(priorityB);
+        } else {
+            return getPriorityValue(priorityB) - getPriorityValue(priorityA);
+        }
+        });
+
+        var container = document.getElementById('ticketContainer');
+        tickets.forEach(function(ticket) {
+        container.appendChild(ticket);
+        });
+    });
+// Closing Sort
+    sortButtonClosing.addEventListener('click', function() {
+        sortOrderClosing = sortOrderClosing === 'asc' ? 'desc' : 'asc'; // Toggle sort order
+
+        sortTicketsClosing();
+    });
+
+    function sortTicketsClosing() {
+        var tickets = Array.from(document.getElementsByClassName('ticket'));
+        tickets.sort(function(a, b) {
+        var valueA = parseDateString(a.getAttribute('data-resolution_date'));
+        var valueB = parseDateString(b.getAttribute('data-resolution_date'));
+
+        if (sortOrderClosing === 'asc') {
+            return valueA - valueB;
+        } else {
+            return valueB - valueA;
+        }
+        });
+
+        var container = document.getElementById('ticketContainer');
+        tickets.forEach(function(ticket) {
+        container.appendChild(ticket);
+        });
+    } 
+
+// Response Sort
+    sortButtonResponse.addEventListener('click', function() {
+        sortOrderResponse = sortOrderResponse === 'asc' ? 'desc' : 'asc'; // Toggle sort order
+
+        sortTickets();
+    });
+
+    function sortTickets() {
+        var tickets = Array.from(document.getElementsByClassName('ticket'));
+        tickets.sort(function(a, b) {
+        var valueA = parseDateString(a.getAttribute('data-response_to_user_date'));
+
+        var valueB = parseDateString(b.getAttribute('data-response_to_user_date'));
+
+        if (sortOrderResponse === 'asc') {
+            return valueA - valueB;
+        } else {
+            return valueB - valueA;
+        }
+        });
+
+        var container = document.getElementById('ticketContainer');
+        tickets.forEach(function(ticket) {
+        container.appendChild(ticket);
+        });
+    } 
+
+
+
+    //To get date of the Time
+    function parseDateString(dateString) {
+        var parts = dateString.split(' ');
+        var datePart = parts[0];
+        return new Date(datePart);
+    }
+
+    //To get the value associate to priority
+    function getPriorityValue(priority) {
+        switch (priority) {
+        case 'Low':
+            return 0;
+        case 'Normal':
+            return 1;
+        case 'High':
+            return 2;
+        case 'Urgent':
+            return 3;
+        default:
+            return 9999; // Handle unknown priority values
+        }
+    }
+});
+</script>
