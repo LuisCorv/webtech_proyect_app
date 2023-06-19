@@ -19,9 +19,6 @@ Users
 
 Areglar las paginas ("views") a lo que se quiere hacer
 
-    Hacer que se puedan eliminar archivos que se encuentren en el Ticket, si es que uno es el usuario
-    (Para lograr el eliminar uno en especifico puede servir el @ticket.files.id_archivo.purge   -> el id_archivo puede ser mas cacho de obtener)
-
 
 -Implement methods to manege correctly this 'automatic creation' objects
 
