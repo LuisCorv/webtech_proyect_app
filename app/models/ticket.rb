@@ -5,7 +5,7 @@ class Ticket < ApplicationRecord
     before_create :set_dates
 
     has_one :ticket_list, dependent: :destroy
-    has_one :assign_ticket
+    has_one :assign_ticket, dependent: :destroy
     has_one :tag_list
     has_many :tags ,through: :tag_list
     has_one :chat
@@ -54,5 +54,14 @@ class Ticket < ApplicationRecord
         self.resolution_date=DateTime.current.beginning_of_day
         self.limit_time_response=DateTime.current.beginning_of_day
         self.limit_time_resolution=DateTime.current.beginning_of_day
+    end
+
+
+    def pre_assing_executive
+        user_with_fewest_tickets = User.joins(:assign_tickets).joins("INNER JOIN tickets ON assign_tickets.ticket_id = tickets.id").where("tickets.state = ?", 1).group("users.id").order("COUNT(tickets.id)").first
+    end
+
+    def pre_assing_second
+        user_with_fewest_tickets = User.joins(:assign_tickets).joins("INNER JOIN tickets ON assign_tickets.ticket_id = tickets.id").where("tickets.state = ?", 1).group("users.id").order("COUNT(tickets.id)").second
     end
 end

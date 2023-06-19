@@ -46,7 +46,7 @@
   <%if (current_user.Supervisor? or current_user.Administrator?) or (not current_user.User? and current_user!=ticket.ticket_list.user) %>
     <p>
       <strong>Resolution date:</strong>
-      <%if ticket.resolution_date.to_date!=ticket.creation_date.to_date  %>
+      <%if ticket.resolution_date!=ticket.creation_date %>
         <p>
         <%= ticket.resolution_date.strftime("%e/%m/%Y") %>
         </p>
@@ -88,7 +88,8 @@
   <%end  %>
 
 
-  <%if (current_user.Supervisor? or current_user.Administrator?) or (ticket.response_key=="Response Done" and current_user==ticket.ticket_list.user)%>
+  <%if (current_user.Supervisor? or current_user.Administrator?) or (ticket.response_key=="Response Done")%>
+    <div class="card mx-auto w-50 text-black text-center mt-2"style=" background-color: #FFF797">
     <p>
       <strong>Response to user:</strong>
       <p>
@@ -99,10 +100,11 @@
       <%end  %>
       </p>
     </p>
+    </div>
 
       <p>
       <strong>Response to user date:</strong>
-      <%if ticket.response_to_user_date.to_date!=ticket.creation_date.to_date  %>
+      <%if ticket.response_to_user_date!=ticket.creation_date %>
         <p>
         <%= ticket.response_to_user_date.strftime("%e/%m/%Y") %>
         </p>
@@ -126,7 +128,7 @@
       <%if ticket.star_number == 6 %>
         Not rated yet
       <%else  %>
-        <%= ticket.star_number %>
+        <%= ticket.star_number %><%=" ⭐"%>
       <%end  %>
       </p>
     </p>
@@ -229,31 +231,45 @@
     </p>
 
   <%elsif index=="show_user"  %>
-
-    <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user,ticket.ticket_list,ticket), class:"btn btn-sm btn-info", style:'margin-right: 10px;'  %> 
-    <%= link_to "Back to tickets", user_tickets_path(current_user), class:"btn btn-sm btn-secondary", style:'margin-right: 10px;'  %>
-
-    <%= button_to "Destroy this ticket", ticket, method: :delete, class:"btn btn-danger btn-sm mt-2"%>
+    <%if (ticket.star_number=!6 or ticket.state=="Closed")  %>
+      <%= link_to "Back to tickets", user_tickets_path(current_user), class:"btn btn-sm btn-secondary", style:'margin-right: 10px;'  %>
+    <%else  %>
+      <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user,ticket.ticket_list,ticket), class:"btn btn-sm btn-info", style:'margin-right: 10px;'  %> 
+      <%= link_to "Back to tickets", user_tickets_path(current_user), class:"btn btn-sm btn-secondary", style:'margin-right: 10px;'  %>
+      <%= button_to "Destroy this ticket", ticket, method: :delete, class:"btn btn-danger btn-sm mt-2"%>
+    <%end  %>
 
   <%elsif index=="show_executive_list"  %>
-
     <%# Can't check Tags or Chat in this option, beause its 'private' to the executives working in the ticket and Supervisor's and Administrator %>
-    <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user,params[:ticket_list_id],ticket), class:"btn btn-sm btn-info", style:'margin-right: 10px;'  %> 
-    <%= link_to "Back to tickets", user_ticket_list_tickets_path, class:"btn btn-sm btn-secondary", style:'margin-right: 10px;'  %>
-      
-    <%= button_to "Destroy this ticket", ticket, method: :delete, class:"btn btn-danger btn-sm mt-2"%>
+
+    <%if (ticket.star_number=!6 or ticket.state=="Closed")  %>
+      <%= link_to "Back to tickets", user_ticket_list_tickets_path, class:"btn btn-sm btn-secondary", style:'margin-right: 10px;'  %>
+
+    <%else  %>
+      <%= link_to "Edit this ticket", edit_user_ticket_list_ticket_path(current_user,params[:ticket_list_id],ticket), class:"btn btn-sm btn-info", style:'margin-right: 10px;'  %> 
+      <%= link_to "Back to tickets", user_ticket_list_tickets_path, class:"btn btn-sm btn-secondary", style:'margin-right: 10px;'  %>
+      <%= button_to "Destroy this ticket", ticket, method: :delete, class:"btn btn-danger btn-sm mt-2"%>
+    <%end  %>
 
   <%elsif index=="show_executive_assign"  %>
-
-    <%= link_to "Check Tags", user_assign_ticket_ticket_tag_lists_path(current_user,params[:assign_ticket_id],ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %>
-    <%= link_to "Check Chat", user_assign_ticket_ticket_chats_path(current_user,params[:assign_ticket_id],@ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;'  %>
-
-    <%= link_to "Edit this ticket", edit_user_assign_ticket_ticket_path(current_user,params[:assign_ticket_id],ticket), class:"btn btn-sm btn-info mt-2", style:'margin-right: 10px;'  %>
-    <%= link_to "Back to tickets", user_assign_ticket_tickets_path, class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;'  %>
+    <%if (ticket.star_number=!6 or ticket.state=="Closed")  %>
+      <%= link_to "Check Tags", user_assign_ticket_ticket_tag_lists_path(current_user,params[:assign_ticket_id],ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %>
+      <%= link_to "Check Chat", user_assign_ticket_ticket_chats_path(current_user,params[:assign_ticket_id],@ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;'  %>
+      <%= link_to "Back to tickets", user_assign_ticket_tickets_path, class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;'  %>
+    <%else  %>
+      <%= link_to "Check Tags", user_assign_ticket_ticket_tag_lists_path(current_user,params[:assign_ticket_id],ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %>
+      <%= link_to "Check Chat", user_assign_ticket_ticket_chats_path(current_user,params[:assign_ticket_id],@ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;'  %>
+      <%= link_to "Edit this ticket", edit_user_assign_ticket_ticket_path(current_user,params[:assign_ticket_id],ticket), class:"btn btn-sm btn-info mt-2", style:'margin-right: 10px;'  %>
+      <%= link_to "Back to tickets", user_assign_ticket_tickets_path, class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;'  %>
+    <%end  %>
 
   <%elsif index=="show_executive_assign_basic"  %>
-    <%= link_to "Edit this ticket", edit_user_assign_ticket_ticket_path(current_user,ticket.assign_ticket,ticket), class:"btn btn-sm btn-info mt-2", style:'margin-right: 10px;'  %>
-    <%= link_to "Back to tickets", user_assign_ticket_tickets_path(current_user,ticket.assign_ticket), class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;'  %>
+    <%if (ticket.star_number=!6 or ticket.state=="Closed")  %>
+      <%= link_to "Back to tickets", user_assign_ticket_tickets_path(current_user,ticket.assign_ticket), class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;'  %>
+    <%else  %>
+      <%= link_to "Edit this ticket", edit_user_assign_ticket_ticket_path(current_user,ticket.assign_ticket,ticket), class:"btn btn-sm btn-info mt-2", style:'margin-right: 10px;'  %>
+      <%= link_to "Back to tickets", user_assign_ticket_tickets_path(current_user,ticket.assign_ticket), class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;'  %>    
+    <%end  %>
 
   <%elsif index=="show_supervisor_admin"  %>
     <%= link_to "Check Tags", user_ticket_tag_lists_path(current_user,ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %>

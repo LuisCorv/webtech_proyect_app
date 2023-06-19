@@ -15,10 +15,13 @@ class AssignTicketsController < ApplicationController
   def new
     
     if current_user.User? 
-      redirect_to user_tickets_path(current_user), alert: "You can't assign tickets, because you are a User, and not support staff"
+      redirect_to user_tickets_path(current_user), alert: "You can't assign tickets, because you are a User, and not a  support staff"
       return
     elsif current_user.Executive?
-      redirect_to user_assign_tickets_path(current_user), alert: "You can't created assign tickets, only Supervisor and Administrators can"
+      redirect_to user_assign_tickets_path(current_user), alert: "You can't created assign tickets"
+      return
+    else 
+      redirect_to assign_tickets_path(), alert: "You can't created assign tickets, but you can edit them"
       return
     end
 

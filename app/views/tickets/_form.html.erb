@@ -1,5 +1,5 @@
 <div class="container ">
-  <%= form_with(model: ticket) do |form| %>
+  <%= form_with(model: ticket, id: "myForm") do |form| %>
     <% if ticket.errors.any? %>
       <div style="color: red">
         <h2><%= pluralize(ticket.errors.count, "error") %> prohibited this ticket from being saved:</h2>
@@ -11,6 +11,8 @@
         </ul>
       </div>
     <% end %>
+
+      <br />
 
     <%if (current_user.User? or current_user.Executive?)%>
       <%if not form.object.ticket_list.nil? %>
@@ -81,46 +83,45 @@
       
 
     <%elsif (current_user.Executive? and not form.object.assign_ticket.nil?)%>
-
-
-      <div class="form-row ">
-          <div class="form-group col-8 mx-auto text-center">
-        <%= form.label :response_to_user, style: "display: block" %>
-        <%= form.text_area :response_to_user,  class: "form-control" %>
-          </div>
-      </div>
-
-      <%if  form.object.state== "Waiting State" %>
+      <%if form.object.assign_ticket.user == current_user %>
         <div class="form-row ">
-          <div class="form-group col-4 mx-auto text-center">
-            <%= form.text_area :state,value: "Open" ,readonly: true ,style: "display: none"%>
-          </div>
-      </div>
-      <%elsif (form.object.state=="Open" or form.object.state=="ReOpen" ) and form.object.resolution_key=="Resolution Done" %>
-        <div class="form-row ">
-          <div class="form-group col-4 mx-auto text-center">
-            <%= form.text_area :state,value: "Closed" ,readonly: true, style: "display: none"%>
-          </div>
-      </div>
-      <%end %>
+            <div class="form-group col-8 mx-auto text-center">
+          <%= form.label :response_to_user, style: "display: block" %>
+          <%= form.text_area :response_to_user,  class: "form-control" %>
+            </div>
+        </div>
+        <%# Hacer que se envie la fecha tambien %>
+      <%end  %>
 
     <%end %>
 
-    <%if (current_user.User? and form.object.response_key=="Response Done")%>
+    <%if ((current_user.User? or current_user.Executive?) and form.object.response_key=="Response Done")%>
       <div class="form-row ">
           <div class="form-group col-4 mx-auto text-center">
           <%= form.label :accept_or_reject_solution, style: "display: block"%>
-          <%= form.select :accept_or_reject_solution, Ticket.accept_or_reject_solutions.keys %>
+          <%= form.select :accept_or_reject_solution, Ticket.accept_or_reject_solutions.except(:"Pending").keys, onchange: "handleAcceptChange()" %>
           </div>
       </div>
 
-      <%# Hacer que se despliegue star_number si es que accept_reject es accept (probablemente javascript) %>
-      <div class="form-row ">
-          <div class="form-group col-4 mx-auto text-center">
+
+      <div id="rating-container" style="display: none;">
         <%= form.label :star_number, style: "display: block" %>
-        <%= form.select :star_number, (0..5).to_a %>
-          </div>
+        <div class="rating-stars">
+          <input type="radio" name="rating" id="star5" value="5" onclick="handleRatingChange(5)">
+          <label for="star5"></label>
+          <input type="radio" name="rating" id="star4" value="4" onclick="handleRatingChange(4)">
+          <label for="star4"></label>
+          <input type="radio" name="rating" id="star3" value="3" onclick="handleRatingChange(3)">
+          <label for="star3"></label>
+          <input type="radio" name="rating" id="star2" value="2" onclick="handleRatingChange(2)">
+          <label for="star2"></label>
+          <input type="radio" name="rating" id="star1" value="1" onclick="handleRatingChange(1)">
+          <label for="star1"></label>
+        </div>
+        <%= form.text_field :star_number, style: 'display: none' %>
       </div>
+
+     
 
 
     <%end  %>
@@ -180,3 +181,91 @@
   <% end %>
 
 </div>
+
+
+
+
+
+
+<style>
+.rating-stars {
+  direction: rtl;
+  display: inline-block;
+  font-size: 24px;
+}
+
+.rating-stars input[type="radio"] {
+  display: none;
+}
+
+.rating-stars label {
+  color: lightgray;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.rating-stars label:before {
+  content: "\2605";
+}
+
+.rating-stars input[type="radio"]:checked ~ label {
+  color: gold;
+}
+
+.rating-stars input[type="radio"]:hover ~ label {
+  color: gold;
+}
+</style>
+
+<script>
+  previousRating = 0;
+
+  function handleRatingChange(rating) {
+    if (rating === previousRating) {
+      // User clicked on the selected star again, set rating to 0
+      previousRating = 0;
+      document.querySelector('input[name="rating"]:checked').checked = false;
+    } else {
+      // User selected a different rating
+      previousRating = rating;
+    }
+    console.log("User rating: " + previousRating);
+  }
+
+  function handleAcceptChange() {
+    const acceptSelect = document.querySelector('#ticket_accept_or_reject_solution');
+    const ratingContainer = document.querySelector('#rating-container');
+
+    if (acceptSelect.value === 'Accept') {
+      ratingContainer.style.display = 'block';
+    } else {
+      ratingContainer.style.display = 'none';
+    }
+  }
+  
+
+  const acceptSelect = document.querySelector('#ticket_accept_or_reject_solution');
+  acceptSelect.addEventListener('change', handleAcceptChange);
+
+
+
+  document.getElementById("myForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent form submission
+
+    var selectElement = document.getElementById("ticket_star_number");
+    accept_or_not=document.getElementById("ticket_accept_or_reject_solution").value;
+    if (accept_or_not===null){
+      this.submit();
+    }
+    else if (accept_or_not=== "Accept") {
+      // Code for displaying your pop-up here
+      selectElement.value=previousRating;
+      this.submit();
+    }
+    else{
+      this.submit();
+    }
+  });
+
+
+</script>

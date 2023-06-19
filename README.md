@@ -5,15 +5,10 @@ Reports (Performance, Ticket, Overdue)
 
     -> Implement All reports methods needed to create a report
 
+
 Ticket model
 
     ->Agregar validacion del phone
-
-Assign Ticket 
-
-    -> Automatic assignment of tickets to executives (the executive with less tickets)
-
-    #Index ->eliminar o blockear el new de assign tickets, ya que si se crean y asignan automaticamente, lo unico que es necesario es editarlos
 
 Users
 

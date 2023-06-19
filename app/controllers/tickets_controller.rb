@@ -32,6 +32,10 @@ class TicketsController < ApplicationController
   # GET /tickets/1/edit
   def edit
 
+    if (current_user.User? or current_user.Executive?) and (@ticket.star_number=!6 or @ticket.state=="Closed")
+      redirect_to user_tickets_path(current_user), alert: "This ticket is Closed, so you can edit it, except if it its Re-Open"
+    end
+
   end
 
   # POST /tickets or /tickets.json
@@ -45,6 +49,13 @@ class TicketsController < ApplicationController
       if @ticket.save
         Chat.create(ticket:@ticket)
         TagList.create(ticket:@ticket)
+
+        pre_assign_user=@ticket.pre_assing_executive
+        if pre_assign_user ==current_user
+          pre_assign_user=@ticket.pre_assing_second
+        end
+
+        AssignTicket.create(ticket: @ticket, user: pre_assign_user)
 
         if current_user.Executive? 
              # crear TicketList y luego hacer el siguiente paso
