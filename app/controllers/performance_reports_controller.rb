@@ -22,12 +22,14 @@ class PerformanceReportsController < ApplicationController
 
   # POST /performance_reports or /performance_reports.json
   def create
+    
     @performance_report = PerformanceReport.new(performance_report_params)
     @performance_report.report_date=Time.current
 
     respond_to do |format|
       if @performance_report.save
-        format.html { redirect_to performance_report_url(@performance_report), notice: "Performance report was successfully created." }
+        
+        format.html { redirect_to user_performance_report_url(current_user,@performance_report), notice: "Performance report was successfully created." }
         format.json { render :show, status: :created, location: @performance_report }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,15 +40,7 @@ class PerformanceReportsController < ApplicationController
 
   # PATCH/PUT /performance_reports/1 or /performance_reports/1.json
   def update
-    respond_to do |format|
-      if @performance_report.update(performance_report_params)
-        format.html { redirect_to performance_report_url(@performance_report), notice: "Performance report was successfully updated." }
-        format.json { render :show, status: :ok, location: @performance_report }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @performance_report.errors, status: :unprocessable_entity }
-      end
-    end
+    redirect_to performance_reports_url(@performance_report), alert: "Can't edit a performance report" 
   end
 
   # DELETE /performance_reports/1 or /performance_reports/1.json
@@ -54,7 +48,7 @@ class PerformanceReportsController < ApplicationController
     @performance_report.destroy
 
     respond_to do |format|
-      format.html { redirect_to performance_reports_url, notice: "Performance report was successfully destroyed." }
+      format.html { redirect_to user_performance_reports_path(current_user), notice: "Performance report was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -67,6 +61,8 @@ class PerformanceReportsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def performance_report_params
-      params.require(:performance_report).permit(:report_date, :user_id)
+      params.require(:performance_report).permit(:wanted_year, :wanted_month, :selected_user)
     end
+
+    
 end

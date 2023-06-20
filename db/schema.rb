@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_08_133253) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_20_185310) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -67,12 +67,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_133253) do
     t.index ["chat_id"], name: "index_comments_on_chat_id"
   end
 
-  create_table "performance_reports", force: :cascade do |t|
-    t.datetime "report_date", null: false
+  create_table "executive_reports", force: :cascade do |t|
     t.bigint "user_id", null: false
+    t.integer "star_number"
+    t.integer "open_tickets"
+    t.integer "closed_tickets"
+    t.integer "created_tickets"
+    t.bigint "performance_report_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_performance_reports_on_user_id"
+    t.index ["performance_report_id"], name: "index_executive_reports_on_performance_report_id"
+    t.index ["user_id"], name: "index_executive_reports_on_user_id"
+  end
+
+  create_table "performance_reports", force: :cascade do |t|
+    t.datetime "report_date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "wanted_year"
+    t.integer "wanted_month"
   end
 
   create_table "tag_lists", force: :cascade do |t|
@@ -140,7 +153,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_133253) do
   add_foreign_key "assign_tickets", "users"
   add_foreign_key "chats", "tickets"
   add_foreign_key "comments", "chats"
-  add_foreign_key "performance_reports", "users"
+  add_foreign_key "executive_reports", "performance_reports"
+  add_foreign_key "executive_reports", "users"
   add_foreign_key "tag_lists", "tickets"
   add_foreign_key "tags", "tag_lists"
   add_foreign_key "ticket_lists", "tickets"

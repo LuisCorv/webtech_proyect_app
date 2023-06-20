@@ -1,12 +1,41 @@
 <div id="<%= dom_id performance_report %>">
   <p>
-    <strong>Report date:</strong>
-    <%= performance_report.report_date %>
+    <strong>Report N°: </strong>
+    <%= performance_report.id %>
   </p>
 
   <p>
-    <strong>User:</strong>
-    <%= performance_report.user_id %>
+    <strong>Wanted year:</strong>
+    <%= performance_report.wanted_year %>
   </p>
 
+  
+    
+  <%if not performance_report.wanted_month.nil?  %>
+  <p>
+    <strong>Wanted month:</strong>
+    <%= performance_report.wanted_month %>
+  </p>
+  <%end  %>
+  
+  <%if performance_report.executive_reports.size > 1 %>
+    Total executives: <%= performance_report.executive_reports.size %>
+    <br>
+  <%end  %>
+
+  
+  <%performance_report.executive_reports.each do |t| %>
+  <div class="card mx-auto  p-3 text-black text-center mt-2", style="background-color: #f5f5dc ;">
+   <p> 
+    <strong>Name:</strong> <%=t.user.full_name  %>
+    <strong>Email:</strong> <%=t.user.email  %>
+    </p>
+  <p>
+    <strong>Tickets created:</strong> <%= t.created_tickets %>
+    <strong>Tickets open:</strong> <%= t.open_tickets %>
+    <strong>Tickets closed:</strong> <%= t.closed_tickets %>
+    <strong>Stars avarage:</strong> <%= t.star_avarage %>
+  </p>
+  </div>
+  <%end %>
 </div>

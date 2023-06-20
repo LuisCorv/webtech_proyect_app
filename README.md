@@ -1,9 +1,9 @@
 # Por Hacer
 
 
-Reports (Performance) 
+Reports (ticket_resort) 
 
-    -> Implement All reports methods needed to create a report
+    -> histograma de ticket_resport
 
 
 Ticket model
@@ -14,6 +14,10 @@ Users
 
     -> Associate an account with a google email
 
+Seeds
+
+    -> Fix the current seeds (The performance report part)
+    -> Try to make a more useful seeds
 
 ### <ins>Arreglar los forms de todas las paginas</ins>
 

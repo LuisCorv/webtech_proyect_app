@@ -1,29 +1,42 @@
-<div class="container ">
-<%= form_with(model: performance_report) do |form| %>
-  <% if performance_report.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(performance_report.errors.count, "error") %> prohibited this performance_report from being saved:</h2>
+<div class="container">
+  <%= form_with(model: performance_report) do |form| %>
+    <% if performance_report.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(performance_report.errors.count, "error") %> prohibited this performance_report from being saved:</h2>
 
-      <ul>
-        <% performance_report.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+        <ul>
+          <% performance_report.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <br>
+    
+    <div class="form-row">
+      <div class="form-group col-4 mx-auto text-center">
+        <h5><%= form.label :wanted_year, style: "display: block"  %></h5>
+        <%= form.select :wanted_year, options_for_select((Date.current.year - 100..Date.current.year).to_a.reverse), prompt: 'Select Year', class: "form-control " %>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-4 mx-auto text-center mt-3">
+        <h5><%= form.label :wanted_month, style: "display: block"  %></h5>
+        <%= form.select :wanted_month, options_for_select(Date::MONTHNAMES.compact.map.with_index { |month, index| [month, index + 1] }), prompt: 'Select Month', class: "form-control mt-2" %>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-4 mx-auto text-center mt-3">
+        <h5><%= form.label :selected_user, style: "display: block"  %></h5>
+        <%= form.select :selected_user, options_for_select([['All Users', 'all']] + User.where(profile: User.profiles[:Executive]).map { |user| [user.full_name, user.id] }), prompt: 'Select User', class: "form-select mt-2" %>
+      </div>
+    </div>
+
+    <div class="actions">
+      <%= form.submit "Create/Update", class: 'btn btn-success mt-3' %>
     </div>
   <% end %>
-
-   
-
-  <div class="form-row ">
-    <div class="form-group col-6 mx-auto text-center">
-      <%= form.label "Select a user ", style: "display: block" %>
-      <%= form.collection_select :user_id, User.where(profile: User.profiles[:Executive]), :id, :full_name %>
-    </div>
-  </div>
-
-  <div class="actions">
-    <%= form.submit "Create/Update", class:' btn btn-success mt-2' %>
-  </div>
-<% end %>
-
 </div>

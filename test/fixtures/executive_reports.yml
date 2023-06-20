@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  star_number: 1
+  open_tickets: 1
+  closed_tickets: 1
+  created_tickets: 1
+
+two:
+  user: two
+  star_number: 1
+  open_tickets: 1
+  closed_tickets: 1
+  created_tickets: 1
