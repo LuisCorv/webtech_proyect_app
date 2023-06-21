@@ -57,6 +57,7 @@ class TicketsController < ApplicationController
 
         AssignTicket.create(ticket: @ticket, user: pre_assign_user)
 
+
         if current_user.Executive? 
              # crear TicketList y luego hacer el siguiente paso
             ticket_list=TicketList.create(user:current_user, ticket: @ticket)
@@ -208,6 +209,7 @@ class TicketsController < ApplicationController
     @ticket_title =Ticket.joins(ticket_list: :user).where("tickets.title ILIKE :query OR tickets.incident_description ILIKE :query OR users.email ILIKE :query", query: "%#{@query}%")
   end
 
+
   def dates_search
     start_date = parse_date_param(params[:start_date])
     end_date = parse_date_param(params[:end_date])
@@ -217,26 +219,24 @@ class TicketsController < ApplicationController
       redirect_to user_ticket_report_path(current_user)
     else
       # Perform the ticket search based on the start and end dates
-      @tickets = Ticket.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
+      @tickets = Ticket.where(creation_date: start_date.beginning_of_day..end_date.end_of_day)
 
       @tickets_open= Ticket.where(creation_date: start_date.beginning_of_day..end_date.end_of_day, state: "Open")
       @tickets_closed = Ticket.where(resolution_date: start_date.beginning_of_day..end_date.end_of_day, state: "Closed")
       @tickets_reopen= Ticket.where(resolution_date: start_date.beginning_of_day..end_date.end_of_day, state: "ReOpen")
 
+      @tag_counts = Tag.joins(:tag_list).where(tag_lists: { ticket_id: @tickets.pluck(:id) }).group(:name).count
+      
+      @start_end="#{start_date} - #{end_date}"
+
       respond_to do |format|
         format.html
         format.js
       end
-
     end
-
   end
 
-  def get_overdue
-    
 
-  end
-  
 
   private
 

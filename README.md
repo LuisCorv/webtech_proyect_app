@@ -1,9 +1,6 @@
 # Por Hacer
 
 
-Reports (ticket_resort) 
-
-    -> histograma de ticket_resport
 
 
 Ticket model
@@ -18,6 +15,9 @@ Seeds
 
     -> Fix the current seeds (The performance report part)
     -> Try to make a more useful seeds
+
+
+Tags ->  Si alcanza el tiempo Reconfigurar para que sea parecido a los hashtags del workshop o sea algo mas amigable
 
 ### <ins>Arreglar los forms de todas las paginas</ins>
 
