@@ -17,15 +17,24 @@
             <%= link_to "All Tickets", tickets_path , class:"nav-link active"  %>
           </li>
           <li class="nav-item">
-            <%= link_to "All Assign Tickets", assign_tickets_path , class:"nav-link active"  %>
+            <%= link_to "All Assigned Tickets", assign_tickets_path , class:"nav-link active"  %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Tickets Report", user_ticket_report_path(current_user) , class:"nav-link active"  %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Overdue Report", user_overdue_report_path(current_user) , class:"nav-link active"  %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Performance Report", user_performance_reports_path(current_user) , class:"nav-link active"  %>
           </li>
 
         <%elsif current_user.Executive?  %>
           <li class="nav-item">
-            <%= link_to "Your Assign Tickets", user_assign_tickets_path(current_user) , class:"nav-link active"  %>
+            <%= link_to "Your Assigned Tickets", user_assign_tickets_path(current_user) , class:"nav-link active"  %>
           </li>
           <li class="nav-item">
-            <%= link_to "Your Ticket List", user_ticket_lists_path(current_user) , class:"nav-link active"  %>
+            <%= link_to "Your Tickets List", user_ticket_lists_path(current_user) , class:"nav-link active"  %>
           </li>
 
           <li class="nav-item">
@@ -35,7 +44,7 @@
         <%elsif current_user.User?  %>
 
           <li class="nav-item">
-            <%= link_to "Your Ticket List", user_ticket_lists_path(current_user) , class:"nav-link active"  %>
+            <%= link_to "Your Tickets List", user_ticket_lists_path(current_user) , class:"nav-link active"  %>
           </li>
 
           <li class="nav-item">

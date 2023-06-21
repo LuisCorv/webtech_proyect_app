@@ -217,6 +217,9 @@ class TicketsController < ApplicationController
     if start_date.nil? || end_date.nil?
       flash[:alert] = "Please select valid start and end dates."
       redirect_to user_ticket_report_path(current_user)
+    elsif start_date> end_date
+      flash[:alert] = "Please select end date later or equal to the start date."
+      redirect_to user_ticket_report_path(current_user)
     else
       # Perform the ticket search based on the start and end dates
       @tickets = Ticket.where(creation_date: start_date.beginning_of_day..end_date.end_of_day)
@@ -225,8 +228,32 @@ class TicketsController < ApplicationController
       @tickets_closed = Ticket.where(resolution_date: start_date.beginning_of_day..end_date.end_of_day, state: "Closed")
       @tickets_reopen= Ticket.where(resolution_date: start_date.beginning_of_day..end_date.end_of_day, state: "ReOpen")
 
-      @tag_counts = Tag.joins(:tag_list).where(tag_lists: { ticket_id: @tickets.pluck(:id) }).group(:name).count
-      
+      tag_counts = Tag.joins(:tag_list).where(tag_lists: { ticket_id: @tickets.pluck(:id) }).group(:name).count.to_json
+      @labels = JSON.parse(tag_counts).keys
+      @title = "Occurrences"
+      @data = JSON.parse(tag_counts).values
+      @backgroundColor = "rgba(75, 192, 192, 0.2)"
+      @borderColor = "rgba(75, 192, 192, 1)"
+      @borderWidth = 1
+      @options = {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: "Frequency"
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: "Count"
+            }
+          }
+        }
+      }.to_json
+
       @start_end="#{start_date} - #{end_date}"
 
       respond_to do |format|

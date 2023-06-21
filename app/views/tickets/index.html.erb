@@ -14,9 +14,9 @@
 <div class="card mx-auto p-3 text-black text-center" style="width: 40rem; background-color: #B5D3FF;">
 <h5>Want to sort by Priority, Response Date or Resolution Date ??</h5>
   <div class="button-container d-flex justify-content-center">
-    <button id="sortButtonPriority" type="button" class="btn  btn-outline-success btn-sm" style="display: block; margin: 0 auto; margin-right: 10px;">Sort by Priority &#10607;</button>
-    <button id="sortButtonClosing" type="button" class="btn  btn-outline-success btn-sm" style="display: block; margin: 0 auto; margin-right: 10px;">Sort by Closing Date &#10607;</button>
-    <button id="sortButtonResponse" type="button" class="btn  btn-outline-success btn-sm" style="display: block; margin: 0 auto;">Sort by Response Date &#10607;</button>
+    <button id="sortButtonPriority" type="button" class="btn  btn-success btn-sm" style="display: block; margin: 0 auto; margin-right: 10px;">Sort by Priority &#10607;</button>
+    <button id="sortButtonClosing" type="button" class="btn  btn-success btn-sm" style="display: block; margin: 0 auto; margin-right: 10px;">Sort by Closing Date &#10607;</button>
+    <button id="sortButtonResponse" type="button" class="btn  btn-success btn-sm" style="display: block; margin: 0 auto;">Sort by Response Date &#10607;</button>
   </div>
 </div>
 <br>
@@ -151,11 +151,11 @@
           <%end %>
 
       <%elsif  current_user.Supervisor?  or current_user.Administrator?%>
-          <%= link_to "Back to the user", user_path(current_user.id), class:"btn btn-outline-info", style:'margin-right: 10px;'%>
+          <%= link_to "Back to the user", user_path(current_user.id), class:"btn btn-info", style:'margin-right: 10px;'%>
       <%end  %>
 
     <%end%>
-      <%= link_to "Back to Home Page", root_path ,class:"btn btn-outline-secondary"%>
+      <%= link_to "Back to Home Page", root_path ,class:"btn btn-secondary"%>
   </p>
 </div>
 
@@ -261,7 +261,7 @@
         var tickets = Array.from(document.getElementsByClassName('ticket'));
         tickets.sort(function(a, b) {
         var valueA = parseDateString(a.getAttribute('data-resolution_date'));
-        console.log(valueA);
+        // console.log(valueA);
         var valueB = parseDateString(b.getAttribute('data-resolution_date'));
 
         if (sortOrderClosing === 'asc') {
@@ -288,7 +288,7 @@
         var tickets = Array.from(document.getElementsByClassName('ticket'));
         tickets.sort(function(a, b) {
         var valueA = parseDateString(a.getAttribute('data-response_to_user_date'));
-        console.log(valueA);
+        // console.log(valueA);
         var valueB = parseDateString(b.getAttribute('data-response_to_user_date'));
 
         if (sortOrderResponse === 'asc') {

@@ -24,9 +24,9 @@
 <p class="mx-auto text-center", style="display: flex; flex-wrap: wrap;">
     <%if  current_user.Supervisor?  or current_user.Administrator?%>
         <%= link_to "New performance report", new_user_performance_report_path(current_user), class:"btn btn-success mt-2", style:'margin-right: 10px;' %>
-        <%= link_to "Back to the user", user_path(current_user), class:"btn btn-outline-info mt-2", style:'margin-right: 10px;'%>
+        <%= link_to "Back to the user", user_path(current_user), class:"btn btn-info mt-2", style:'margin-right: 10px;'%>
     <%end  %>
 
-  <%= link_to "Back to Home Page", root_path ,class:"btn btn-outline-secondary mt-2"%>
+  <%= link_to "Back to Home Page", root_path ,class:"btn btn-secondary mt-2"%>
 </p>
 </div>
