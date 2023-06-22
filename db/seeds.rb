@@ -98,9 +98,5 @@ cm=Comment.create [
 ]
 puts "Comments ready"
 
-pfr=PerformanceReport.create [
-    {report_date:DateTime.current.beginning_of_day,user:adm},
-    {report_date:DateTime.current.beginning_of_day,user:sup},
-    {report_date:DateTime.current.beginning_of_day,user:adm}
-]
-puts "PerformanceReport ready"
+
+puts "Reports should be made in the webpage"
