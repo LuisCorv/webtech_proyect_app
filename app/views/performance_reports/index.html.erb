@@ -1,4 +1,6 @@
-
+<%if @performance_reports.size < 1%>
+  <%= render partial: "layouts/adjust_background" %>
+<%end  %>
 
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h1>Performance reports</h1>

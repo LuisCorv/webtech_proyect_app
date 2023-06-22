@@ -9,6 +9,7 @@ class TicketListsController < ApplicationController
 
   # GET /ticket_lists/1 or /ticket_lists/1.json
   def show
+    redirect_to user_ticket_list_ticket_path(current_user,@ticket_list, @ticket_list.ticket),alert:"You can't access that method"
   end
 
   # GET /ticket_lists/new

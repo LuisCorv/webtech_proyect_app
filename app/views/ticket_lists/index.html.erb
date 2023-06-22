@@ -1,6 +1,4 @@
-
-
-
+<%total_tickets=0  %>
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h1>Ticket lists</h1>
 </div>
@@ -12,16 +10,22 @@
   <%if (User.find(ticket_list.user_id) == current_user ) or ((current_user.Administrator? or current_user.Supervisor?)and (User.find(ticket_list.user_id)==User.find(params[:user_id])))%>
   <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
    <% @user_ticket_list_example= ticket_list  %>
+   <%total_tickets+=1  %>
     <%= render ticket_list %>
     <p>
-      <%= link_to "Show this element detaills", user_ticket_list_path(ticket_list.user,ticket_list), class:"btn btn-warning mt-2", style:'margin-right: 10px;'  %>
-    </p>
+    <%= link_to "See Ticket info", user_ticket_list_ticket_path(ticket_list.user,ticket_list, ticket_list.ticket),class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %>
+      </p>
   </div>
   <br>
   <%end %>
   
   <% end %>
 </div>
+
+
+<%if total_tickets<2 %>
+  <%= render partial: "layouts/adjust_background" %>
+<%end  %>
 
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <p class="mx-auto text-center", style="display: flex; flex-wrap: wrap;">

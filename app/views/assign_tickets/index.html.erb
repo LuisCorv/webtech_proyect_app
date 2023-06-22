@@ -1,4 +1,4 @@
-
+<%total_tickets=0  %>
 
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h1>Assign tickets</h1>
@@ -11,19 +11,25 @@
       <%if (assign_ticket.user == current_user )or ((current_user.Administrator? or current_user.Supervisor?)and (assign_ticket.user==User.find(params[:user_id])) )%>
         <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
           <% @user_assign_ticket_example= assign_ticket  %>
+          <%total_tickets+=1  %>
           <%= render assign_ticket %>
+          
           <p>
-            <%= link_to "Show this assign ticket detaills", user_assign_ticket_path(assign_ticket.user,assign_ticket), class:"btn btn-warning mt-2", style:'margin-right: 10px;' %>
-          </p>
+          <%= link_to "See Ticket info", user_assign_ticket_ticket_path(current_user,assign_ticket, assign_ticket.ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;'  %>
+  
+             </p>
           </div>
           <br>
       <%end  %>
     <%elsif (current_user.Supervisor? or current_user.Administrator?) and (not params[:user_id].present?)  %>
       <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
        <%= render assign_ticket %>
+  
         <p>
-          <%= link_to "Show this assign ticket detaills", assign_ticket_path(assign_ticket), class:"btn btn-warning mt-2", style:'margin-right: 10px;' %>
-        </p>
+        <%= link_to "Re-Assign Executive?", edit_user_assign_ticket_path(current_user,assign_ticket), class:"btn btn-sm btn-info mt-2", style:'margin-right: 10px;' %> 
+  
+        <%= link_to "See Ticket info", user_assign_ticket_ticket_path(current_user,assign_ticket, assign_ticket.ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;'  %>
+          </p>
       </div>
       <br>
     <%end  %>
@@ -31,6 +37,9 @@
   <% end %>
 </div>
 
+<%if total_tickets<2 %>
+  <%= render partial: "layouts/adjust_background" %>
+<%end  %>
 
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <p class="mx-auto text-center", style="display: flex; flex-wrap: wrap;">

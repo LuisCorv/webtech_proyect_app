@@ -1,3 +1,7 @@
+<%if @tickets.count <3 %>
+    <%= render partial: "layouts/adjust_background" %>
+<%end  %>
+
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h5><strong> Overdue Report</strong></h5>
 </div>

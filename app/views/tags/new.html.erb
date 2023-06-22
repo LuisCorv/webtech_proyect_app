@@ -1,3 +1,5 @@
+<%= render partial: "layouts/adjust_background" %>
+
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h1>New tag</h1>
 
@@ -11,20 +13,16 @@
 
 <p class="mx-auto text-center", style="display: flex; flex-wrap: wrap;">
 <%if current_user.Executive?  %>
-        <% if params[:ticket_list_id].present?%>
-          <p>
-            <%= link_to "Back to tags", user_ticket_list_ticket_tag_list_tags_path(current_user,params[:ticket_list_id],current_ticket,current_taglist), class:"btn btn-sm btn-secondary mt-2" %>          
-            </p>
-        <%else  %>
-           <p>
-            <%= link_to "Back to tags", user_assign_ticket_ticket_tag_list_tags_path(current_user,params[:assign_ticket_id],current_ticket,current_taglist), class:"btn btn-sm btn-secondary mt-2" %>           
-          </p>
-        <%end  %>
-      <%elsif current_user.Supervisor? or current_user.Administrator? %>
-        <p>
-           <%= link_to "Back to tags",  user_ticket_tag_list_tags_path(current_user,current_ticket,current_taglist), class:"btn btn-sm btn-secondary mt-2" %>          
-        </p>
+        
+  <p>
+  <%= link_to "Back to tags list", user_assign_ticket_ticket_tag_list_path(current_user,params[:assign_ticket_id],current_ticket,current_taglist), class:"btn btn-sm btn-secondary mt-2" %>           
+  </p>
+        
+<%elsif current_user.Supervisor? or current_user.Administrator? %>
+  <p>
+      <%= link_to "Back to tags list",  user_ticket_tag_list_path(current_user,current_ticket,current_taglist), class:"btn btn-sm btn-secondary mt-2" %>          
+  </p>
 
-      <%end  %>
+<%end  %>
 </p>
 </div>

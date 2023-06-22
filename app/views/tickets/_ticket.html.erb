@@ -253,12 +253,12 @@
 
   <%elsif index=="show_executive_assign"  %>
     <%if (ticket.star_number=!6 or ticket.state=="Closed")  %>
-      <%= link_to "Check Tags", user_assign_ticket_ticket_tag_lists_path(current_user,params[:assign_ticket_id],ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %>
-      <%= link_to "Check Chat", user_assign_ticket_ticket_chats_path(current_user,params[:assign_ticket_id],@ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;'  %>
+      <%= link_to "Check Tags", user_assign_ticket_ticket_tag_list_path(current_user,params[:assign_ticket_id],ticket, ticket.tag_list), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %>
+      <%= link_to "Check Chat", user_assign_ticket_ticket_chat_path(current_user,params[:assign_ticket_id],ticket,ticket.chat), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;'  %>
       <%= link_to "Back to tickets", user_assign_ticket_tickets_path, class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;'  %>
     <%else  %>
-      <%= link_to "Check Tags", user_assign_ticket_ticket_tag_lists_path(current_user,params[:assign_ticket_id],ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %>
-      <%= link_to "Check Chat", user_assign_ticket_ticket_chats_path(current_user,params[:assign_ticket_id],@ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;'  %>
+      <%= link_to "Check Tags", user_assign_ticket_ticket_tag_list_path(current_user,params[:assign_ticket_id],ticket,ticket.tag_list), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %>
+      <%= link_to "Check Chat", user_assign_ticket_ticket_chat_path(current_user,params[:assign_ticket_id],ticket,ticket.chat), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;'  %>
       <%= link_to "Edit this ticket", edit_user_assign_ticket_ticket_path(current_user,params[:assign_ticket_id],ticket), class:"btn btn-sm btn-info mt-2", style:'margin-right: 10px;'  %>
       <%= link_to "Back to tickets", user_assign_ticket_tickets_path, class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;'  %>
     <%end  %>
@@ -272,8 +272,8 @@
     <%end  %>
 
   <%elsif index=="show_supervisor_admin"  %>
-    <%= link_to "Check Tags", user_ticket_tag_lists_path(current_user,ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %>
-    <%= link_to "Check Chat", user_ticket_chats_path(current_user,ticket), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %>
+    <%= link_to "Check Tags", user_ticket_tag_list_path(current_user,ticket,ticket.tag_list), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %>
+    <%= link_to "Check Chat", user_ticket_chat_path(current_user,ticket,ticket.chat), class:"btn btn-sm btn-warning mt-2", style:'margin-right: 10px;' %>
 
     <%= link_to "Edit this ticket", edit_user_ticket_path(current_user,ticket), class:"btn btn-sm btn-info mt-2", style:'margin-right: 10px;'  %>
     <%= link_to "Back to tickets", user_tickets_path(current_user), class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;'  %>

@@ -1,4 +1,4 @@
-
+<%= render partial: "layouts/adjust_background" %>
 
 <%current_ticket= Ticket.find(params[:ticket_id])%>
 <%current_taglist= TagList.find(params[:tag_list_id])%>
@@ -9,26 +9,24 @@
 
 <div>
   <%if current_user.Executive?  %>
-        <% if params[:ticket_list_id].present?%>
-             <%= link_to "Edit Tag", edit_user_ticket_list_ticket_tag_list_tag_path(current_user,current_ticket.ticket_list,current_ticket,current_taglist,@tag), class:"btn btn-sm btn-info mt-2", style:'margin-right: 10px;' %> 
-            <%= link_to "Back to tags", user_ticket_list_ticket_tag_list_tags_path(current_user,params[:ticket_list_id],current_ticket,current_taglist), class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;' %>          
-            <%= button_to "Destroy this tag", user_ticket_list_ticket_tag_list_tag_path(current_user,current_ticket.ticket_list,current_ticket,current_taglist,@tag), method: :delete, class:"btn btn-danger mt-2", style:'margin-right: 10px;' %>
-          
-        <%else  %>
            
-            <%= link_to "Edit Tag", edit_user_assign_ticket_ticket_tag_list_tag_path(current_user,current_ticket.assign_ticket,current_ticket,current_taglist,@tag), class:"btn btn-sm btn-info mt-2", style:'margin-right: 10px;' %> 
-            <%= link_to "Back to tags", user_assign_ticket_ticket_tag_list_tags_path(current_user,params[:assign_ticket_id],current_ticket,current_taglist), class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;' %>            
-            <%= button_to "Destroy this tag", user_assign_ticket_ticket_tag_list_tag_path(current_user,current_ticket.assign_ticket,current_ticket,current_taglist,@tag), method: :delete, class:"btn btn-danger mt-2", style:'margin-right: 10px;' %>
-         
-        <%end  %>
-      <%elsif current_user.Supervisor? or current_user.Administrator? %>
-       
-            <%= link_to "Edit Tag", edit_user_ticket_tag_list_tag_path(current_user,current_ticket,current_taglist,@tag), class:"btn btn-sm btn-info mt-2", style:'margin-right: 10px;' %> 
-            <%= link_to "Back to tags",  user_ticket_tag_list_tags_path(current_user,current_ticket,current_taglist), class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;' %>            
-            <%= button_to "Destroy this tag", user_ticket_tag_list_tag_path(current_user,current_ticket,current_taglist,@tag), method: :delete, class:"btn btn-danger mt-2", style:'margin-right: 10px;'  %>
-       
-
-      <%end  %>
+      <%= link_to "Edit Tag", edit_user_assign_ticket_ticket_tag_list_tag_path(current_user,current_ticket.assign_ticket,current_ticket,current_taglist,@tag), class:"btn btn-sm btn-info mt-2", style:'margin-right: 10px;' %> 
+      <%= button_to "Destroy this tag", user_assign_ticket_ticket_tag_list_tag_path(current_user,current_ticket.assign_ticket,current_ticket,current_taglist,@tag), method: :delete, class:"btn btn-danger mt-2", style:'margin-right: 10px;' %>
+      </div>
+            </div>
+            <div class="card mx-auto w-50 p-3 bg-white text-black text-center mt-2">
+      <%= link_to "Back to tags", user_assign_ticket_ticket_tag_list_tags_path(current_user,params[:assign_ticket_id],current_ticket,current_taglist), class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;' %>            
+      </div>
+<%elsif current_user.Supervisor? or current_user.Administrator? %>
+      
+      <%= link_to "Edit Tag", edit_user_ticket_tag_list_tag_path(current_user,current_ticket,current_taglist,@tag), class:"btn btn-sm btn-info mt-2", style:'margin-right: 10px;' %> 
+      <%= button_to "Destroy this tag", user_ticket_tag_list_tag_path(current_user,current_ticket,current_taglist,@tag), method: :delete, class:"btn btn-danger mt-2", style:'margin-right: 10px;'  %>
+      </div>
+            </div>
+            <div class="card mx-auto w-50 p-3 bg-white text-black text-center mt-2">
+      <%= link_to "Back to tags",  user_ticket_tag_list_tags_path(current_user,current_ticket,current_taglist), class:"btn btn-sm btn-secondary mt-2", style:'margin-right: 10px;' %>            
+      </div>
+<%end  %>
 
 
 </div>

@@ -18,7 +18,12 @@ class CommentsController < ApplicationController
 
   # GET /comments/1/edit
   def edit
-    @current_chat_id = session[:current_chat_id]
+    cha=Chat.find(params[:chat_id])
+    if current_user.Executive? 
+      redirect_to user_assign_ticket_ticket_chat_comment_path(current_user,cha.ticket.assign_ticket,cha.ticket,cha,@comment), alert: "You can't modify a created comment." 
+    elsif current_user.Supervisor? or current_user.Administrator?
+      redirect_to user_ticket_chat_comment_path(current_user,cha.ticket,cha,@comment), alert: "You can't modify a created comment."
+    end 
   end
 
   # POST /comments or /comments.json

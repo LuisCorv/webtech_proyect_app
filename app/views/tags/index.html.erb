@@ -2,6 +2,7 @@
 
 <%current_ticket= Ticket.find(params[:ticket_id])%>
 <%current_taglist= TagList.find(params[:tag_list_id])%>
+<%total_tags=0  %>
 
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h1>Tags</h1>
@@ -12,6 +13,7 @@
     <%if TagList.find(tag.tag_list_id) == current_taglist  %>
       <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
         <%= render tag %>
+        <%total_tags+=1  %>
 
 
         
@@ -39,25 +41,21 @@
   <% end %>
 </div>
 
+<%if total_tags <2 %>
+<%= render partial: "layouts/adjust_background" %>
+<%end  %>
+
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <p class="mx-auto text-center", style="display: flex; flex-wrap: wrap;">
 
 
 <%if current_user.Executive?  %>
-  <% if params[:ticket_list_id].present?%>
-    <%= link_to "New tag ", new_user_ticket_list_ticket_tag_list_tag_path, class:"btn btn-success mt-2", style:'margin-right: 10px;' %>
-    <%= link_to "Back to tag list", user_ticket_list_ticket_tag_list_path(current_user,current_ticket.ticket_list,current_ticket,current_taglist), class:"btn btn-secondary mt-2", style:'margin-right: 10px;'%>
 
-  <%else  %>
-
-    <%= link_to "New tag ", new_user_assign_ticket_ticket_tag_list_tag_path, class:"btn btn-success mt-2", style:'margin-right: 10px;' %>
     <%= link_to "Back to tag list", user_assign_ticket_ticket_tag_list_path(current_user,current_ticket.assign_ticket,current_ticket,current_taglist), class:"btn btn-secondary mt-2", style:'margin-right: 10px;'%>
- 
-  <%end  %>
+
 
 <%elsif current_user.Supervisor? or current_user.Administrator? %>
  
-    <%= link_to "New tag", new_user_ticket_tag_list_tag_path , class:"btn btn-success mt-2", style:'margin-right: 10px;'%>
     <%= link_to "Back to tag list", user_ticket_tag_list_path(current_user,current_ticket,current_taglist), class:"btn btn-secondary mt-2", style:'margin-right: 10px;'%>
   
 <%end  %>
@@ -65,3 +63,5 @@
 <%= link_to "Back to Home Page", root_path, class:"btn btn-outline-dark mt-2" , style:'margin-right: 10px;'%>
 <p>
 </div>
+
+<br>
